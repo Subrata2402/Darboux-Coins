@@ -21,7 +21,7 @@ db = data.get_database("Darboux")#Your db name
 pre_base = db.prefix
 link_base = db.antilinks
 
-bot_prefix = commands.when_mentioned_or("-","+")
+bot_prefix = "-","+"
 
 
 intents = discord.Intents.all()
@@ -32,7 +32,7 @@ client.remove_command('help')
 async def on_ready():
     print('====================')
     print(client.user)
-    channel = client.get_channel(835743589241454592)
+    channel = client.get_channel(837649333901459490)
     embed=discord.Embed(title="Bot Updated ✅", description="Bot successfully updated. No issues found!", color=0x00ffff)
     embed.set_thumbnail(url=client.user.avatar_url)
     embed.set_footer(text=client.user, icon_url=client.user.avatar_url)
