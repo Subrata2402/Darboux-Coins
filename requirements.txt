@@ -1,0 +1,13 @@
+discord
+asyncio
+pymongo
+HQApi
+requests
+lomond
+datetime 
+dnspython==2.0.0
+pytz
+aniso8601
+unidecode
+bs4
+ffmpeg
