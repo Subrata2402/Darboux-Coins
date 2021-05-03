@@ -30,8 +30,11 @@ class EditUsername(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def editname(self, ctx, username:str, name:str):
+    async def editname(self, ctx, username=None, name=None):
         """Edit username."""
+        if not username or not name:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}editname [username] [new name]` to edit your HQ Trivia account username.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
