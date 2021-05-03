@@ -33,8 +33,7 @@ class Cashout(commands.Cog):
     async def payout(self, ctx, username=None):
         """Get recent payment details."""
         if username is None:
-            embed=discord.Embed(title="Invalid Command Usage, use it correctly!", description=f"`{ctx.prefix}payout [username]`", color=0x00ffff)
-            
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}payout [username]` to check your HQ account cashout details.", color=0x00ffff)
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
@@ -87,8 +86,11 @@ class Cashout(commands.Cog):
 
     @commands.command()
     @commands.dm_only()
-    async def cashout(self, ctx, email:str, username:str):
+    async def cashout(self, ctx, email=None, username=None):
         """Make Cashout of an account."""
+        if not email or not username:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}cashout [email] [username]` to cashout from your HQ Trivia account.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         channel = self.client.get_channel(830680112265035796)
         name_list = []
