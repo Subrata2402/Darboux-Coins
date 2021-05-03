@@ -108,12 +108,8 @@ class Cashout(commands.Cog):
             try:
                 data = api.make_payout(email)
             except Exception as e:
-                word = e["error"]
-                #e = e[11:]
-               # e = e[:-20]
-                return print(word)
-               # embed=discord.Embed(title="⚠️ Api Response Error", description=e, color=0x00ffff)
-                #return await ctx.send(embed=embed)
+                embed=discord.Embed(title="⚠️ Api Response Error", description=e, color=0x00ffff)
+                return await ctx.send(embed=embed)
             print(data)
             data = data["data"]
             amount = data["amount"]
@@ -129,7 +125,7 @@ class Cashout(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    cashout.error
+    @cashout.error
     async def on_command_error(self, ctx, error):
         if isinstance(error, Exception):
             embed=discord.Embed(title="⚠️ Direct Message Only", description="For the security of your HQ account, use that Command in DM only.", color=0x00ffff)
