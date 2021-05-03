@@ -30,8 +30,11 @@ class Friends(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def friends(self, ctx, username:str):
+    async def friends(self, ctx, username=None):
         """Get friend lists."""
+        if username is None:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friends [username]` to check your all friends list.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
@@ -70,8 +73,11 @@ class Friends(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def addfriend(self, ctx, username:str, name:str):
+    async def addfriend(self, ctx, username=None, name=None):
         """Send friend request."""
+        if not username or not name:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}addfriend [username] [friend's username]` to send a friend request.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
@@ -111,8 +117,11 @@ class Friends(commands.Cog):
             await ctx.send(f'```\n{error}\n```')
 
     @commands.command()
-    async def acceptfriend(self, ctx, username:str, name:str):
+    async def acceptfriend(self, ctx, username=None, name=None):
         """Accept friend request."""
+        if not username or not name:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}acceptfriend [username] [friend's username]` to accept a friend request.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
@@ -152,8 +161,11 @@ class Friends(commands.Cog):
             await ctx.send(f'```\n{error}\n```')
 
     @commands.command()
-    async def removefriend(self, ctx, username:str, name:str):
+    async def removefriend(self, ctx, username=None, name=None):
         """Remove a Friend from your friends list."""
+        if not username or not name:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}removefriend [username] [friend's username]` to remove a friend from your friends list.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
@@ -193,8 +205,11 @@ class Friends(commands.Cog):
             await ctx.send(f'```\n{error}\n```')
 
     @commands.command()
-    async def friendstats(self, ctx, username:str, name:str):
+    async def friendstatus(self, ctx, username=None, name=None):
         """Get friends stats."""
+        if not username or not name:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friendstatus [username] [Friend's username]` to check your friend's status.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
