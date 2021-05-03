@@ -30,8 +30,11 @@ class Cashout(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def payout(self, ctx, username:str):
+    async def payout(self, ctx, username=None):
         """Get recent payment details."""
+        if username is None:
+            embed=discord.Embed(title="Invalid Command Usage, use it correctly!", description=f"`{ctx.prefix}payout [username]`", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
