@@ -237,7 +237,7 @@ class Friends(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    @friendstats.error
+    @friendstatus.error
     async def on_command_error(self, ctx, error):
         if isinstance(error, Exception):
             await ctx.send(f'```\n{error}\n```')
