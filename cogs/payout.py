@@ -107,10 +107,11 @@ class Cashout(commands.Cog):
             try:
                 data = api.make_payout(email)
             except Exception as e:
-                result = e[58:]
-                result = result[:-20]
-                embed=discord.Embed(title="⚠️ Api Response Error", description=result, color=0x00ffff)
-                return await ctx.send(embed=embed)
+                print(e)
+                #result = e[58:]
+               # result = result[:-20]
+                #embed=discord.Embed(title="⚠️ Api Response Error", description=result, color=0x00ffff)
+               # return await ctx.send(embed=embed)
             print(data)
             data = data["data"]
             amount = data["amount"]
