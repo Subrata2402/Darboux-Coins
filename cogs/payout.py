@@ -119,6 +119,7 @@ class Cashout(commands.Cog):
                     embed.set_thumbnail(url=self.client.user.avatar_url)
                     embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                     await ctx.send(embed=embed)
+                return
             print(data)
             data = data["data"]
             amount = data["amount"]
