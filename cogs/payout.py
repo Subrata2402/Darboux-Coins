@@ -34,6 +34,7 @@ class Cashout(commands.Cog):
         """Get recent payment details."""
         if username is None:
             embed=discord.Embed(title="Invalid Command Usage, use it correctly!", description=f"`{ctx.prefix}payout [username]`", color=0x00ffff)
+            
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
@@ -107,7 +108,7 @@ class Cashout(commands.Cog):
             try:
                 data = api.make_payout(email)
             except Exception as e:
-                print(e)
+                return print(e)
                 #result = e[58:]
                # result = result[:-20]
                 #embed=discord.Embed(title="⚠️ Api Response Error", description=result, color=0x00ffff)
