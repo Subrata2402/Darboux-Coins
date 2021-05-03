@@ -108,8 +108,17 @@ class Cashout(commands.Cog):
             try:
                 data = api.make_payout(email)
             except Exception as e:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=e, color=0x00ffff)
-                return await ctx.send(embed=embed)
+                error = '{"error": "you do not have enough money to enable a payout", "errorCode": 422}'
+                if e == error:
+                    embed=discord.Embed(title="⚠️ Api Response Error", description="You don't have enough money to enable a payout.", color=0x00ffff)
+                    embed.set_thumbnail(url=self.client.user.avatar_url)
+                    embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                    await ctx.send(embed=embed)
+                else:
+                    embed=discord.Embed(title="⚠️ Api Response Error", description=e, color=0x00ffff)
+                    embed.set_thumbnail(url=self.client.user.avatar_url)
+                    embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                    await ctx.send(embed=embed)
             print(data)
             data = data["data"]
             amount = data["amount"]
