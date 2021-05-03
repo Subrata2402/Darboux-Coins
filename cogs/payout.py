@@ -126,6 +126,7 @@ class Cashout(commands.Cog):
     @cashout.error
     async def on_command_error(self, ctx, error):
         if isinstance(error, Exception):
+            print(error)
             embed=discord.Embed(title="⚠️ Direct Message Only", description="For the security of your HQ account, use that Command in DM only.", color=0x00ffff)
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
