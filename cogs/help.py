@@ -41,7 +41,7 @@ class Help(commands.Cog):
         embed.add_field(name=f"{ctx.prefix}friends (username)", value="Get your HQ friends list.")
         #embed.add_field(name=f"{ctx.prefix}hqname", value="Get random US Name for HQ.")
         embed.add_field(name=f"{ctx.prefix}nextshow", value="Get HQ Next Show details.")
-        #embed.add_field(name="Important Links", value="[Invite Bot](https://discord.com/api/oauth2/authorize?client_id=825955913072508969&permissions=519232&scope=bot) | [Support Server](https://discord.gg/TAcEnfS8Rs)")
+        embed.add_field(name="Important Links:", value="[Invite Bot](https://discord.com/api/oauth2/authorize?client_id=838631852603474001&permissions=523376&scope=bot) | [Support Server](https://discord.gg/TAcEnfS8Rs)")
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_author(name="| Darboux Coins Help Menu !", icon_url=self.client.user.avatar_url)
         embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
@@ -50,12 +50,12 @@ class Help(commands.Cog):
 
     @commands.command()
     async def invite(self, ctx):
-        embed=discord.Embed(title="**Invite Me to Your Server !**", description="**Invite Link : [Click Here](https://discord.com/api/oauth2/authorize?client_id=825955913072508969&permissions=519232&scope=bot)**", color=0x00ffff)
+        embed=discord.Embed(title="**Invite Me to Your Server !**", description="**Invite Link : [Click Here](https://discord.com/api/oauth2/authorize?client_id=838631852603474001&permissions=523376&scope=bot)**", color=0x00ffff)
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def supporthshgsh(self, ctx):
+    async def support(self, ctx):
         embed=discord.Embed(title="**Join Our Support Server !**", description="**Join Link : [Click Here](https://discord.gg/TAcEnfS8Rs)**", color=0x00ffff)
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
