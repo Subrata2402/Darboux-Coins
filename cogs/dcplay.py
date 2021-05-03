@@ -34,8 +34,7 @@ class DcPlay(commands.Cog):
     async def dcplay(self, ctx, username:str=None):
         """Play HQ Daily Challenge."""
         if username is None:
-            embed=discord.Embed(title="Invalid Command Usage, use it correctly!", description=f"`{ctx.prefix}dcplay [username]`", color=0x00ffff)
-            embed.add_field(name="Example:", value=f"{ctx.prefix}dcplay JanceTaya18")
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}dcplay [username]` to play HQ Trivia Daily Challenge.", color=0x00ffff)
             return await ctx.send(embed=embed)
         try:
             await ctx.message.delete()
