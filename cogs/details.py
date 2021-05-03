@@ -30,8 +30,11 @@ class Details(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def details(self, ctx, username:str):
+    async def details(self, ctx, username=None):
         """Get account details."""
+        if username is None:
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}details [username]` to check your HQ Trivia account details.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
