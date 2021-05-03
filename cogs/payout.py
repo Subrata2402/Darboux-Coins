@@ -108,7 +108,7 @@ class Cashout(commands.Cog):
             try:
                 data = api.make_payout(email)
             except Exception as e:
-                word = e
+                word = e["error"]
                 #e = e[11:]
                # e = e[:-20]
                 return print(word)
