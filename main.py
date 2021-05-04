@@ -50,7 +50,7 @@ async def on_ready():
 @client.event
 async def on_message(msg):
    if msg.content.startswith(client.user.mention):
-       await msg.channel.send("Hey {msg.author.mention}, My prefix is `-` For more information use `-help`")
+       await msg.channel.send(f"Hey {msg.author.mention}, My prefix is `-` For more information use `-help`")
    await client.process_commands(msg)
 
 @client.command()
