@@ -46,7 +46,10 @@ class FacebookLogin(commands.Cog):
 
     @commands.command(aliases=["fblogin"])
     @commands.dm_only()
-    async def fbverify(self, ctx, url):
+    async def fbverify(self, ctx, url=None):
+        if url is None:
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}fblogin <token>` to add your HQ Trivia account in bot.", color=0x00ffff)
+            return await ctx.send(embed=embed)
         embed=discord.Embed(title="Verification Disabled", description="Sorry, this process is not available right now. Please try again later.", color=0x00ffff)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/775384878942257173/834676722145165352/facebook-512.png")
         await ctx.send(embed=embed)
