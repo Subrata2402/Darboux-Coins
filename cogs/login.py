@@ -56,7 +56,7 @@ class Login(commands.Cog):
     async def add(self, ctx, number:str=None):
         """Add account using number and OTP."""
         if number is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write number after `{ctx.prefix}add` Please correct use Command.\n• `{ctx.prefix}add +<country code><number>`\nExample : `{ctx.prefix}add +13158686534`", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write number after `{ctx.prefix}add`. Please correct use Command.\n`{ctx.prefix}add +<country code><number>`\nExample: `{ctx.prefix}add +13158686534`", color=0x00ffff)
             #embed.add_field(name="Usage :", value=f"{ctx.prefix}add +<country code><number>")
             #embed.add_field(name="Example :", value=f"{ctx.prefix}add +13158686534")
             embed.set_thumbnail(url=self.client.user.avatar_url)
