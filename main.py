@@ -32,7 +32,7 @@ client.remove_command('help')
 async def on_ready():
     print('====================')
     print(client.user)
-    channel = client.get_channel(837649333901459490)
+    channel = client.get_channel(835743589241454592)
     embed=discord.Embed(title="Bot Updated ✅", description="Bot successfully updated. No issues found!", color=0x00ffff)
     embed.set_thumbnail(url=client.user.avatar_url)
     embed.set_footer(text=client.user, icon_url=client.user.avatar_url)
@@ -50,7 +50,7 @@ async def on_ready():
 @client.event
 async def on_message(msg):
    if msg.content.startswith(client.user.mention):
-       await msg.channel.send("My prefix is +")
+       await msg.channel.send("Hey {msg.author.mention}, My prefix is `-` For more information use `-help`")
    await client.process_commands(msg)
 
 @client.command()
