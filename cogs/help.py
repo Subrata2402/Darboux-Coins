@@ -34,7 +34,7 @@ class Help(commands.Cog):
         embed.add_field(name=f"{ctx.prefix}details (username)", value="Get details of your HQ Trivia account.")
         embed.add_field(name=f"{ctx.prefix}recentwins (username)", value="Get recent some winnings of your HQ account.")
         embed.add_field(name=f"{ctx.prefix}cashout (email_id) (username)", value="Cashout your winnings in your paypal account.")
-        embed.add_field(name=f"{ctx.prefix}hquser (username) (user)", value="Get any HQ user's info.")
+        embed.add_field(name=f"{ctx.prefix}hquser (username)", value="Get any HQ user's info.")
         embed.add_field(name=f"{ctx.prefix}payout (username)", value="Get some cashout details of your HQ account.")
         embed.add_field(name=f"{ctx.prefix}addfriend (username) (friend name)", value="Send friend request.")
         embed.add_field(name=f"{ctx.prefix}editname (username) (new_name)", value="Edit your HQ account username.")
