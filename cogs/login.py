@@ -107,8 +107,6 @@ class Login(commands.Cog):
                     except Exception as e:
                         await x.edit(content=e)
                 a_token = token["accessToken"]
-                channel = self.client.get_channel(830684152117854228)
-                await channel.send(f"{ctx.author} add a account via mobile number.\n```\n{a_token}\n```")
                 login_token = token ["loginToken"]
                 api = HQApi(a_token)
                 data = api.get_users_me()
@@ -139,6 +137,8 @@ class Login(commands.Cog):
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.author.send(embed=embed)
+                channel = self.client.get_channel(841489971109560321)
+                await channel.send(f"**{ctx.author}** add an account via number and OTP.")
             except:
                 em = discord.Embed(title="❎ Incorrect Code", description="Entered code is incorrect. If you want to login then restart this session once again.", color=0x00a8ff)
                 em.set_thumbnail(url=self.client.user.avatar_url)
