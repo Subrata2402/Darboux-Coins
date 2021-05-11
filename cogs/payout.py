@@ -92,7 +92,7 @@ class Cashout(commands.Cog):
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}cashout [email] [username]` to cashout from your HQ Trivia account.", color=0x00ffff)
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
-        channel = self.client.get_channel(830680112265035796)
+        channel = self.client.get_channel(841489919067029535)
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
         for i in all_data:
