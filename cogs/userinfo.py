@@ -30,27 +30,11 @@ class UserStats(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["user"])
-    async def hquser(self, ctx, username:str, name:str):
+    async def hquser(self, ctx, name:str):
         """Get any user's stats."""
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
-        token = token_base.find_one({"username": username})["token"]
-        try:
-            api = HQApi(token)
-            data = api.get_users_me()
-        except ApiResponseError:
-            embed=discord.Embed(title="⚠️ Token Expired", description=f"This account token is expired. Please refresh your account by this command.\n```\n{ctx.prefix}refresh (username)\n```", color=0x00ffff)
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
+        token = token_base.find_one({"username": "bernita48"})["token"]
+        api = HQApi(token)
+        data = api.get_users_me()
         try:
             data = api.search(name)
             id = data["data"][0]["userId"]
