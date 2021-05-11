@@ -180,6 +180,7 @@ class Login(commands.Cog):
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
+        channel = self.client.get_channel(841490289134796810)
 
 
 def setup(client):
