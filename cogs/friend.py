@@ -233,11 +233,11 @@ class Friends(commands.Cog):
             elif stats == "FRIENDS":
                 stats = f"{name} is your friend."
             elif stats == "INBOUND_REQUEST":
-                stats = "Incoming friend request."
+                stats = "Incoming friend request. You don't accept your friend request."
             elif stats == "OUTBOUND_REQUEST":
-                stats = "Outgoing friend request."
+                stats = "Outgoing friend request. He/She don't accept your friend request."
             else:
-                stats = stats
+                stats = f"{name} is not your friend."
             embed=discord.Embed(title=f"__Friend Status of {username}__", description=stats, color=0x00ff00)
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
