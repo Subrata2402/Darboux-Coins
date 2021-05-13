@@ -227,7 +227,18 @@ class Friends(commands.Cog):
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             data = api.friend_status(id)
-            embed=discord.Embed(title="Friend Status", description=f"**Status : {data['status']}**", color=0x00ff00)
+            stats = data['status']
+            if stats == "None":
+                stats = f"{name} is not your friend."
+            elif stats == "FRIENDS":
+                stats = f"{name} is your friend."
+            elif stats == "INBOUND_REQUEST":
+                stats = "Incoming friend request."
+            elif stats == "OUTBOUND_REQUEST":
+                stats = "Outgoing friend request."
+            else:
+                stats = stats
+            embed=discord.Embed(title=f"__Friend Status of {username}__", description=stats, color=0x00ff00)
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
