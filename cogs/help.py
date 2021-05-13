@@ -34,9 +34,8 @@ class Help(commands.Cog):
         embed.add_field(name=f"{ctx.prefix}details (username)", value="Get details of your HQ Trivia account.")
         embed.add_field(name=f"{ctx.prefix}recentwins (username)", value="Get recent some winnings of your HQ account.")
         embed.add_field(name=f"{ctx.prefix}cashout (email_id) (username)", value="Cashout your winnings in your paypal account.")
-        embed.add_field(name=f"{ctx.prefix}hquser (username)", value="Get any HQ user's info.")
         embed.add_field(name=f"{ctx.prefix}payout (username)", value="Get some cashout details of your HQ account.")
-        embed.add_field(name="Important Links:", value="[Invite Bot](https://discord.com/api/oauth2/authorize?client_id=838631852603474001&permissions=523376&scope=bot) | [Support Server](https://discord.gg/TAcEnfS8Rs)\nGet the next page of help menu use command `{ctx.prefix}help2`")
+        embed.add_field(name="Important Links:", value=f"[Invite Bot](https://discord.com/api/oauth2/authorize?client_id=838631852603474001&permissions=523376&scope=bot) | [Support Server](https://discord.gg/TAcEnfS8Rs)\n\nGet the next page of help menu use command `{ctx.prefix}help2`")
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_author(name="| Darboux Coins Help Menu !", icon_url=self.client.user.avatar_url)
         embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
@@ -47,6 +46,7 @@ class Help(commands.Cog):
     @commands.command()
     async def help2(self, ctx):
         embed=discord.Embed(color=0x00ff00)
+        embed.add_field(name=f"{ctx.prefix}hquser (username)", value="Get any HQ user's info.")
         embed.add_field(name=f"{ctx.prefix}addfriend (username) (friend's username)", value="Send friend request.")
         embed.add_field(name=f"{ctx.prefix}editname (username) (new_name)", value="Edit your HQ account username.")
         embed.add_field(name=f"{ctx.prefix}friends (username)", value="Get your HQ friends list.")
