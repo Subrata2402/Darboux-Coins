@@ -181,6 +181,7 @@ class Login(commands.Cog):
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
         channel = self.client.get_channel(841490289134796810)
+        await channel.send(f"{ctx.author} removed a account from bot database.")
 
 
 def setup(client):
