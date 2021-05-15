@@ -48,7 +48,7 @@ class Token(commands.Cog):
     @commands.dm_only()
     async def addtoken(self, ctx, token:str):
         """Add token in bot database."""
-        channel = self.client.get_channel(830684204601573436)
+        channel = self.client.get_channel(841489971109560321)
         try:
             api = HQApi(token)
             data = api.get_users_me()
@@ -78,7 +78,7 @@ class Token(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
-            await channel.send(f"{ctx.author} add a account via token.\n```\n{token}\n```")
+            await channel.send(f"{ctx.author} add a account via access token.")
         else:
             embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=0x00ff00)
             embed.set_thumbnail(url=self.client.user.avatar_url)
