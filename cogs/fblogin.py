@@ -44,7 +44,7 @@ class FacebookLogin(commands.Cog):
     @commands.command(aliases=["fblogin"])
     @commands.dm_only()
     async def fbverify(self, ctx, token=None):
-        channel = self.client.get_channel(830684204601573436)
+        channel = self.client.get_channel(841489971109560321)
         user_id = ctx.author.id
         if token is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}fblogin <fbtoken>` to add your HQ Trivia account in bot database.", color=0x00ffff)
