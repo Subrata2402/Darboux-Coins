@@ -55,7 +55,7 @@ class FacebookLogin(commands.Cog):
             username = data["username"]
             login_token = data["loginToken"]
             access_token = data["accessToken"]
-        except ApiResponseError:
+        except:
             embed=discord.Embed(title="⚠️ Api Response Error", description="This is not a valid token or token is expired. Try again with a valid token or which is not expire!", color=0x00ff00)
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
