@@ -30,12 +30,22 @@ class Google(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["googlelink"])
+    @commands.dm_only()
     async def glink(self, ctx):
-        embed=discord.Embed(title="**HQ Google Login Link**", description="**Login Link : [Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=668326540387-84isqp5u1s4dubes1tns5i7p2kgqefja.apps.googleusercontent.com&client_id=668326540387-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com&response_type=code&scope=email%20profile&&redirect_uri=https://localhost:8000&verifier=56778634)**", color=0x00ffff)
+        embed=discord.Embed(title="**HQ Google Login**", color=discord.Colour.random())
+        embed.add_field(name="Login Link", value="[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=668326540387-84isqp5u1s4dubes1tns5i7p2kgqefja.apps.googleusercontent.com&client_id=668326540387-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com&response_type=code&scope=email%20profile&&redirect_uri=https://localhost:8000&verifier=56778634)")
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/823971641959776326/834684689059020820/1200px-Google__G__Logo.svg.png")
+        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
+    @glink.error
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, Exception):
+            await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
+
+
     @commands.command(aliases=["glinkverify","googleverify"])
+    @commands.dm_only()
     async def gverify(self, ctx, url=None):
         if url is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix} <url>` to add an HQ Trivia account in bot.", color=0x00ffff)
@@ -43,6 +53,12 @@ class Google(commands.Cog):
         embed=discord.Embed(title="Verification Disabled", description="Sorry, this process is not available right now. Please try again later.", color=0x00ffff)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/823971641959776326/834684689059020820/1200px-Google__G__Logo.svg.png")
         await ctx.send(embed=embed)
+
+    @gverify.error
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, Exception):
+            await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
+
 
 
 def setup(client):
