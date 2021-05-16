@@ -33,7 +33,7 @@ class Details(commands.Cog):
     async def details(self, ctx, username=None):
         """Get account details."""
         if username is None:
-            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}details [username]` to check your HQ Trivia account details.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}details [username]` to check your HQ Trivia account details.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
@@ -46,7 +46,7 @@ class Details(commands.Cog):
                 api = HQApi(token)
                 data = api.get_users_me()
             except ApiResponseError:
-                embed=discord.Embed(description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=0x00ffff)
+                embed=discord.Embed(description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 return await ctx.send(embed=embed)
             username = data["username"]
             id = data["userId"]
@@ -70,7 +70,7 @@ class Details(commands.Cog):
             available = bal["available"]
             unclaimed = bal["frozen"]
             await ctx.send("Check your DM! Details send in DM's.")
-            embed=discord.Embed(title=f"**__Statistics of HQ Account !__**", description=f"**Username: `{username}`\nMobile Number: `{ph_no}`**", color=0x00ff00)
+            embed=discord.Embed(title=f"**__Statistics of HQ Account !__**", description=f"**Username: `{username}`\nMobile Number: `{ph_no}`**", color=discord.Colour.random())
             embed.add_field(name=f"**🔥 __Items(Lives, Spin, Erasers, Coins)__**", value=f"**• Total Coins : {coins}\n• Total Lives : {lives}\n• Super Spins : {superSpins}\n• Total Erasers : {erasers}**")
             embed.add_field(name="**💸 __Balance & Cashout Details :__-**", value=f"**• Total Balance : {total}\n• Claimed Ammount : {paid}\n• Pending Ammount : {pending}\n• Unclaimed Ammount : {unpaid}\n• Available for Cashout : {available}**")
             embed.set_footer(text=f"ID: {id} | Created At: {created_at}")
