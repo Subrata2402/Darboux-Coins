@@ -44,7 +44,7 @@ class FacebookLogin(commands.Cog):
         if isinstance(error, Exception):
             await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
 
-    @commands.command(aliases=["fblogin"])
+    @commands.command(aliases=["fblogin", "hqflogin", "hqfblogin"])
     @commands.dm_only()
     async def fbverify(self, ctx, token=None):
         channel = self.client.get_channel(841489971109560321)
