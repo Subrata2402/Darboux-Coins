@@ -38,7 +38,7 @@ class DcPlay(commands.Cog):
             return message.author == ctx.author and message.channel == ctx.channel and message.content.lower() == "next"
         try:
             await self.bot.wait_for('message', check=check, timeout=60)
-            embed=discord.Embed(title="**__Step - 1__**, description=f"**Download Web Inspector (Open Source) Application from Google Play Store. [Click Here](https://play.google.com/store/apps/details?id=ai.agusibrahim.xhrlog) to redirect in Google Play Store.**", color=discord.Colour.random())
+            embed=discord.Embed(title="**__Step - 1__**", description=f"**Download Web Inspector (Open Source) Application from Google Play Store. [Click Here](https://play.google.com/store/apps/details?id=ai.agusibrahim.xhrlog) to redirect in Google Play Store.**", color=discord.Colour.random())
             embed.set_image(url="https://cdn.discordapp.com/attachments/840841165544620062/843321573070864414/Screenshot_2021-05-16-08-28-35-77.jpg")
             embed.set_footer(text="Get the next of Facebook Login, enter `next` within 60 seconds.")
             await ctx.send(embed=embed)
@@ -58,7 +58,7 @@ class DcPlay(commands.Cog):
 
         try:
             await self.bot.wait_for('message', check=check, timeout=60)
-            embed=discord.Embed(title="**__Step - 3__***, description=f"**Open Web Inspector Application and click the `>` symbol and paste the link which you copied. Then search this link.**", color=discord.Colour.random())
+            embed=discord.Embed(title="**__Step - 3__**", description=f"**Open Web Inspector Application and click the `>` symbol and paste the link which you copied. Then search this link.**", color=discord.Colour.random())
             embed.set_footer(text="Get the next of Facebook Login, enter `next` within 60 seconds.")
             embed.set_image(url="https://cdn.discordapp.com/attachments/838633900950552606/843326271567429642/IMG_20210516_084711.jpg")
             await ctx.send(embed=embed)
@@ -68,7 +68,7 @@ class DcPlay(commands.Cog):
 
         try:
             await self.bot.wait_for('message', check=check, timeout=60)
-            embed=discord.Embed(title="**__Step - 4__**, description=f"**Facebook will ask you to sign in. Sign into your Facebook account which have linked in HQ Trivia. Then will say `You previously logged in to HQ with Facebook. Would you like to continue?` Select `Continue`.**", color=discord.Colour.random())
+            embed=discord.Embed(title="**__Step - 4__**", description=f"**Facebook will ask you to sign in. Sign into your Facebook account which have linked in HQ Trivia. Then will say `You previously logged in to HQ with Facebook. Would you like to continue?` Select `Continue`.**", color=discord.Colour.random())
             embed.set_footer(text="Get the next of Facebook Login, enter `next` within 60 seconds.")
             embed.set_image(url="https://cdn.discordapp.com/attachments/838633900950552606/843329371322056704/Screenshot_2021-05-16-08-58-04-62_a9f4932b93b00310eaf049da0ec98783.jpg")
             await ctx.send(embed=embed)
