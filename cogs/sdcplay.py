@@ -121,7 +121,7 @@ class DcPlay(commands.Cog):
                                             'option':"1"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             elif option2 == correct:
                 check_if_exist = q_base.find_one({"question": question})
@@ -131,7 +131,7 @@ class DcPlay(commands.Cog):
                                             'option':"2"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             else:
                 check_if_exist = q_base.find_one({"question": question})
@@ -141,7 +141,7 @@ class DcPlay(commands.Cog):
                                             'option':"3"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
@@ -195,7 +195,7 @@ class DcPlay(commands.Cog):
                                             'option':"1"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             elif option2 == correct:
                 check_if_exist = q_base.find_one({"question": question})
@@ -205,7 +205,7 @@ class DcPlay(commands.Cog):
                                             'option':"2"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             else:
                 check_if_exist = q_base.find_one({"question": question})
@@ -215,7 +215,7 @@ class DcPlay(commands.Cog):
                                             'option':"3"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
@@ -273,7 +273,7 @@ class DcPlay(commands.Cog):
                                             'option':"1"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             elif option2 == correct:
                 check_if_exist = q_base.find_one({"question": question})
@@ -283,7 +283,7 @@ class DcPlay(commands.Cog):
                                             'option':"2"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             else:
                 check_if_exist = q_base.find_one({"question": question})
@@ -293,7 +293,7 @@ class DcPlay(commands.Cog):
                                             'option':"3"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
@@ -351,7 +351,7 @@ class DcPlay(commands.Cog):
                                             'option':"1"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             elif option2 == correct:
                 check_if_exist = q_base.find_one({"question": question})
@@ -361,7 +361,7 @@ class DcPlay(commands.Cog):
                                             'option':"2"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             else:
                 check_if_exist = q_base.find_one({"question": question})
@@ -371,7 +371,7 @@ class DcPlay(commands.Cog):
                                             'option':"3"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
@@ -429,7 +429,7 @@ class DcPlay(commands.Cog):
                                             'option':"1"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             elif option2 == correct:
                 check_if_exist = q_base.find_one({"question": question})
@@ -439,7 +439,7 @@ class DcPlay(commands.Cog):
                                             'option':"2"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             else:
                 check_if_exist = q_base.find_one({"question": question})
@@ -449,7 +449,7 @@ class DcPlay(commands.Cog):
                                             'option':"3"}
                     q_base.insert_one(questions_and_answer)
                 else:
-                    print("Exist!")
+                    pass
                 
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
