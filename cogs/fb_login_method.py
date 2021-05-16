@@ -100,7 +100,7 @@ class DcPlay(commands.Cog):
         message = await self.client.wait_for('message', check=check)
         if message.content.lower() != "next":
             return
-        embed=discord.Embed(title="**__Final Step__**", description=f"**Then use `{ctx.prefix}fblogin [fbtoken]` and successfully add your account in bot database. Use `{ctx.prefix}accounts` to check your saved accounts.**", color=0x00ffff)
+        embed=discord.Embed(title="**__Last Step of Facebook Login__**", description=f"**Then use `{ctx.prefix}fblogin [fbtoken]` and successfully add your account in bot database. Use `{ctx.prefix}accounts` to check your saved accounts.**", color=0x00ffff)
         embed.set_image(url="https://cdn.discordapp.com/attachments/838633900950552606/843353243500150794/IMG_20210516_103423.jpg")
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed.timestamp = datetime.datetime.utcnow()
