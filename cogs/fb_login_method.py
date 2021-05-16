@@ -30,7 +30,7 @@ class DcPlay(commands.Cog):
 
     @commands.command()
     @commands.dm_only()
-    async def fbmethod(self, ctx)
+    async def fbmethod(self, ctx):
         embed=discord.Embed(title="**__Facebook Login Method__**", description=f"**Thanks {ctx.author.mention}, for using {self.client.user.mention} Bot. Follow these steps to add your HQ Trivia account with bot by Facebook.\n\nEnter `next` for the process of Facebook Login system.**", color=discord.Colour.random())
         x = await ctx.send(embed=embed)
 
