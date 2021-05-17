@@ -33,7 +33,7 @@ class Cashout(commands.Cog):
     async def payout(self, ctx, username=None):
         """Get recent payment details."""
         if username is None:
-            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}payout [username]` to check your HQ account cashout details.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}payout [username]` to check your HQ account cashout details.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
@@ -46,7 +46,7 @@ class Cashout(commands.Cog):
                 api = HQApi(token)
                 data = api.get_users_me()
             except ApiResponseError:
-                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please use Command `{ctx.prefix}refresh {username}` to refresh your account.", color=0x00ffff)
+                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please use Command `{ctx.prefix}refresh {username}` to refresh your account.", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -69,12 +69,12 @@ class Cashout(commands.Cog):
                 modify_at = x_ind.strftime("%d-%m-%Y %I:%M %p")
                 description_info += f"• Amount :** {amount}**\n• Email :** {email}**\n• Payment Created :** {create_at}**\n• Payment Completed :** {modify_at}**\n\n"
             await ctx.send("Details send in DM. Please check your DM!")
-            embed=discord.Embed(title=f"**__Payout Info of {username} !__**", description=description_info, color=0x00ff00)
+            embed=discord.Embed(title=f"**__Payout Info of {username} !__**", description=description_info, color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
             await ctx.author.send(embed=embed)
         else:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
@@ -89,7 +89,7 @@ class Cashout(commands.Cog):
     async def cashout(self, ctx, email=None, username=None):
         """Make Cashout of an account."""
         if not email or not username:
-            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}cashout [email] [username]` to cashout from your HQ Trivia account.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}cashout [email] [username]` to cashout from your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         channel = self.client.get_channel(841489919067029535)
@@ -103,7 +103,7 @@ class Cashout(commands.Cog):
                 api = HQApi(token)
                 data = api.get_users_me()
             except ApiResponseError:
-                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=0x00ffff)
+                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -116,13 +116,13 @@ class Cashout(commands.Cog):
             data = data["data"]
             amount = data["amount"]
             email = data["targetEmail"]
-            embed=discord.Embed(title="**Cashout Done ✅**", description=f"Successfully Cashout of Amount **{amount}** to PayPal Email **{email}**", color=0x00ff00)
+            embed=discord.Embed(title="**Cashout Done ✅**", description=f"Successfully Cashout of Amount **{amount}** to PayPal Email **{email}**", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
             await channel.send(f"**{ctx.author}** made a Successfully cashout of amount **{amount}**")
         else:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
@@ -130,7 +130,7 @@ class Cashout(commands.Cog):
     @cashout.error
     async def on_command_error(self, ctx, error):
         if isinstance(error, Exception):
-            embed=discord.Embed(title="⚠️ Direct Message Only", description="For the security of your HQ account, use that Command in DM only.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Direct Message Only", description="For the security of your HQ account, use that Command in DM only.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
