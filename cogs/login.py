@@ -56,7 +56,7 @@ class Login(commands.Cog):
     async def add(self, ctx, number:str=None):
         """Add account using number and OTP."""
         if number is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write number after `{ctx.prefix}add`. Please correct use Command.\n`{ctx.prefix}add +<country code><number>`\nExample: `{ctx.prefix}add +13158686534`", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write number after `{ctx.prefix}add`. Please correct use Command.\n`{ctx.prefix}add +<country code><number>`\nExample: `{ctx.prefix}add +13158686534`", color=discord.Colour.random())
             #embed.add_field(name="Usage :", value=f"{ctx.prefix}add +<country code><number>")
             #embed.add_field(name="Example :", value=f"{ctx.prefix}add +13158686534")
             embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -81,12 +81,12 @@ class Login(commands.Cog):
         api = HQApi()
         try:
             verification = api.send_code("+" + number, "sms")
-            embed=discord.Embed(title="OTP Sent ✅", description=f"Successfully a 6-digits OTP has been sent to your number `{s_hide}` via SMS.\nEnter the OTP within 180 seconds.", color=0x00ffff)
+            embed=discord.Embed(title="OTP Sent ✅", description=f"Successfully a 6-digits OTP has been sent to your number `{s_hide}` via SMS.\nEnter the OTP within 180 seconds.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             x = await ctx.send(embed=embed)
         except:
-            embed=discord.Embed(title="⚠️ Exception Error", description="This is not a valid mobile number or some error occured while adding your account! Please try again later.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Exception Error", description="This is not a valid mobile number or some error occured while adding your account! Please try again later.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -114,7 +114,7 @@ class Login(commands.Cog):
                 id = data["userId"]
                 check = token_base.find_one({"id": commander_id, "user_id": id})
                 if check != None:
-                    embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=0x00ffff)
+                    embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
                     embed.set_thumbnail(url=self.client.user.avatar_url)
                     embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                     return await x.edit(embed=embed)
@@ -129,23 +129,23 @@ class Login(commands.Cog):
                                   'username': username, 'user_id': id}
                 token_base.insert_one(user_info_dict)
                 hide_name = "****" + username[4:]
-                embed=discord.Embed(title="Account Added ✅", description=f"Successfully linked an account with name `{hide_name}`. Check your DM for more details!", color=0x00ff00)
+                embed=discord.Embed(title="Account Added ✅", description=f"Successfully linked an account with name `{hide_name}`. Check your DM for more details!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await x.edit(embed=embed)
-                embed=discord.Embed(description=f"Hey {ctx.author.name} you have successfully linked an account with name `{username}` Use `+dcplay {username}` to play HQ Trivia Daily Challenge. For more details use `+help`", color=0x00ff00)
+                embed=discord.Embed(description=f"Hey {ctx.author.name} you have successfully linked an account with name `{username}` Use `+dcplay {username}` to play HQ Trivia Daily Challenge. For more details use `+help`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.author.send(embed=embed)
                 channel = self.client.get_channel(841489971109560321)
                 await channel.send(f"**{ctx.author}** add an account via number and OTP.")
             except:
-                em = discord.Embed(title="❎ Incorrect Code", description="Entered code is incorrect. If you want to login then restart this session once again.", color=0x00a8ff)
+                em = discord.Embed(title="❎ Incorrect Code", description="Entered code is incorrect. If you want to login then restart this session once again.", color=discord.Colour.random())
                 em.set_thumbnail(url=self.client.user.avatar_url)
                 em.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await x.edit(embed=em)
         except asyncio.TimeoutError:
-            em = discord.Embed(title="⚠️ Time Out Error", description="Session timed out, you didn't enter the OTP in time. If you want to login then restart this session once again.", color=0x00a8ff)
+            em = discord.Embed(title="⚠️ Time Out Error", description="Session timed out, you didn't enter the OTP in time. If you want to login then restart this session once again.", color=discord.Colour.random())
             em.set_thumbnail(url=self.client.user.avatar_url)
             em.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=em)
@@ -166,7 +166,7 @@ class Login(commands.Cog):
         for i in all_data:
             name_list.append(i['username'])
         if username not in name_list:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -176,7 +176,7 @@ class Login(commands.Cog):
         user_info_dict = {'id': commander_id,
                           'username': username}
         token_base.delete_one(user_info_dict)
-        embed=discord.Embed(title="Account Removed", description=f"Successfully removed an account from bot database with name `{username}`", color=0x00ff00)
+        embed=discord.Embed(title="Account Removed", description=f"Successfully removed an account from bot database with name `{username}`", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
