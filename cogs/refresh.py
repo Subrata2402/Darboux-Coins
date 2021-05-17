@@ -29,9 +29,12 @@ class Refresh(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def refresh(self, ctx, username:str):
+    @commands.command(aliases=["Refresh"])
+    async def refresh(self, ctx, username=None):
         """Refresh an account.."""
+        if token is None:
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put username after `{ctx.prefix}refresh`. Please use correct : `{ctx.prefix}refresh [username]`", color=discord.Colour.random())
+            return await ctx.send(embed=embed)
         x = await ctx.send("**Refreshing...**")
         commander_id = ctx.author.id
         name_list = []
@@ -39,7 +42,7 @@ class Refresh(commands.Cog):
         for i in all_data:
             name_list.append(i['username'])
         if username not in name_list:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
