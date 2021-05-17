@@ -39,7 +39,7 @@ class Show(commands.Cog):
             prize = int(prize)/int(100)
             prize = '{:,}'.format(int(prize))
             description_info += f"**• Show Name : {name}\n• Show Time : {time}\n• Prize Money : ${prize}**\n\n"
-        embed=discord.Embed(title="**__HQ Next Show Details !__**", description=description_info, color=0x00ff00)
+        embed=discord.Embed(title="**__HQ Next Show Details !__**", description=description_info, color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
@@ -55,7 +55,7 @@ class Show(commands.Cog):
         prize = (response_data["nextShowPrize"])
         for data in response_data["upcoming"]:
             type = data["nextShowLabel"]["title"]
-        embed=discord.Embed(title="**__HQ Next Show Details !__**", description=f"**• Show Name : {type}\n• Show Time : {time}\n• Prize Money : {prize}**", color=0x00FBFF)
+        embed=discord.Embed(title="**__HQ Next Show Details !__**", description=f"**• Show Name : {type}\n• Show Time : {time}\n• Prize Money : {prize}**", color=discord.Colour.random())
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/799237115962851348/816261537101905951/1200px-HQ_logo.svg.png")
         await ctx.send(embed=embed)
 
