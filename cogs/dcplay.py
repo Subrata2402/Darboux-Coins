@@ -64,9 +64,10 @@ class DcPlay(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
         coins = data["coins"]
-        embed=discord.Embed(title="Playing HQ Offair Trivia...", color=0x00ffff)
+        embed=discord.Embed(title="Starting HQ Offair Trivia...", color=0x00ffff)
         x = await ctx.send(embed=embed)
         username = "||Private Account||"
+        await asyncio.sleep(2)
         embed=discord.Embed(title="Playing HQ Offair Trivia...", description=f"**• Username : {username}\n• Games Played : 00\n• Questions Correct : 00/00\n• Coins Earned : 0\n• Total Coins : {coins}**", color=discord.Colour.random())
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/773955381063974972.gif")
