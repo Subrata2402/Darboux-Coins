@@ -33,7 +33,7 @@ class EditUsername(commands.Cog):
     async def editname(self, ctx, username=None, name=None):
         """Edit username."""
         if not username or not name:
-            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}editname [username] [new name]` to edit your HQ Trivia account username.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}editname [username] [new name]` to edit your HQ Trivia account username.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
@@ -46,23 +46,23 @@ class EditUsername(commands.Cog):
                 api = HQApi(token)
                 data = api.get_users_me()
             except ApiResponseError:
-                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=0x00ffff)
+                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             try:
                 data = api.edit_username(name)
-                embed=discord.Embed(title="**Username Edited Done ✅**", description=f"Successfully Edited username `{username}` to `{name}`", color=0x00ff00)
+                embed=discord.Embed(title="**Username Edited Done ✅**", description=f"Successfully Edited username `{username}` to `{name}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
             except:
-                embed=discord.Embed(title="**Username Edited Failed ⚠️**", description=f"This username is not available. Please try again with another username.", color=0x00ff00)
+                embed=discord.Embed(title="**Username Edited Failed ⚠️**", description=f"This username is not available. Please try again with another username.", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
         else:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `+accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `+accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
