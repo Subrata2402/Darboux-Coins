@@ -48,9 +48,9 @@ class Google(commands.Cog):
     @commands.dm_only()
     async def gverify(self, ctx, url=None):
         if url is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}gverify <url>` to add an HQ Trivia account in bot.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}gverify <url>` to add an HQ Trivia account in bot.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        embed=discord.Embed(title="Verification Disabled", description="Sorry, this process is not available right now. Please try again later.", color=0x00ffff)
+        embed=discord.Embed(title="Verification Disabled", description="Sorry, this process is not available right now. Please try again later.", color=discord.Colour.random())
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/823971641959776326/834684689059020820/1200px-Google__G__Logo.svg.png")
         await ctx.send(embed=embed)
 
