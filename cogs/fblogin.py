@@ -50,7 +50,7 @@ class FacebookLogin(commands.Cog):
         channel = self.client.get_channel(841489971109560321)
         user_id = ctx.author.id
         if token is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}fblogin <fbtoken>` to add your HQ Trivia account in bot database.", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}fblogin <fbtoken>` to add your HQ Trivia account in bot database.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         try:
             data = requests.post(url="https://api-quiz.hype.space/users/provider-auth", data={"type":"FACEBOOK","token": token}).json()
@@ -59,7 +59,7 @@ class FacebookLogin(commands.Cog):
             login_token = data["loginToken"]
             access_token = data["accessToken"]
         except:
-            embed=discord.Embed(title="⚠️ Api Response Error", description="This is not a valid token or token is expired. Try again with a valid token or which is not expire!", color=0x00ff00)
+            embed=discord.Embed(title="⚠️ Api Response Error", description="This is not a valid token or token is expired. Try again with a valid token or which is not expire!", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -75,13 +75,13 @@ class FacebookLogin(commands.Cog):
                               'access_token': access_token,
                               'username': username, 'user_id': id}
             login_token_base.insert_one(user_info_dict)
-            embed=discord.Embed(title="Account Added ✅", description=f"Successfully add an account with name `{username}`", color=0x00ffff)
+            embed=discord.Embed(title="Account Added ✅", description=f"Successfully add an account with name `{username}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
             await channel.send(f"{ctx.author} add a account via Facebook.")
         else:
-            embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=0x00ff00)
+            embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
