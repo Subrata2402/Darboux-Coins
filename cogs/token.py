@@ -46,8 +46,11 @@ class Token(commands.Cog):
     
     @commands.command(pass_context=True, aliases=['addt'])
     @commands.dm_only()
-    async def addtoken(self, ctx, token:str):
+    async def addtoken(self, ctx, token=None):
         """Add token in bot database."""
+        if token is None:
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put token after `{ctx.prefix}addtoken`. Please use correct : `{ctx.prefix}addtoken [token]`", color=0x00ffff)
+            return await ctx.send(embed=embed)
         channel = self.client.get_channel(841489971109560321)
         try:
             api = HQApi(token)
@@ -92,8 +95,11 @@ class Token(commands.Cog):
             await ctx.author.send(f"{ctx.author.mention}, **You can add token here.**")
 
     @commands.command(pass_context=True)
-    async def token(self, ctx, username:str):
+    async def token(self, ctx, username=None):
         """Get save access token."""
+        if username is None:
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put username after `{ctx.prefix}token`. Please use correct : `{ctx.prefix}token [username]`", color=0x00ffff)
+            return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
