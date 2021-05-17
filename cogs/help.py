@@ -22,7 +22,7 @@ class Help(commands.Cog):
 
     @commands.command()
     async def help(self, ctx):
-        embed=discord.Embed(color=0x00ff00)
+        embed=discord.Embed(color=discord.Colour.random())
         embed.add_field(name=f"{ctx.prefix}add +(country code)(number)", value="To save your HQ Trivia account in bot.")
         embed.add_field(name=f"{ctx.prefix}dcplay (username)", value="Play HQ Trivia Daily Challenge.")
         embed.add_field(name=f"{ctx.prefix}sdcplay (username)", value="Play HQ Trivia Daily Challenge in Slowmode.")
@@ -47,7 +47,7 @@ class Help(commands.Cog):
 
     @commands.command()
     async def help2(self, ctx):
-        embed=discord.Embed(color=0x00ff00)
+        embed=discord.Embed(color=discord.Colour.random())
         embed.add_field(name=f"{ctx.prefix}hquser (username)", value="Get any HQ user's info.")
         embed.add_field(name=f"{ctx.prefix}addfriend (username) (friend's username)", value="Send friend request.")
         embed.add_field(name=f"{ctx.prefix}editname (username) (new_name)", value="Edit your HQ account username.")
@@ -68,13 +68,13 @@ class Help(commands.Cog):
 
     @commands.command()
     async def invite(self, ctx):
-        embed=discord.Embed(title="**Invite Me to Your Server !**", description="**Invite Link : [Click Here](https://discord.com/api/oauth2/authorize?client_id=838631852603474001&permissions=523376&scope=bot)**", color=0x00ffff)
+        embed=discord.Embed(title="**Invite Me to Your Server !**", description="**Invite Link : [Click Here](https://discord.com/api/oauth2/authorize?client_id=838631852603474001&permissions=523376&scope=bot)**", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
     @commands.command()
     async def support(self, ctx):
-        embed=discord.Embed(title="**Join Our Support Server !**", description="**Join Link : [Click Here](https://discord.gg/TAcEnfS8Rs)**", color=0x00ffff)
+        embed=discord.Embed(title="**Join Our Support Server !**", description="**Join Link : [Click Here](https://discord.gg/TAcEnfS8Rs)**", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
