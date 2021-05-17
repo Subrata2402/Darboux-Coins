@@ -52,12 +52,12 @@ class UserStats(commands.Cog):
             winCount = data["winCount"]
             gamesPlayed = data["gamesPlayed"]
             highScore = data["highScore"]
-            embed=discord.Embed(title=f"**__{username}'s account details !__**", description=f"**• Username : {username}\n• Total Winnings : {total}\n• Unclaimed : {unclaimed}\n• Total Games Played : {gamesPlayed}\n• Total Wins : {winCount}\n• High Score : {highScore}**", color=0x00ff00)
+            embed=discord.Embed(title=f"**__{username}'s account details !__**", description=f"**• Username : {username}\n• Total Winnings : {total}\n• Unclaimed : {unclaimed}\n• Total Games Played : {gamesPlayed}\n• Total Wins : {winCount}\n• High Score : {highScore}**", color=discord.Colour.random())
             embed.set_thumbnail(url=avatar_url)
             embed.set_footer(text=f"User ID : {id} | Created At : {at}")
             await ctx.send(embed=embed)
         except:
-            embed=discord.Embed(title="❎ Not Found", description=f"Couldn't find this account with name `{name}`. Please check your name spelling and try again.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"Couldn't find this account with name `{name}`. Please check your name spelling and try again.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
