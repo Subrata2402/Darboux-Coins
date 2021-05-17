@@ -43,7 +43,7 @@ class RecentWins(commands.Cog):
                 api = HQApi(token)
                 data = api.get_users_me()
             except ApiResponseError:
-                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=0x00ffff)
+                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -57,12 +57,12 @@ class RecentWins(commands.Cog):
                 x =  tm.strftime("%H:%M:%S [%d/%m/%Y] ")
                 x_ind = tm.astimezone(timezone("Asia/Kolkata"))
                 x_time = x_ind.strftime("%b %d, %Y %I:%M %p")
-                embed=discord.Embed(title=f"**__{username}'s Winnings Info !__**", description=f"**• Prize Money: {prize}\n• Winning Date: {x_time}**", color=0x00ff00)
+                embed=discord.Embed(title=f"**__{username}'s Winnings Info !__**", description=f"**• Prize Money: {prize}\n• Winning Date: {x_time}**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
         else:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
@@ -85,7 +85,7 @@ class RecentWins(commands.Cog):
             try:
                 api = HQApi(token)
             except ApiResponseError:
-                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=0x00ffff)
+                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -104,12 +104,12 @@ class RecentWins(commands.Cog):
                 x_ind = tm.astimezone(timezone("Asia/Kolkata"))
                 x_time = x_ind.strftime("%d-%m-%Y")
                 description_info += f"**{s}. {x_time} : {prize}**\n"
-            embed=discord.Embed(title=f"**__{username}'s Winnings Info !__**", description=description_info, color=0x00ff00)
+            embed=discord.Embed(title=f"**__{username}'s Winnings Info !__**", description=description_info, color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
         else:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
