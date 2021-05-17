@@ -49,7 +49,7 @@ class Token(commands.Cog):
     async def addtoken(self, ctx, token=None):
         """Add token in bot database."""
         if token is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put token after `{ctx.prefix}addtoken`. Please use correct : `{ctx.prefix}addtoken [token]`", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put token after `{ctx.prefix}addtoken`. Please use correct : `{ctx.prefix}addtoken [token]`", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         channel = self.client.get_channel(841489971109560321)
         try:
@@ -61,7 +61,7 @@ class Token(commands.Cog):
             data = api.get_login_token()
             lt = data["loginToken"]
         except ApiResponseError:
-            embed=discord.Embed(title="⚠️ Api Response Error", description="This is not a valid token or token is expired. Try again with a valid token or which is not expire!", color=0x00ff00)
+            embed=discord.Embed(title="⚠️ Api Response Error", description="This is not a valid token or token is expired. Try again with a valid token or which is not expire!", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -77,13 +77,13 @@ class Token(commands.Cog):
                               'access_token': token,
                               'username': username, 'user_id': id}
             login_token_base.insert_one(user_info_dict)
-            embed=discord.Embed(title="Account Added ✅", description=f"Successfully add an account with name `{username}`", color=0x00ffff)
+            embed=discord.Embed(title="Account Added ✅", description=f"Successfully add an account with name `{username}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
             await channel.send(f"{ctx.author} add a account via access token.")
         else:
-            embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=0x00ff00)
+            embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
@@ -98,7 +98,7 @@ class Token(commands.Cog):
     async def token(self, ctx, username=None):
         """Get save access token."""
         if username is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put username after `{ctx.prefix}token`. Please use correct : `{ctx.prefix}token [username]`", color=0x00ffff)
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put username after `{ctx.prefix}token`. Please use correct : `{ctx.prefix}token [username]`", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
@@ -108,12 +108,12 @@ class Token(commands.Cog):
         if username in name_list:
             spec_user_token = token_base.find_one({'username': username})['token']
             await ctx.send(f"{ctx.author.mention}, Check your DM!")
-            embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=0x00ffff)
+            embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.author.send(embed=embed)
         else:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `+accounts` to check your all accounts.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `+accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
@@ -131,7 +131,7 @@ class Token(commands.Cog):
         for i in all_data:
             id_list.append(i['id'])
         if commander_id not in id_list:
-            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `+add +(country code)(number)` or `+addtoken (token)` to save your account in bot database and make unlimited coins with bot.", color=0x00ffff)
+            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `{ctx.prefix}add +(country code)(number)` or `{ctx.prefix}addtoken (token)` or `{ctx.prefix}fblogin (fbtoken)` to save your account in bot database and make unlimited coins with bot.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -144,7 +144,7 @@ class Token(commands.Cog):
         for username in name_list:
             s = int(s) + 1
             name += f"{s} - {username}\n"
-        embed=discord.Embed(title=f"{ctx.author.name}'s accounts !", description=name, color=0x00ffff)
+        embed=discord.Embed(title=f"{ctx.author.name}'s accounts !", description=name, color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
