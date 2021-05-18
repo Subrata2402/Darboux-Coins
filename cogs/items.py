@@ -61,7 +61,7 @@ class Items(commands.Cog):
         headers = {"Authorization": f"Bearer {token}"}
         if not amount:
             if coins < 400:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 1 <:life:844142423524245524> Extra Life. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an <:life:844142423524245524> Extra Life. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -79,7 +79,7 @@ class Items(commands.Cog):
             return await ctx.send(f"{amount} is not a valid amount.")
         if amount == int(1):
             if coins < 400:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 1 <:life:844142423524245524> Extra Life. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an <:life:844142423524245524> Extra Life. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -140,7 +140,7 @@ class Items(commands.Cog):
         headers = {"Authorization": f"Bearer {token}"}
         if not amount:
             if coins < 100:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 1 <:eraser:844142457955549195> Extra Eraser. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an <:eraser:844142457955549195> Extra Eraser. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -158,7 +158,7 @@ class Items(commands.Cog):
             return await ctx.send(f"{amount} is not a valid amount.")
         if amount == int(1):
             if coins < 100:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 1 <:eraser:844142457955549195> Extra Eraser. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an <:eraser:844142457955549195> Extra Eraser. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -220,7 +220,7 @@ class Items(commands.Cog):
         headers = {"Authorization": f"Bearer {token}"}
         if not amount:
             if coins < 150:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 1 Extra Super-spin. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an Extra Super-spin. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -238,7 +238,7 @@ class Items(commands.Cog):
             return await ctx.send(f"{amount} is not a valid amount.")
         if amount == int(1):
             if coins < 150:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 1 Extra Super-spin. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an Extra Super-spin. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
