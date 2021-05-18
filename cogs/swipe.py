@@ -59,7 +59,7 @@ class Swipe(commands.Cog):
         x = await ctx.send(embed=embed)
         await asyncio.sleep(2)
         try:
-            r = requests.post("https://api-quiz.hype.space/easter-eggs/makeItRain", headers=headers)
+            r = requests.post("https://api-quiz.hype.space/easter-eggs/makeItRain", headers=headers).json()
             data = r["data"]
             embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an Extra Life.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
