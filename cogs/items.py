@@ -51,6 +51,7 @@ class Details(commands.Cog):
             api = HQApi(token)
             data = api.get_users_me()
             coins = data["coins"]
+            erasers = data["items"]["erase1s"]
         except ApiResponseError:
             embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -88,9 +89,9 @@ class Details(commands.Cog):
         data = r.json()
         coins = data["coinsTotal"]
         life = data["itemsTotal"]["extra-life"]
-        eraser = data["itemsTotal"]["eraser"]
+        #eraser = data["itemsTotal"]["eraser"]
         superspin = data["itemsTotal"]["super-spin"]
-        embed=discord.Embed(title="Life Purchased ✅", description=f"**You have successfully purchased {amount} Extra Life(s)**\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {eraser}\n**• Total Super-spins :** {superspin}", color=discord.Colour.random())
+        embed=discord.Embed(title="Life Purchased ✅", description=f"**You have successfully purchased {amount} Extra Life(s)**\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superspin}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
