@@ -97,9 +97,9 @@ class Details(commands.Cog):
 
     @commands.command()
     async def eraser(self, ctx, amount=None, username=None):
-        """Purchase Life."""
+        """Purchase Eraser."""
         if not amount or not username:
-            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}eraser [amount] [username]` to purchase an Extra Life in your HQ Trivia account.", color=discord.Colour.random())
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}eraser [amount] [username]` to purchase an Extra Eraser in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
@@ -162,9 +162,9 @@ class Details(commands.Cog):
 
     @commands.command()
     async def superspin(self, ctx, amount=None, username=None):
-        """Purchase Life."""
+        """Purchase superspin."""
         if not amount or not username:
-            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}superspin [amount] [username]` to purchase an Extra Life in your HQ Trivia account.", color=discord.Colour.random())
+            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}superspin [amount] [username]` to purchase an Extra Super-spin in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
