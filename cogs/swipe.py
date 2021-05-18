@@ -57,6 +57,7 @@ class Swipe(commands.Cog):
         headers = {"Authorization": f"Bearer {token}"}
         try:
             r = requests.post("https://api-quiz.hype.space/easter-eggs/makeItRain", headers=headers)
+            data = r["data"]
             embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an Extra Life.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
