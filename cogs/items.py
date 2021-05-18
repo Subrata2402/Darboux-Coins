@@ -50,6 +50,7 @@ class Details(commands.Cog):
         try:
             api = HQApi(token)
             data = api.get_users_me()
+            coins = data["coins"]
         except ApiResponseError:
             embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -59,17 +60,40 @@ class Details(commands.Cog):
         try:
             amount = int(amount)
         except:
-            await ctx.send(f"{amount} is not a valid amount.")
+            return await ctx.send(f"{amount} is not a valid amount.")
         if amount == int(1):
-            r = requests.post("https://api-quiz.hype.space/store/com.intermedia.hq.item.extralife.1x/purchase", headers=headers)
+            if coins < 400:
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 1 Extra Life. Play HQ Daily Challenge and earn coins!", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                return await ctx.send(embed=embed)
         elif amount == int(3):
-            r = requests.post("https://api-quiz.hype.space/store/com.intermedia.hq.item.extralife.3x/purchase", headers=headers)
+            if coins < 1000:
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 3 Extra Lifes. Play HQ Daily Challenge and earn coins!", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                return await ctx.send(embed=embed)
         elif amount == int(5):
-            r = requests.post("https://api-quiz.hype.space/store/com.intermedia.hq.item.extralife.5x/purchase", headers=headers)
+            if coins < 1500:
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 5 Extra Lifes. Play HQ Daily Challenge and earn coins!", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                return await ctx.send(embed=embed)
         else:
             embed=discord.Embed(title="⚠️ Api Response Error", description=f"You can't purchase {amount} life(s). Please choose an amount between 1, 3 and 5.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
+        r = requests.post(f"https://api-quiz.hype.space/store/com.intermedia.hq.item.extralife.{amount}x/purchase", headers=headers)
         data = r.json()
+        coins = data["coinsTotal"]
+        life = data["itemsTotal"]["extra-life"]
+        eraser = data["itemsTotal"]["eraser"]
+        superspin = data["itemsTotal"]["super-spin"]
+        embed=discord.Embed(title="Life Purchased ✅", description=f"**You have successfully purchased {amount} Extra Life(s)**\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {eraser}\n**• Total Super-spins :** {superspin}", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        await ctx.send(embed=embed)
 
 
 
