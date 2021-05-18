@@ -24,7 +24,7 @@ token_base = db.token
 login_token_base = db.login_token
 
 
-class Details(commands.Cog):
+class Items(commands.Cog):
 
     def __init__(self, client):
         self.client = client
@@ -227,4 +227,4 @@ class Details(commands.Cog):
         await ctx.send(embed=embed)
 
 def setup(client):
-    client.add_cog(Details(client))
+    client.add_cog(Items(client))
