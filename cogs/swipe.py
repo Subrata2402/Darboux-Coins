@@ -55,16 +55,21 @@ class Swipe(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
         headers = {"Authorization": f"Bearer {token}"}
+        embed=discord.Embed(title=f"Swiping...", color=discord.Colour.random())
+        x = await ctx.send(embed=embed)
+        await asyncio.sleep(2)
         try:
             r = requests.post("https://api-quiz.hype.space/easter-eggs/makeItRain", headers=headers)
             data = r["data"]
             embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an Extra Life.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
+            await x.edit(embed=embed)
         except:
-            embed=discord.Embed(description=f"You have already swiped your account.", color=discord.Colour.random())
-            return await ctx.send(embed=embed)
+            embed=discord.Embed(title="⚠️ Swiped Failed", description=f"You have already swiped your account.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await x.edit(embed=embed)
 
 
 def setup(client):
