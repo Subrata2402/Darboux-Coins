@@ -90,7 +90,7 @@ class Details(commands.Cog):
         data = r.json()
         coins = data["coinsTotal"]
         life = data["itemsTotal"]["extra-life"]
-        embed=discord.Embed(title="Life Purchased ✅", description=f"**You have successfully purchased {amount} Extra Life(s)\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
+        embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} Extra Life(s)!\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
@@ -155,7 +155,7 @@ class Details(commands.Cog):
         data = r.json()
         coins = data["coinsTotal"]
         erasers = data["itemsTotal"]["eraser"]
-        embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} Extra Eraser(s)\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
+        embed=discord.Embed(title="Eraser Purchased ✅", description=f"You have successfully purchased {amount} Extra Eraser(s)!\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
@@ -183,6 +183,7 @@ class Details(commands.Cog):
             coins = data["coins"]
             erasers = data["items"]["erase1s"]
             life = data["items"]["lives"]
+            superSpins = data["items"]["superSpins"]
         except ApiResponseError:
             embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -219,8 +220,8 @@ class Details(commands.Cog):
         r = requests.post(f"https://api-quiz.hype.space/store/com.intermedia.hq.item.extralife.{amount}x/purchase", headers=headers)
         data = r.json()
         coins = data["coinsTotal"]
-        superSpins = data["itemsTotal"]["super-spin"]
-        embed=discord.Embed(title="Life Purchased ✅", description=f"**You have successfully purchased {amount} Extra Super-spin(s)**\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
+        superSpins = int(superSpins) + int(amount)
+        embed=discord.Embed(title="Super-spin Purchased ✅", description=f"You have successfully purchased {amount} Extra Super-spin(s)!\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
