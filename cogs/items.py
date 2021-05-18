@@ -220,7 +220,7 @@ class Details(commands.Cog):
         r = requests.post(f"https://api-quiz.hype.space/store/com.intermedia.hq.item.superspin.{amount}x/purchase", headers=headers)
         data = r.json()
         coins = data["coinsTotal"]
-        superSpins = data["itemsTotal"]["Super-spin"]
+        superSpins = int(superSpins) + int(amount)
         embed=discord.Embed(title="Super-spin Purchased ✅", description=f"You have successfully purchased {amount} Extra Super-spin(s)!\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
