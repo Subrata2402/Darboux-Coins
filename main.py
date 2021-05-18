@@ -77,7 +77,7 @@ async def ping(ctx):
 
 
 extensions = [
-              "cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome",
+              "cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe",
               "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay",
               "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help",
               "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items",
