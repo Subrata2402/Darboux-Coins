@@ -35,7 +35,7 @@ class Details(commands.Cog):
         commander_id = ctx.author.id
         name_list = []
         id_list = []
-        all_data = list(token_base.find({"id": commander_id))
+        all_data = list(token_base.find({"id": commander_id}))
         for i in all_data:
             name_list.append(i['username'])
         for j in all_data:
