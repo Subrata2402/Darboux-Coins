@@ -41,7 +41,12 @@ class Details(commands.Cog):
         for j in all_data:
             id_list.append(j['id'])
         if commander_id not in id_list:
-            
+            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `{ctx.prefix}add +(country code)(number)` or `{ctx.prefix}addtoken (token)` or `{ctx.prefix}fblogin (fbtoken)` to save your account in bot database and make unlimited coins with bot.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await ctx.send(embed=embed)
+        embed=discord.Embed(title="Fetching your account balance and Cashout details...", color=0x00ffff)
+        x = await ctx.send(embed=embed)
         description = ""
         total = 0
         paid = 0
@@ -63,12 +68,16 @@ class Details(commands.Cog):
                 pending = "{:.2f}".format(pending)
                 unpaid = "{:.2f}".format(unpaid)
                 available = "{:.2f}".format(available)
+                embed=discord.Embed(title="Balance & Cashout Details of all Accounts", description=f"**• Total Balance : {total}\n• Claimed Ammount : {paid}\n• Pending Ammount : {pending}\n• Unclaimed Ammount : {unpaid}\n• Available for Cashout : {available}**", color=discord.Colour.random())
+                embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/844442503976583178.gif")
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                await x.edit(embed=embed)
             except:
                 pass
         embed=discord.Embed(title="Balance & Cashout Details of all Accounts", description=f"**• Total Balance : {total}\n• Claimed Ammount : {paid}\n• Pending Ammount : {pending}\n• Unclaimed Ammount : {unpaid}\n• Available for Cashout : {available}**", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await ctx.send(embed=embed)
+        await x.edit(embed=embed)
 
 def setup(client):
     client.add_cog(Details(client))
