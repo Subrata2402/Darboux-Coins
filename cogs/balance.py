@@ -57,6 +57,7 @@ class Details(commands.Cog):
             token = token_base.find_one({'username': username})['token']
             api = HQApi(token)
             data = api.get_payouts_me()
+            bal = data["balance"]
             total = float(total) + float(bal["prizeTotal"][1:])
             paid = float(paid) + float(bal["paid"][1:])
             pending = float(pending) + float(bal["pending"][1:])
