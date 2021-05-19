@@ -72,16 +72,22 @@ class Details(commands.Cog):
                 unpaid = "{:.2f}".format(unpaid)
                 available = "{:.2f}".format(available)
                 sl_no = int(sl_no) + 1
-                embed=discord.Embed(title="Balance & Cashout Details of {sl_no} Accounts", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}\n\n**• Token Expired :** {ex_no}", color=discord.Colour.random())
+                embed=discord.Embed(title=f"**__Balance & Cashout Details of {sl_no} Accounts :__-**", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}", color=discord.Colour.random())
                 embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/844442503976583178.gif")
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await x.edit(embed=embed)
             except:
                 ex_no = int(ex_no) + 1
-        embed=discord.Embed(title="Balance & Cashout Details of {sl_no} Accounts", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}\n\n**• Token Expired :** {ex_no}", color=discord.Colour.random())
+                description += f"{ex_no} - {username}\n"
+        embed=discord.Embed(title=f"**__Balance & Cashout Details of {sl_no} Accounts :__-**", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await x.edit(embed=embed)
+        if ex_no > 0:
+            embed=discord.Embed(title="⚠️ Token Expired", description=f"{description}\nThis account's tokens are expired. Please refresh your accounts to use this command `{ctx.prefix}refresh <username>`", color=discord.Colour.random())
+            await ctx.send(embed=embed)
+        else:
+            return
 
 def setup(client):
     client.add_cog(Details(client))
