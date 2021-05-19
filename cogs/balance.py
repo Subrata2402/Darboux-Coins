@@ -30,13 +30,18 @@ class Details(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["bal"])
-    async def balance(self, ctx, username=None):
+    async def balance(self, ctx):
         """Get account details."""
         commander_id = ctx.author.id
         name_list = []
+        id_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
         for i in all_data:
             name_list.append(i['username'])
+        for j in all_data:
+            id_list.append(j['id'])
+        if commander_id not in id_list:
+            
         description = ""
         total = 0
         paid = 0
@@ -48,25 +53,22 @@ class Details(commands.Cog):
             try:
                 api = HQApi(token)
                 data = api.get_payouts_me()
-                total = bal["prizeTotal"]
-                paid = bal["paid"]
-                pending = bal["pending"]
-                unpaid = bal["unpaid"]
-                available = bal["available"]
-                unclaimed = bal["frozen"]
-                
+                total = float(total) + float(bal["prizeTotal"][1:])
+                paid = float(paid) + float(bal["paid"][1:])
+                pending = float(pending) + float(bal["pending"][1:])
+                unpaid = float(unpaid) + float(bal["unpaid"][1:])
+                available = float(available) + float(bal["available"][1:])
+                total = "{:.2f}".format(total)
+                paid = "{:.2f}".format(paid)
+                pending = "{:.2f}".format(pending)
+                unpaid = "{:.2f}".format(unpaid)
+                available = "{:.2f}".format(available)
             except:
                 pass
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
-            try:
-                api = HQApi(token)
-                data = api.get_users_me()
-            except ApiResponseError:
-                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
-                embed.set_thumbnail(url=self.client.user.avatar_url)
-                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                return await ctx.send(embed=embed)
+        embed=discord.Embed(title="Balance & Cashout Details of all Accounts", description=f"**• Total Balance : {total}\n• Claimed Ammount : {paid}\n• Pending Ammount : {pending}\n• Unclaimed Ammount : {unpaid}\n• Available for Cashout : {available}**", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        await ctx.send(embed=embed)
 
 def setup(client):
     client.add_cog(Details(client))
