@@ -61,7 +61,7 @@ class Items(commands.Cog):
         headers = {"Authorization": f"Bearer {token}"}
         if not amount:
             if coins < 400:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an <:life:844142423524245524> Extra Life. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an <:extra_life:844448511264948225> Extra Life. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
@@ -69,7 +69,7 @@ class Items(commands.Cog):
             data = r.json()
             coins = data["coinsTotal"]
             life = data["itemsTotal"]["extra-life"]
-            embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased an <:life:844142423524245524> Extra Life!\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
+            embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased an <:extra_life:844448511264948225> Extra Life!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -79,24 +79,24 @@ class Items(commands.Cog):
             return await ctx.send(f"{amount} is not a valid amount.")
         if amount == int(1):
             if coins < 400:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase an <:life:844142423524245524> Extra Life. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an <:extra_life:844448511264948225> Extra Life. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
         elif amount == int(3):
             if coins < 1000:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 3 <:life:844142423524245524> Extra Lifes. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 3 <:extra_life:844448511264948225> Extra Lifes. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
         elif amount == int(5):
             if coins < 1500:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient coins to purchase 5 <:life:844142423524245524> Extra Lifes. Play HQ Daily Challenge and earn some coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 5 <:extra_life:844448511264948225> Extra Lifes. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
         else:
-            embed=discord.Embed(title="⚠️ Api Response Error", description=f"You can't purchase {amount} <:life:844142423524245524> Extra Life(s). Please choose an amount between 1, 3 and 5.", color=discord.Colour.random())
+            embed=discord.Embed(title="⚠️ Api Response Error", description=f"You can't purchase {amount} <:extra_life:844448511264948225> Extra Life(s). Please choose an amount between 1, 3 and 5.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -104,7 +104,7 @@ class Items(commands.Cog):
         data = r.json()
         coins = data["coinsTotal"]
         life = data["itemsTotal"]["extra-life"]
-        embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} <:life:844142423524245524> Extra Life(s)!\n\n**• Total Coins :** {coins}\n**• Total Lives :** {life}\n**• Total Erasers :** {erasers}\n**• Total Super-spins :** {superSpins}", color=discord.Colour.random())
+        embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} <:extra_life:844448511264948225> Extra Life(s)!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
