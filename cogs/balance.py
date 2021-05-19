@@ -53,27 +53,32 @@ class Details(commands.Cog):
         pending = 0
         unpaid = 0
         available = 0
+        sl_no = 0
+        ex_no = 0
         for username in name_list:
             token = token_base.find_one({'username': username})['token']
-            api = HQApi(token)
-            data = api.get_payouts_me()
-            bal = data["balance"]
-            total = float(total) + float(bal["prizeTotal"][1:])
-            paid = float(paid) + float(bal["paid"][1:])
-            pending = float(pending) + float(bal["pending"][1:])
-            unpaid = float(unpaid) + float(bal["unpaid"][1:])
-            available = float(available) + float(bal["available"][1:])
-            total = "{:.2f}".format(total)
-            paid = "{:.2f}".format(paid)
-            pending = "{:.2f}".format(pending)
-            unpaid = "{:.2f}".format(unpaid)
-            available = "{:.2f}".format(available)
-            embed=discord.Embed(title="Balance & Cashout Details of all Accounts", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}", color=discord.Colour.random())
-            embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/844442503976583178.gif")
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await x.edit(embed=embed)
-            
-        embed=discord.Embed(title="Balance & Cashout Details of all Accounts", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}", color=discord.Colour.random())
+            try:
+                api = HQApi(token)
+                data = api.get_payouts_me()
+                bal = data["balance"]
+                total = float(total) + float(bal["prizeTotal"][1:])
+                paid = float(paid) + float(bal["paid"][1:])
+                pending = float(pending) + float(bal["pending"][1:])
+                unpaid = float(unpaid) + float(bal["unpaid"][1:])
+                available = float(available) + float(bal["available"][1:])
+                total = "{:.2f}".format(total)
+                paid = "{:.2f}".format(paid)
+                pending = "{:.2f}".format(pending)
+                unpaid = "{:.2f}".format(unpaid)
+                available = "{:.2f}".format(available)
+                sl_no = int(sl_no) + 1
+                embed=discord.Embed(title="Balance & Cashout Details of {sl_no} Accounts", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}\n\n**• Token Expired :** {ex_no}", color=discord.Colour.random())
+                embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/844442503976583178.gif")
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                await x.edit(embed=embed)
+            except:
+                ex_no = int(ex_no) + 1
+        embed=discord.Embed(title="Balance & Cashout Details of {sl_no} Accounts", description=f"**• Total Balance :** ${total}\n**• Claimed Ammount :** ${paid}\n**• Pending Ammount :** ${pending}\n**• Unclaimed Ammount :** ${unpaid}\n**• Available for Cashout :** ${available}\n\n**• Token Expired :** {ex_no}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await x.edit(embed=embed)
