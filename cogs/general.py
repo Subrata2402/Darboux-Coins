@@ -21,12 +21,12 @@ class Help(commands.Cog):
     async def stats(self, ctx):
         pythonVersion = platform.python_version()
         dpyVersion = discord.__version__
-        serverCount = len(self.bot.guilds)
-        memberCount = len(set(self.bot.get_all_members()))
-        channelCount = len(set(self.bot.get_all_channels()))
+        serverCount = len(self.client.guilds)
+        memberCount = len(set(self.client.get_all_members()))
+        channelCount = len(set(self.client.get_all_channels()))
         date = self.bot.user.created_at.__format__("%b %d, %Y %I:%M %p")
         
-        embed = discord.Embed(description=f"Bot Prefix : `-`\nBot Latency : `{round(self.bot.latency * 1000)}ms`", color=discord.Colour.random())
+        embed = discord.Embed(description=f"Bot Prefix : `-`\nBot Latency : `{round(self.client.latency * 1000)}ms`", color=discord.Colour.random())
         embed.add_field(name="Programing Language", value=f"Python (Version - {pythonVersion})")
         embed.add_field(name="Discord.py Version", value=dpyVersion)
         embed.add_field(name="Total Connected Guilds", value=serverCount)
