@@ -24,7 +24,7 @@ class Help(commands.Cog):
         serverCount = len(self.client.guilds)
         memberCount = len(set(self.client.get_all_members()))
         channelCount = len(set(self.client.get_all_channels()))
-        date = self.bot.user.created_at.__format__("%b %d, %Y %I:%M %p")
+        date = self.client.user.created_at.__format__("%b %d, %Y %I:%M %p")
         
         embed = discord.Embed(description=f"Bot Prefix : `-`\nBot Latency : `{round(self.client.latency * 1000)}ms`", color=discord.Colour.random())
         embed.add_field(name="Programing Language", value=f"Python (Version - {pythonVersion})")
@@ -33,9 +33,9 @@ class Help(commands.Cog):
         embed.add_field(name="Total Connected Members", value=memberCount)
         embed.add_field(name="Total Connected Channels", value=channelCount)
         embed.add_field(name="Bot Developer", value="Subrata#3297")
-        embed.set_footer(text=f"Bot ID : {self.bot.user.id} | Created At | {date} | Version : 1.4.0")
-        embed.set_thumbnail(url=self.bot.user.avatar_url)
-        embed.set_author(name=f"{self.bot.user.name}#{self.bot.user.discriminator} | Bot Info !", icon_url=self.bot.user.avatar_url)
+        embed.set_footer(text=f"Bot ID : {self.client.user.id} | Created At | {date} | Version : 1.4.0")
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        embed.set_author(name=f"{self.client.user.name}#{self.client.user.discriminator} | Bot Info !", icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
     @commands.command()
