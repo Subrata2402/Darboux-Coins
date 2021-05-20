@@ -78,7 +78,21 @@ class Help(commands.Cog):
             embed2=discord.Embed(description=f"Suggestion successfully sent ✅\nSuggestion: {message}")
             await ctx.send(embed=embed2)
             
-
+    @commands.command()
+    async def feedback(self, ctx, *, message=None):
+        if message is None:
+            await ctx.send("Please specify a message to send.")
+        else:
+            member = await self.client.fetch_channel(844803633967005737)
+            embed=discord.Embed(title="__Feedback :__", description=message, color=0x00FFFF)
+            embed.set_footer(text=f"User ID: {ctx.author.id}")
+            embed.set_author(name=f"{ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar_url)
+            embed.set_thumbnail(url=ctx.author.avatar_url)
+            embed.timestamp = (datetime.datetime.utcnow())
+            await member.send(embed=embed)
+            
+            embed2=discord.Embed(description=f"Feedback successfully sent. Thanks for your feedback.")
+            await ctx.send(embed=embed2)
 
 
 def setup(client):
