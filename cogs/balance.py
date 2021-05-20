@@ -87,7 +87,7 @@ class Details(commands.Cog):
             embed=discord.Embed(title="⚠️ Token Expired", description=f"{description}\nThis account's tokens are expired. Please refresh your accounts to use this command `{ctx.prefix}refresh <username>`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await x.edit(embed=embed)
+            await ctx.send(embed=embed)
         else:
             return
 
