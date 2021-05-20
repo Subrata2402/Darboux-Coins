@@ -40,7 +40,7 @@ class Help(commands.Cog):
         page2.add_field(name=f"{ctx.prefix}details (username)", value="Get details of your HQ Trivia account.")
         page2.add_field(name=f"{ctx.prefix}hquser (username)", value="Get any HQ user's info.")
         page2.add_field(name=f"{ctx.prefix}remove (username)", value="Remove your HQ Trivia account from the bot database.")
-        page2.add_field(name=f"{ctx.prefix}remove all", value="Remove all saved accounts from bot database.")
+        page2.add_field(name=f"{ctx.prefix}removeall", value="Remove all saved accounts from bot database.")
         page2.add_field(name=f"{ctx.prefix}refresh (username)", value="Refresh your HQ account if token is expired.")
         page2.add_field(name=f"{ctx.prefix}recentwins (username)", value="Get recent some winnings of your HQ account.")
         page2.set_thumbnail(url=self.client.user.avatar_url)
