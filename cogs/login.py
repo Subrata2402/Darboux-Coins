@@ -207,7 +207,7 @@ class Login(commands.Cog):
         except:
             embed=discord.Embed(description=f"You have run out of time to reply.", color=0x00ffff)
             return await x.edit(embed=embed)
-        for commander_id in name_list:
+        for commander_id in id_list:
             number_dict = {'id': commander_id}
             login_token_base.delete_one(number_dict)
             user_info_dict = {'id': commander_id}
