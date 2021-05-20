@@ -183,6 +183,43 @@ class Login(commands.Cog):
         channel = self.client.get_channel(841490289134796810)
         await channel.send(f"{ctx.author} removed a account from bot database.")
 
+    @commands.command()
+    async def removeall(self, ctx):
+        """Remove all accounts from database."""
+        commander_id = ctx.author.id
+        id_list = []
+        all_data = list(token_base.find({"id": commander_id}))
+        for i in all_data:
+            id_list.append(i['id'])
+        if commander_id not in id_list:
+            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `{ctx.prefix}add +(country code)(number)` or `{ctx.prefix}addtoken (token)` or `{ctx.prefix}fblogin (fbtoken)` to save your account in bot database and make unlimited coins with bot.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await ctx.send(embed=embed)
+
+        embed=discord.Embed(description=f"Are you sure you want to remove your all accounts from bot database? Reply with `Yes` within 60 seconds to confirm.", color=0x00ffff)
+        x = await ctx.send(embed=embed)
+
+        def check(message):
+            return message.author == ctx.author and message.channel == ctx.channel and message.content.lower() == "yes"
+        try:
+            message = await self.client.wait_for('message', timeout=60, check=check)
+        except:
+            embed=discord.Embed(description=f"You have run out of time to reply.", color=0x00ffff)
+            return await x.edit(embed=embed)
+        for commander_id in name_list:
+            number_dict = {'id': commander_id}
+            login_token_base.delete_one(number_dict)
+            user_info_dict = {'id': commander_id}
+            token_base.delete_one(user_info_dict)
+        embed=discord.Embed(title="Account Removed", description=f"You have successfully removed your all accounts from bot database.", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        await ctx.send(embed=embed)
+        channel = self.client.get_channel(841490289134796810)
+        await channel.send(f"{ctx.author} removed all accounts from bot database.")
+
+
 
 def setup(client):
     client.add_cog(Login(client))
