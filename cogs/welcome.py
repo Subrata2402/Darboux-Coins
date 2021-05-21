@@ -17,25 +17,23 @@ class Welcome(commands.Cog):
         link = "www.google.com"
         date = member.created_at.__format__('%B %d, %Y %H:%M GMT')
         channel = self.bot.get_channel(831058732757942272)
-        role = discord.utils.get(member.guild.roles, name="Darboux || Members")
-        await member.add_roles(role)
-        role = discord.utils.get(member.guild.roles, name="Darboux || Security")
-        await member.add_roles(role)
-        embed=discord.Embed(description=f"**Hello {member.mention}, Welcome to this server. Now our server has total {member.guild.member_count} members.\nHere you can make unlimited coins for HQ Trivia. Come <#831056646176112691> and type `+help` for all Commands information.**", color=0x00FFFF)
-        #embed.add_field(name="**__Description :__**", value=f"**Thanks `{member.name}` for join this server, have a nice day! Invite your friends and support this server.**")
-        embed.set_author(name=member.guild.name, icon_url=member.guild.icon_url)
-        embed.set_thumbnail(url=member.avatar_url)
-        embed.set_footer(text=f"User ID: {member.id} | {date}", icon_url=member.avatar_url)
-        #embed.set_image(url=f"https://api.xzusfin.repl.co/card?avatar={member.avatar_url}&middle=Welcome&name={member.name}&bottom=Now+Our+Server+has+{member.guild.member_count}+members&background=https://cdn.discordapp.com/attachments/817427539135168562/817678318132264990/2c33e4c7167d0086420abfe69eb4a42b.jpg")
-        await channel.send(embed=embed)
-        #await channel.send(f"https://api.xzusfin.repl.co/card?avatar={member.avatar_url}&middle=Welcome&name={member.name}&bottom=Now+Our+Server+has+{member.guild.member_count}+members&background=https://cdn.discordapp.com/attachments/817427539135168562/817678318132264990/2c33e4c7167d0086420abfe69eb4a42b.jpg")
-        #await channel.send(f"**{member.name}#{member.discriminator}** just joined **{member.guild.name}**")
-        #await member.send(f"Hey {member.mention}, Welcome to **{member.guild.name}**! Thanks for Joining 👍👍\nType `+help` to get started.")
+        if member.guild.id == 831051146880614431:
+            role = discord.utils.get(member.guild.roles, name="Darboux || Members")
+            await member.add_roles(role)
+            role = discord.utils.get(member.guild.roles, name="Darboux || Security")
+            await member.add_roles(role)
+            embed=discord.Embed(description=f"**Hello {member.mention}, Welcome to this server. Now our server has total {member.guild.member_count} members.\nHere you can make unlimited coins for HQ Trivia. Come <#831056646176112691> and type `+help` for all Commands information.**", color=0x00FFFF)
+            embed.set_author(name=member.guild.name, icon_url=member.guild.icon_url)
+            embed.set_thumbnail(url=member.avatar_url)
+            embed.set_footer(text=f"User ID: {member.id} | {date}", icon_url=member.avatar_url)
+            return await channel.send(embed=embed)
+        
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         channel = self.bot.get_channel(831058602198171658)
-        await channel.send(f"**{member.name}#{member.discriminator}** just left the server **{member.guild.name}**")
+        if member.guild.id == 831051146880614431:
+            return await channel.send(f"**{member.name}#{member.discriminator}** just left the server **{member.guild.name}**")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
