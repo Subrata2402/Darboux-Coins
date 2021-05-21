@@ -37,7 +37,6 @@ class DcPlay(commands.Cog):
         all_data = list(q_base.find())
         for question in all_data:
             qt_base.insert_one(question)
-            break
         await ctx.send("success")
 
     @commands.command()
