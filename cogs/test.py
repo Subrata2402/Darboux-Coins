@@ -23,12 +23,21 @@ db = data.get_database("Darboux")#Your db name
 token_base = db.token
 q_base = db.questions
 
+data = MongoClient('mongodb+srv://Subrata3250:subrata3250@cluster0.ywnwn.mongodb.net/DarbouxCoinsBackup?retryWrites=true&w=majority')#Your Database Url
+db = data.get_database("DarbouxCoinsBackup")#Your db name
+qt_base = db.questions
+
 class DcPlay(commands.Cog):
 
     def __init__(self, client):
         self.client = client
 
-    
+    @commands.command()
+    async def qbackup(self, ctx)
+        all_data = list(q_base.find())
+        for question, option in all_data:
+            qt_base.insert_one({"question": question, "option": option})
+        await ctx.send("success")
 
     @commands.command()
     async def dcp(self, ctx, username:str):
