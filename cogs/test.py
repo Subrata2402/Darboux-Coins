@@ -23,8 +23,8 @@ db = data.get_database("Darboux")#Your db name
 token_base = db.token
 q_base = db.questions
 
-data = MongoClient('mongodb+srv://Subrata3250:subrata3250@cluster0.ywnwn.mongodb.net/DarbouxCoinsBackup?retryWrites=true&w=majority')#Your Database Url
-db = data.get_database("DarbouxCoinsBackup")#Your db name
+client = MongoClient("mongodb+srv://Subrata3250:subrata3250@cluster0.gqwt8.mongodb.net/DarbouxCoinsBackup?retryWrites=true&w=majority")
+db = client.get_database("DarbouxCoinsBackup")
 qt_base = db.questions
 
 class DcPlay(commands.Cog):
