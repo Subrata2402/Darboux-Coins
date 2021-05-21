@@ -17,7 +17,9 @@ class Welcome(commands.Cog):
         link = "www.google.com"
         date = member.created_at.__format__('%B %d, %Y %H:%M GMT')
         channel = self.bot.get_channel(831058732757942272)
-        role = discord.utils.get(member.guild.roles, id=int(844552999983513650))
+        role = discord.utils.get(member.guild.roles, name="Darboux || Members")
+        await member.add_roles(role)
+        role = discord.utils.get(member.guild.roles, name="Darboux || Security")
         await member.add_roles(role)
         embed=discord.Embed(description=f"**Hello {member.mention}, Welcome to this server. Now our server has total {member.guild.member_count} members.\nHere you can make unlimited coins for HQ Trivia. Come <#831056646176112691> and type `+help` for all Commands information.**", color=0x00FFFF)
         #embed.add_field(name="**__Description :__**", value=f"**Thanks `{member.name}` for join this server, have a nice day! Invite your friends and support this server.**")
