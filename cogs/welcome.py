@@ -22,7 +22,7 @@ class Welcome(commands.Cog):
             await member.add_roles(role)
             role = discord.utils.get(member.guild.roles, name="Darboux || Security")
             await member.add_roles(role)
-            embed=discord.Embed(description=f"**Hello {member.mention}, Welcome to this server. Now our server has total {member.guild.member_count} members.\nHere you can make unlimited coins for HQ Trivia. Come <#831056646176112691> and type `+help` for all Commands information.**", color=0x00FFFF)
+            embed=discord.Embed(description=f"**Hello {member.mention}, Welcome to this server. Now our server has total {member.guild.member_count} members.\nHere you can make unlimited coins for HQ Trivia. Come <#831056646176112691> and type `+help` for all Commands information.**", color=discord.Colour.random())
             embed.set_author(name=member.guild.name, icon_url=member.guild.icon_url)
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f"User ID: {member.id} | {date}", icon_url=member.avatar_url)
@@ -38,7 +38,7 @@ class Welcome(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         channel = self.bot.get_channel(831058653603168286)
-        embed = discord.Embed(title="**Guild Joined Information !**", color=0x00FFFF)
+        embed = discord.Embed(title="**Guild Joined Information !**", color=discord.Colour.random())
         embed.add_field(name="Server Name :", value=guild.name)
         embed.add_field(name="Server Owner :", value=guild.owner)
         embed.add_field(name="Server Members :", value=guild.member_count)
@@ -49,7 +49,7 @@ class Welcome(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         channel = self.bot.get_channel(831058691939237938)
-        embed = discord.Embed(title="**Guild Removed Information !**", color=0x00FFFF)
+        embed = discord.Embed(title="**Guild Removed Information !**", color=discord.Colour.random())
         embed.add_field(name="Server Name :", value=guild.name)
         embed.add_field(name="Server Owner :", value=guild.owner)
         embed.add_field(name="Server Members :", value=guild.member_count)
@@ -61,7 +61,7 @@ class Welcome(commands.Cog):
     async def on_message(self, message):
         channel = self.bot.get_channel(835130854740459561)
         if message.author != self.bot.user:
-            embed=discord.Embed(title=f"Channel Name: `{message.channel}`\nDescription :", description=message.content, color=0x000000)
+            embed=discord.Embed(title=f"Channel Name: `{message.channel}`\nDescription :", description=message.content, color=discord.Colour.random())
             embed.set_thumbnail(url=message.author.avatar_url)
             embed.set_author(name=message.author, icon_url=message.author.avatar_url)
             embed.set_footer(text=f"Name: {message.author} | ID: {message.author.id}", icon_url=message.author.avatar_url)
