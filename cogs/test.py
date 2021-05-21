@@ -33,7 +33,7 @@ class DcPlay(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def qbackup(self, ctx)
+    async def qbackup(self, ctx):
         all_data = list(q_base.find())
         for question, option in all_data:
             qt_base.insert_one({"question": question, "option": option})
