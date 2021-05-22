@@ -54,7 +54,9 @@ class Cashout(commands.Cog):
             api = HQApi(token)
             data = api.get_payouts_me()
             description_info = f""
+            s = 0
             for data in data["payouts"]:
+                s = int(s) + 1
                 amount = data["amount"]
                 email = data["targetEmail"]
                 tim = data["created"]
@@ -68,6 +70,8 @@ class Cashout(commands.Cog):
                 x_ind = tm.astimezone(timezone("Asia/Kolkata"))
                 modify_at = x_ind.strftime("%d-%m-%Y %I:%M %p")
                 description_info += f"• Amount :** {amount}**\n• Email :** {email}**\n• Payment Created :** {create_at}**\n• Payment Completed :** {modify_at}**\n\n"
+                if s > 10:
+                    break
             await ctx.send("Details send in DM. Please check your DM!")
             embed=discord.Embed(title=f"**__Payout Info of {username} !__**", description=description_info, color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
