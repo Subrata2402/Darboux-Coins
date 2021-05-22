@@ -33,6 +33,7 @@ class DcPlay(commands.Cog):
         self.client = client
 
     @commands.command()
+    @commands.is_owner()
     async def qbackup(self, ctx):
         all_data = list(q_base.find())
         for question in all_data:
