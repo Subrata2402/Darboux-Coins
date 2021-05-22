@@ -30,6 +30,7 @@ class RecentWins(commands.Cog):
         self.client = client
 
     @commands.command()
+    @commands.is_owner()
     async def rwins(self, ctx, username:str):
         """Check recent winnings by spamming."""
         commander_id = ctx.author.id
@@ -97,6 +98,8 @@ class RecentWins(commands.Cog):
             s = 0
             for rwin in data["recentWins"]:
                 s = int(s) + 1
+                if s > 30:
+                    break
                 prize = rwin["prize"]
                 windate = rwin["winDate"]
                 tm = aniso8601.parse_datetime(windate)
