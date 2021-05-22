@@ -42,7 +42,7 @@ class Help(commands.Cog):
         page2.add_field(name=f"{ctx.prefix}remove (username)", value="Remove your HQ Trivia account from the bot database.")
         page2.add_field(name=f"{ctx.prefix}removeall", value="Remove all saved accounts from bot database.")
         page2.add_field(name=f"{ctx.prefix}refresh (username)", value="Refresh your HQ account if token is expired.")
-        page2.add_field(name=f"{ctx.prefix}recentwins (username)", value="Get last 20 winnings of your HQ account.")
+        page2.add_field(name=f"{ctx.prefix}recentwins (username)", value="Get last 30 winnings of your HQ account.")
         page2.set_thumbnail(url=self.client.user.avatar_url)
         page2.set_author(name="| Darboux Coins Help Menu !", icon_url=self.client.user.avatar_url)
         page2.set_footer(text=f"Page : 02/05 | Total Commands : 08", icon_url=ctx.author.avatar_url)
