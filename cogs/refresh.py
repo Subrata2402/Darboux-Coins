@@ -37,7 +37,8 @@ class Refresh(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        x = await ctx.send("**Refreshing...**")
+        embed=discord.Embed(title="Refreshing...", color=discord.Colour.random())
+        x = await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
         all_data = list(token_base.find({"id": commander_id, "username": username}))
@@ -47,7 +48,7 @@ class Refresh(commands.Cog):
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
+            return await x.edit(embed=embed)
         try:
             token = login_token_base.find_one({'username': username})['access_token']
             api = HQApi(token)
@@ -62,9 +63,11 @@ class Refresh(commands.Cog):
             update = ({'username': name})
             token_base.update_one({'username': username}, {'$set': update})
             login_token_base.update_one({'username': username}, {'$set': update})
-            await x.edit(content="**Successfully refreshed your account ✅**")
+            embed=discord.Embed(title="Successfully refreshed your account ✅", color=discord.Colour.random())
+            await x.edit(embed=embed)
         except:
-            await x.edit(content="**Refreshing Failed!**")
+            embed=discord.Embed(title="Refreshing Failed!", color=discord.Colour.random())
+            await x.edit(embed=embed)
 
     @refresh.error
     async def on_command_error(self, ctx, error):
