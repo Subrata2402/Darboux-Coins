@@ -26,7 +26,7 @@ class Help(commands.Cog):
         channelCount = len(set(self.client.get_all_channels()))
         date = self.client.user.created_at.__format__("%b %d, %Y %I:%M %p")
         
-        embed = discord.Embed(description=f"Bot Prefix : `-`\nBot Latency : `{round(self.client.latency * 1000)}ms`", color=discord.Colour.random())
+        embed = discord.Embed(description=f"Bot Prefix : `{ctx.prefix}`\nBot Latency : `{round(self.client.latency * 1000)}ms`", color=discord.Colour.random())
         embed.add_field(name="Programing Language", value=f"Python (Version - {pythonVersion})")
         embed.add_field(name="Discord.py Version", value=dpyVersion)
         embed.add_field(name="Total Connected Guilds", value=serverCount)
@@ -97,7 +97,7 @@ class Help(commands.Cog):
     @commands.command()
     async def feedback(self, ctx, *, message=None):
         if message is None:
-            await ctx.send("Please specify a message to send.")
+            return await ctx.send("Please specify a message to send.")
         member = await self.client.fetch_channel(844803633967005737)
         embed=discord.Embed(title="__Feedback :__", description=message, color=discord.Colour.random())
         embed.set_footer(text=f"User ID: {ctx.author.id}")
