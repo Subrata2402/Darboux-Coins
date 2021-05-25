@@ -31,7 +31,13 @@ class Welcome(commands.Cog):
             embed.set_author(name=member.guild.name, icon_url=member.guild.icon_url)
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f"User ID: {member.id} | {date}", icon_url=member.avatar_url)
-            return await channel.send(embed=embed)
+            await channel.send(embed=embed)
+        else:
+            embed=discord.Embed(title=f"**Welcome to {member.guild.name}**", description=f"**Hey {member.mention}, Have a great time in {member.guild.name}. Make unlimited <:extra_coins:844448578881847326> Coins for HQ Trivia Game. Get started with `-help` for more details!\n\nJoin our support server for any help use `-support` or [Click Here](https://discord.gg/TAcEnfS8Rs)**", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.bot.user.avatar_url)
+            embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
+            embed.timestamp = datetime.datetime.utcnow()
+            await member.send(embed=embed)
         
 
     @commands.Cog.listener()
