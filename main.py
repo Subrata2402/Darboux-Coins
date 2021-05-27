@@ -38,14 +38,14 @@ async def on_ready():
     embed.set_footer(text=client.user, icon_url=client.user.avatar_url)
     await channel.send(embed=embed)
     while True:
-        await client.change_presence(activity=discord.Activity(type=3,name="on "+str(len(client.guilds))+" servers | -invite"))
+        #await client.change_presence(activity=discord.Activity(type=3,name="on "+str(len(client.guilds))+" servers | -invite"))
+        #await asyncio.sleep(5)
+        await client.change_presence(status=discord.Status.online, activity=discord.Game(name="with -dcplay <username>", type=2))
         await asyncio.sleep(5)
-        await client.change_presence(status=discord.Status.idle, activity=discord.Game(name="with -dcplay <username>", type=2))
+        await client.change_presence(status=discord.Status.online, activity=discord.Game(name="with Help ➜ -help", type=2))
         await asyncio.sleep(5)
-        await client.change_presence(status=discord.Status.dnd, activity=discord.Game(name="with Help ➜ -help", type=2))
-        await asyncio.sleep(5)
-        await client.change_presence(status=discord.Status.online, activity=discord.Game(name="with -addtoken <token>", type=2))
-        await asyncio.sleep(5)
+        #await client.change_presence(status=discord.Status.dnd, activity=discord.Game(name="with -addtoken <token>", type=2))
+        #await asyncio.sleep(5)
 
 @client.event
 async def on_message(msg):
@@ -54,13 +54,13 @@ async def on_message(msg):
    await client.process_commands(msg)
 
 @client.command()
-@commands.has_permissions(administrator=True)
+@commands.is_owner()
 async def say(ctx, *, msg):
     await ctx.message.delete()
     await ctx.send(msg)
     
 @client.command()
-@commands.has_permissions(administrator=True)
+@commands.is_owner()
 async def sayem(ctx, *, msg):
     await ctx.message.delete()
     embed=discord.Embed(description=msg, color=0x00ffff)
