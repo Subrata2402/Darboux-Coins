@@ -83,10 +83,10 @@ class DcPlay(commands.Cog):
             seconds=int(seconds)
             await asyncio.sleep(1)
             if hours <= 0:
-                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{minutes}** minute(s) **{seconds}** second(s) to play Daily Challenge once again.", color=discord.Colour.random())
+                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{minutes}** minute{'' if minutes == 1 else 's'} **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
             else:
-                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour(s) **{minutes}** minute(s) and **{seconds}** second(s) to play Daily Challenge once again.", color=discord.Colour.random())
+                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} **{minutes}** minute{'' if minutes == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
             offair_id = api.get_schedule()['offairTrivia']['games'][0]['gameUuid']
         while True:
