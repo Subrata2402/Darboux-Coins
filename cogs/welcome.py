@@ -74,7 +74,7 @@ class Welcome(commands.Cog):
         if message.guild:
             return
         if message.author != self.bot.user:
-            embed=discord.Embed(title=f"Channel Name: `{message.channel}`\nDescription :", description=message.content, color=discord.Colour.random())
+            embed=discord.Embed(description=message.content, color=discord.Colour.random())
             embed.set_thumbnail(url=message.author.avatar_url)
             embed.set_author(name=message.author, icon_url=message.author.avatar_url)
             embed.set_footer(text=f"Name: {message.author} | ID: {message.author.id}", icon_url=message.author.avatar_url)
