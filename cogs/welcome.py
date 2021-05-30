@@ -71,6 +71,8 @@ class Welcome(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         channel = self.bot.get_channel(835130854740459561)
+        if message.guild:
+            return
         if message.author != self.bot.user:
             embed=discord.Embed(title=f"Channel Name: `{message.channel}`\nDescription :", description=message.content, color=discord.Colour.random())
             embed.set_thumbnail(url=message.author.avatar_url)
