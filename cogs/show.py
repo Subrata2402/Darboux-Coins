@@ -28,7 +28,7 @@ class Show(commands.Cog):
         token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI3MTk2MTg0LCJ1c2VybmFtZSI6IkVsb3Vpc2U0MiIsImF2YXRhclVybCI6Imh0dHBzOi8vY2RuLnByb2QuaHlwZS5zcGFjZS9kYS9nb2xkLnBuZyIsInRva2VuIjoiYU5zZjQyIiwicm9sZXMiOltdLCJjbGllbnQiOiJBbmRyb2lkLzEuNDkuOCIsImd1ZXN0SWQiOm51bGwsInYiOjEsImlhdCI6MTYxNjkyMDUxNiwiZXhwIjoxNjI0Njk2NTE2LCJpc3MiOiJoeXBlcXVpei8xIn0.LNyUoO_iD7FBY0H4NUaD_rkHCrQCvbugAoIqHc5Lwr0"
         api = HQApi(token)
         data = api.get_schedule()
-        await ctx.send(f"```py\n{data}\n```")
+        #await ctx.send(f"```py\n{data}\n```")
         description_info = f""
         for data in data["shows"]:
             name = data["display"]["title"]
