@@ -43,7 +43,7 @@ class Show(commands.Cog):
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(aliases=["nexthq","hqnext"])
     async def nextshow(self, ctx):
         """Get HQ next show details."""
         api = HQApi()
