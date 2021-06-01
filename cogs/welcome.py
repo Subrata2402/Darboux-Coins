@@ -22,22 +22,28 @@ class Welcome(commands.Cog):
             await member.add_roles(role)
             role = discord.utils.get(member.guild.roles, name="Darboux || Security")
             await member.add_roles(role)
-            embed=discord.Embed(title=f"Welcome to {member.guild.name}", description=f"Hey {member.mention}, Have a great time in {member.guild.name}. Go to <#831056646176112691> and start making HQ Coins and many more for free. So stay here and enjoy!", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.bot.user.avatar_url)
-            embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
-            embed.timestamp = datetime.datetime.utcnow()
-            await member.send(embed=embed)
+            try:
+                embed=discord.Embed(title=f"Welcome to {member.guild.name}", description=f"Hey {member.mention}, Have a great time in {member.guild.name}. Go to <#831056646176112691> and start making HQ Coins and many more for free. So stay here and enjoy!", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.bot.user.avatar_url)
+                embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
+                embed.timestamp = datetime.datetime.utcnow()
+                await member.send(embed=embed)
+            except:
+                pass
             embed=discord.Embed(description=f"**Hello {member.mention}, Welcome to this server. Now our server has total {member.guild.member_count} members.\nHere you can make unlimited coins for HQ Trivia. Come <#831056646176112691> and type `+help` for all Commands information.**", color=discord.Colour.random())
             embed.set_author(name=member.guild.name, icon_url=member.guild.icon_url)
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f"User ID: {member.id} | {date}", icon_url=member.avatar_url)
             await channel.send(embed=embed)
         else:
-            embed=discord.Embed(title=f"**Welcome to {member.guild.name}**", description=f"**Hey {member.mention}, Have a great time in {member.guild.name}. Make unlimited <:extra_coins:844448578881847326> Coins for HQ Trivia Game. Get started with `-help` for more details!\n\nJoin our support server for any help use `-support` or [Click Here](https://discord.gg/TAcEnfS8Rs)**", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.bot.user.avatar_url)
-            embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
-            embed.timestamp = datetime.datetime.utcnow()
-            await member.send(embed=embed)
+            try:
+                embed=discord.Embed(title=f"**Welcome to {member.guild.name}**", description=f"**Hey {member.mention}, Have a great time in {member.guild.name}. Make unlimited <:extra_coins:844448578881847326> Coins for HQ Trivia Game. Get started with `-help` for more details!\n\nJoin our support server for any help use `-support` or [Click Here](https://discord.gg/TAcEnfS8Rs)**", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.bot.user.avatar_url)
+                embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
+                embed.timestamp = datetime.datetime.utcnow()
+                await member.send(embed=embed)
+            except:
+                pass
         
 
     @commands.Cog.listener()
