@@ -86,10 +86,14 @@ class DcPlay(commands.Cog):
             hours=int(hours)
             minutes=((milli/(60))-(hours*(60)))
             minutes=int(minutes)
+            hm = hours + minutes
             seconds=((milli)-(hours*(3600))-(minutes*(60)))
             seconds=int(seconds)
             await asyncio.sleep(1)
-            if hours <= 0:
+            if hm == 0:
+                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
+                await x.edit(embed=embed)
+            elif hours == 0:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{minutes}** minute{'' if minutes == 1 else 's'} **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
             else:
