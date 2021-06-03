@@ -25,7 +25,7 @@ bot_prefix = "-","+"
 
 
 intents = discord.Intents.all()
-client = commands.Bot(command_prefix = bot_prefix, intents=intents)
+client = commands.Bot(command_prefix = bot_prefix, intents=intents, strip_after_prefix=True)
 client.remove_command('help')
 
 @client.event
