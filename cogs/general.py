@@ -32,7 +32,7 @@ class Help(commands.Cog):
         embed.add_field(name="Total Connected Guilds", value=serverCount)
         embed.add_field(name="Total Connected Members", value=memberCount)
         embed.add_field(name="Total Connected Channels", value=channelCount)
-        embed.add_field(name="Bot Developer", value="Subrata#3297")
+        embed.add_field(name="Bot Developer", value="Schrodinger#8447")
         embed.set_footer(text=f"Bot ID : {self.client.user.id} | Created At | {date} | Version : 1.4.0")
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_author(name=f"{self.client.user.name}#{self.client.user.discriminator} | Bot Info !", icon_url=self.client.user.avatar_url)
