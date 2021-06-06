@@ -70,11 +70,11 @@ class Friends(commands.Cog):
             s = s + 1
             description_info += f"• Username: **{name}** ({total})\n• Description: **({gamesPlayed}, {winCount}, {highScore})**\n\n"
         if s == 0:
-            embed=discord.Embed(description=f"Couldn't find any friends in your friend list.", color=discord.Colour.random())
+            embed=discord.Embed(title=f"**__{username}'s Friends List !__**", description=f"Couldn't find any friends in your friend list.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        embed=discord.Embed(title=f"**__{username}'s Friends List !__**\nYou have {s} Friend{'' if s == 1 else 's'}.", description=description_info, color=discord.Colour.random())
+        embed=discord.Embed(title=f"**__{username}'s Friends List !__**\n\nYou have {s} Friend{'' if s == 1 else 's'}.", description=f"Description Format :\n(Games Played, Total Wins, High Score)\n\n{description_info}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
