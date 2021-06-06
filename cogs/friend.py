@@ -59,7 +59,8 @@ class Friends(commands.Cog):
         headers = {"Authorization": f"Bearer {token}",
                    "x-hq-client": "Android/1.3.0"}
         r = requests.get(url = url, headers=headers).json()
-        description_info = f""
+        description_info_1 = f""
+        description_info_2 = f""
         s = 0
         for data in r["data"]:
             name = data["username"]
@@ -68,16 +69,25 @@ class Friends(commands.Cog):
             gamesPlayed = data["gamesPlayed"]
             winCount = data["winCount"]
             s = s + 1
-            description_info += f"• Username: **{name}** ({total})\n• Description: **({gamesPlayed}, {winCount}, {highScore})**\n\n"
+            if s < 21:
+                description_info_1 += f"• Username: **{name}** ({total})\n• Description: **({gamesPlayed}, {winCount}, {highScore})**\n\n"
+            else:
+                description_info_2 += f"• Username: **{name}** ({total})\n• Description: **({gamesPlayed}, {winCount}, {highScore})**\n\n"
         if s == 0:
             embed=discord.Embed(title=f"**__{username}'s Friends List !__**", description=f"Couldn't find any friends in your friend list.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        embed=discord.Embed(title=f"**__{username}'s Friends List !__**\n\nYou have {s} Friend{'' if s == 1 else 's'}.", description=f"Description Format :\n(Games Played, Total Wins, High Score)\n\n{description_info}", color=discord.Colour.random())
+        embed=discord.Embed(title=f"**__{username}'s Friends List !__**\n\nYou have {s} Friend{'' if s == 1 else 's'}.", description=f"Description Format :\n**(Games Played, Total Wins, High Score)**\n\n{description_info_1}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
+        if s > 20:
+            embed=discord.Embed(title=f"**__{username}'s Friends List !__**", description=description_info_2, color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.send(embed=embed)
+        
 
     @commands.command()
     async def addfriend(self, ctx, username=None, name=None):
