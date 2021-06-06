@@ -29,7 +29,7 @@ class UserStats(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=["user"])
+    @commands.command(aliases=["user", "hqstats", "hqstat"])
     async def hquser(self, ctx, name:str):
         """Get any user's stats."""
         token = token_base.find_one({"username": "bernita48"})["token"]
@@ -57,7 +57,7 @@ class UserStats(commands.Cog):
             embed.set_footer(text=f"User ID : {id} | Created At : {at}")
             await ctx.send(embed=embed)
         except:
-            embed=discord.Embed(title="❎ Not Found", description=f"Couldn't find this account with name `{name}`. Please check your name spelling and try again.", color=discord.Colour.random())
+            embed=discord.Embed(title="❎ Not Found", description=f"Couldn't find any HQ account account with name `{name}`.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
