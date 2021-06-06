@@ -111,10 +111,15 @@ class DcPlay(commands.Cog):
             option3=f"{answers[2]}"
             
             if question in q_list:
-                option = q_base.find_one({'question': question})['option']
-                select = int(option)
+                answer = q_base.find_one({'question': question})['answer']
+                if option1 == answer:
+                    select = 1
+                elif option2 == answer:
+                    select = 2
+                else:
+                    select = 3
             else:
-                select = int(2)
+                select = 2
             data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             answer_counts = {}
             correct = ""
