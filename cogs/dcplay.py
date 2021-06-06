@@ -28,7 +28,13 @@ class DcPlay(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    
+    @commands.command()
+    @commands.is_owner()
+    async def tq(self, ctx):
+        total_question = len(q_base.find())
+        embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**{total_question}**", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["play"])
     async def dcplay(self, ctx, username:str=None):
