@@ -60,14 +60,21 @@ class Friends(commands.Cog):
                    "x-hq-client": "Android/1.3.0"}
         r = requests.get(url = url, headers=headers).json()
         description_info = f""
+        s = 0
         for data in r["data"]:
             name = data["username"]
             total = data["leaderboard"]["total"]
             highScore = data["highScore"]
             gamesPlayed = data["gamesPlayed"]
             winCount = data["winCount"]
+            s = s + 1
             description_info += f"• Username: **{name}** ({total})\n• Description: **({gamesPlayed}, {winCount}, {highScore})**\n\n"
-        embed=discord.Embed(title=f"**__{username}'s Friends List !__**", description=description_info, color=discord.Colour.random())
+        if s == 0:
+            embed=discord.Embed(description=f"Couldn't find any friends in your friend list.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await ctx.send(embed=embed)
+        embed=discord.Embed(title=f"**__{username}'s Friends List !__**\nYou have {s} Friend{'' if s == 1 else 's'}.", description=description_info, color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
