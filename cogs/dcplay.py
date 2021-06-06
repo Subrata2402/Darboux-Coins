@@ -38,7 +38,7 @@ class DcPlay(commands.Cog):
         tq = 0
         for i in all_data:
             tq = tq + 1
-        embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ {tq}**", color=discord.Colour.random())
+        embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ {tq}** <:questions:851142736442687488>", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await x.edit(embed=embed)
 
