@@ -70,7 +70,7 @@ class LoginToken(commands.Cog):
     @commands.is_owner()
     async def update(self, ctx):
         token_list = []
-        all_data = list(token_base.find({"id": ctx.author.id}))
+        all_data = list(token_base.find())
         for i in all_data:
             token_list.append(i['token'])
         for token in token_list:
