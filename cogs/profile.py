@@ -75,9 +75,10 @@ class Profile(commands.Cog):
         for i in all_data:
             token_list.append(i['token'])
         s = 0
-        value_1 = ""
-        name_1 = ""
         embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
+        embed2=discord.Embed(color=discord.Colour.random())
+        embed3=discord.Embed(color=discord.Colour.random())
+        embed4=discord.Embed(color=discord.Colour.random())
         for token in token_list:
             try:
                 api = HQApi(token)
@@ -98,15 +99,33 @@ class Profile(commands.Cog):
                 unclaimed = bal["frozen"]
 
                 s = s + 1
-                name_1 += f"{s}. {username}"
-            
-                value_1 += f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
-                embed.add_field(name=name_1, value=value_1)
+                if s < 21:
+                    name = f"{s}. {username}"
+                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    embed.add_field(name=name, value=value)
+                if s < 41:
+                    name = f"{s}. {username}"
+                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    embed2.add_field(name=name, value=value)
+                if s < 61:
+                    name = f"{s}. {username}"
+                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    embed3.add_field(name=name, value=value)
             except:
                 pass
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await x.edit(embed=embed)
+        if s <= 20:
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await x.edit(embed=embed)
+        if s <= 40:
+            embed2.set_thumbnail(url=self.client.user.avatar_url)
+            embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.send(embed=embed2)
+        if s <= 60:
+            embed3.set_thumbnail(url=self.client.user.avatar_url)
+            embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.send(embed=embed)
+        
 
 
 
