@@ -68,19 +68,18 @@ class LoginToken(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def getslt(self, ctx, username:str):
-        """Get save login token."""
-        commander_id = ctx.author.id
-        id_list = []
-        all_data = list(token_base.find())
+    async def update(self, ctx):
+        token_list = []
+        all_data = list(token_base.find({"id": ctx.author.id}))
         for i in all_data:
-            id_list.append(i['id'])
-        if commander_id in id_list:
-            login_token = login_token_base.find_one({'username': username})['login_token']
-            await ctx.send(f"```\n{login_token}\n```")
-        else:
-            await ctx.send(f"**I can't find an account with name `{username}`**")
-
+            token_list.append(i['token'])
+        for token in token_list:
+            api = HQApi(token)
+            data = api.get_users_me()
+            id = data["userId"]
+            update = {"user_id": id}
+            token_base.update_one({"token": token}, {"$set": update})
+        await ctx.send("success")
 
 
 def setup(client):
