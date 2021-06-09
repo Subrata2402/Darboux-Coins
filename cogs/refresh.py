@@ -41,7 +41,7 @@ class Refresh(commands.Cog):
         x = await ctx.send(embed=embed)
         commander_id = ctx.author.id
         name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
+        all_data = list(login_token_base.find({"id": commander_id}))
         for i in all_data:
             name_list.append(i['username'])
         if username not in name_list:
@@ -50,12 +50,8 @@ class Refresh(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await x.edit(embed=embed)
         try:
-            token = login_token_base.find_one({'username': username})['access_token']
-            api = HQApi(token)
-            data = api.get_login_token()
-            lt = data["loginToken"]
-            data = api.get_tokens(lt)
-            print(data)
+            token = login_token_base.find_one({'username': username})['login_token']
+            data = api.get_tokens(token)
             name = data["username"]
             access_token = data["accessToken"]
             update = ({'token': access_token})
@@ -68,12 +64,6 @@ class Refresh(commands.Cog):
         except:
             embed=discord.Embed(title="Refreshing Failed!", color=discord.Colour.random())
             await x.edit(embed=embed)
-
-    @refresh.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f'```\n{error}\n```')
-
 
 
 def setup(client):
