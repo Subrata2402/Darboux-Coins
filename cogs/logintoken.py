@@ -59,7 +59,7 @@ class LoginToken(commands.Cog):
             user_info_dict = {'id': user_id,
                               'login_token': login_token,
                               'access_token': access_token,
-                              'username': username, "user_id" id}
+                              'username': username, "user_id": id}
             login_token_base.insert_one(user_info_dict)
             await ctx.send(f"**Successfully add this account with name ||{username}||**")
         else:
