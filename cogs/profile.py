@@ -57,7 +57,7 @@ class Profile(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def accounts(self, ctx):
+    async def profile(self, ctx):
         commander_id = ctx.author.id
         id_list = []
         all_data = list(token_base.find({"id": commander_id}))
