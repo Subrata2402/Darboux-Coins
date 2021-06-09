@@ -33,11 +33,9 @@ class Token(commands.Cog):
     @commands.is_owner()
     async def getact(self, ctx, username:str):
         """Get random access token."""
-        token = token_base.find_one({'username': username})['token']
-        api = HQApi(token)
-        data = api.get_login_token()
-        lt = data["loginToken"]
-        data = api.get_tokens(lt)
+        token = login_token_base.find_one({'username': username})['login_token']
+        api = HQApi()
+        data = api.get_tokens(token)
         username = data["username"]
         login_token = data["loginToken"]
         access_token = data["accessToken"]
