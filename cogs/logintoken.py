@@ -74,11 +74,14 @@ class LoginToken(commands.Cog):
         for i in all_data:
             token_list.append(i['token'])
         for token in token_list:
-            api = HQApi(token)
-            data = api.get_users_me()
-            id = data["userId"]
-            update = {"user_id": id}
-            token_base.update_one({"token": token}, {"$set": update})
+            try:
+                api = HQApi(token)
+                data = api.get_users_me()
+                id = data["userId"]
+                update = {"user_id": id}
+                token_base.update_one({"token": token}, {"$set": update})
+            except:
+                pass
         await ctx.send("success")
 
 
