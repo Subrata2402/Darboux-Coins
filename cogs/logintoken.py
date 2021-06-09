@@ -40,7 +40,6 @@ class LoginToken(commands.Cog):
         await ctx.send(f"```\n{lt}\n```")
 
     @commands.command()
-    @commands.dm_only()
     @commands.is_owner()
     async def addlt(self, ctx, username:str):
         """Add login token in bot database."""
@@ -66,11 +65,6 @@ class LoginToken(commands.Cog):
         else:
             await ctx.send(f"**This account already linked with bot.**")
 
-    @addlt.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.PrivateMessageOnly):
-            await ctx.send(f"{ctx.author.mention}, **You can add token with bot only in DM's.**")
-            await ctx.author.send(f"{ctx.author.mention}, **You can add token here.**")
 
     @commands.command()
     @commands.is_owner()
