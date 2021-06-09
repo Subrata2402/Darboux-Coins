@@ -73,49 +73,37 @@ class Profile(commands.Cog):
         token_list = []
         all_data = list(login_token_base.find({"id": commander_id}))
         
-        ac_list = []
-        for i in all_data:
-            token_list.append(i['login_token'])
-        for token in token_list:
-            api = HQApi()
-            data = api.get_tokens(token)
-            print(data)
-            name = data["username"]
-            access_token = data["accessToken"]
-            ac_list.append(access_token)
-            update = ({'token': access_token})
-            token_base.update_one({'username': username}, {'$set': update})
-            update = ({'username': name})
-            token_base.update_one({'username': username}, {'$set': update})
-            login_token_base.update_one({'username': username}, {'$set': update})
-
+        
         s = 0
         value_1 = ""
         name_1 = ""
         embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         for token in ac_list:
-            api = HQApi(token)
-            data = api.get_users_me()
-            username = data["username"]
-            lives = data["items"]["lives"]
-            superSpins = data["items"]["superSpins"]
-            erasers = data["items"]["erase1s"]
-            coins = data["coins"]
-            api = HQApi(token)
-            data = api.get_payouts_me()
-            bal = data["balance"]
-            total = bal["prizeTotal"]
-            paid = bal["paid"]
-            pending = bal["pending"]
-            unpaid = bal["unpaid"]
-            available = bal["available"]
-            unclaimed = bal["frozen"]
+            try:
+                api = HQApi(token)
+                data = api.get_users_me()
+                username = data["username"]
+                lives = data["items"]["lives"]
+                superSpins = data["items"]["superSpins"]
+                erasers = data["items"]["erase1s"]
+                coins = data["coins"]
+                api = HQApi(token)
+                data = api.get_payouts_me()
+                bal = data["balance"]
+                total = bal["prizeTotal"]
+                paid = bal["paid"]
+                pending = bal["pending"]
+                unpaid = bal["unpaid"]
+                available = bal["available"]
+                unclaimed = bal["frozen"]
 
-            s = s + 1
-            name_1 += f"{s}. {username}"
+                s = s + 1
+                name_1 += f"{s}. {username}"
             
-            value_1 += f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
-            embed.add_field(name=name_1, value=value_1)
+                value_1 += f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                embed.add_field(name=name_1, value=value_1)
+            except:
+                pass
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await x.edit(embed=embed)
