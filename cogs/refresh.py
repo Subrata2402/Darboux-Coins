@@ -50,6 +50,7 @@ class Refresh(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await x.edit(embed=embed)
         try:
+            api = HQApi()
             token = login_token_base.find_one({'username': username})['login_token']
             data = api.get_tokens(token)
             name = data["username"]
