@@ -124,7 +124,7 @@ class Profile(commands.Cog):
         if s <= 60:
             embed3.set_thumbnail(url=self.client.user.avatar_url)
             embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed3)
         
 
 
