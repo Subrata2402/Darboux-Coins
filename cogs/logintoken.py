@@ -50,6 +50,7 @@ class LoginToken(commands.Cog):
         lt = data["loginToken"]
         data = api.get_tokens(lt)
         username = data["username"]
+        id = data["userId"]
         login_token = data["loginToken"]
         access_token = data["accessToken"]
         user_id = ctx.author.id
@@ -59,7 +60,7 @@ class LoginToken(commands.Cog):
             user_info_dict = {'id': user_id,
                               'login_token': login_token,
                               'access_token': access_token,
-                              'username': username}
+                              'username': username, "user_id" id}
             login_token_base.insert_one(user_info_dict)
             await ctx.send(f"**Successfully add this account with name ||{username}||**")
         else:
