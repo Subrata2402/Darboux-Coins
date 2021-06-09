@@ -71,14 +71,14 @@ class Profile(commands.Cog):
         embed=discord.Embed(title="**Loading A/c(s)...**", color=discord.Colour.random())
         x = await ctx.send(embed=embed)
         token_list = []
-        all_data = list(login_token_base.find({"id": commander_id}))
-        
-        
+        all_data = list(token_base.find({"id": commander_id}))
+        for i in all_data:
+            token_list.append(i['token'])
         s = 0
         value_1 = ""
         name_1 = ""
         embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
-        for token in ac_list:
+        for token in token_list:
             try:
                 api = HQApi(token)
                 data = api.get_users_me()
