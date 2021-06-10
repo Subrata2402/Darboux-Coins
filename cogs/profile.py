@@ -153,7 +153,7 @@ class Profile(commands.Cog):
         for i in all_data:
             token_list.append(i['token'])
         s = 0
-        embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
+        embed1=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
         embed4=discord.Embed(color=discord.Colour.random())
@@ -193,10 +193,9 @@ class Profile(commands.Cog):
                     embed3.add_field(name=name, value=value)
             except:
                 pass
-        await x.delete()
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await ctx.send(embed=embed)
+        embed1.set_thumbnail(url=self.client.user.avatar_url)
+        embed1.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        await x.edit(embed=embed1)
         embed2.set_thumbnail(url=self.client.user.avatar_url)
         embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed2)
