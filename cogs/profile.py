@@ -57,7 +57,7 @@ class Profile(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def profile(self, ctx):
+    async def profile2(self, ctx):
         commander_id = ctx.author.id
         id_list = []
         all_data = list(token_base.find({"id": commander_id}))
@@ -135,7 +135,7 @@ class Profile(commands.Cog):
             await ctx.send(embed=embed3)
 
     @commands.command()
-    async def profile2(self, ctx):
+    async def profile(self, ctx):
         commander_id = ctx.author.id
         id_list = []
         all_data = list(token_base.find({"id": commander_id}))
@@ -182,7 +182,7 @@ class Profile(commands.Cog):
                 if s < 21:
                     name = f"{s}. {username}"
                     value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
-                    embed.add_field(name=name, value=value)
+                    embed1.add_field(name=name, value=value)
                 elif s < 41:
                     name = f"{s}. {username}"
                     value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
