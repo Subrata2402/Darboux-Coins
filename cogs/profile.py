@@ -75,9 +75,9 @@ class Profile(commands.Cog):
         for i in all_data:
             token_list.append(i['token'])
         s = 0
-        value_1 = ""
-        value_2 = ""
-        value_3 = ""
+        value_1 = f""
+        value_2 = f""
+        value_3 = f""
         for token in token_list:
             try:
                 
