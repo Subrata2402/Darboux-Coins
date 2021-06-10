@@ -78,6 +78,7 @@ class Profile(commands.Cog):
         value_1 = f""
         value_2 = f""
         value_3 = f""
+        value_4 = f""
         for token in token_list:
             try:
                 
@@ -101,32 +102,110 @@ class Profile(commands.Cog):
                 s = s + 1
                 embed=discord.Embed(title=f"**Loading A/c(s)...({s})**", color=discord.Colour.random())
                 await x.edit(embed=embed)
-                if s <= 20:
+                if s <= 15:
                     value_1 += f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
-                elif s <= 40:
+                elif s <= 30:
                     value_2 += f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
-                else:
+                elif s <= 45:
                     value_3 += f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
+                else:
+                    value_4 += f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
+
             except:
                 pass
-        if s <= 20:
+        if s <= 15:
             embed=discord.Embed(title="__Available Linked Accounts !__", description=value_1, color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=embed)
-        if s <= 40:
+        if s <= 30:
             embed2=discord.Embed(description=value_2, color=discord.Colour.random())
             embed2.set_thumbnail(url=self.client.user.avatar_url)
             embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed2)
-        if s <= 60:
+        if s <= 45:
             embed3=discord.Embed(description=value_3, color=discord.Colour.random())
             embed3.set_thumbnail(url=self.client.user.avatar_url)
             embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed3)
+        if s <= 60:
+            embed3=discord.Embed(description=value_4, color=discord.Colour.random())
+            embed3.set_thumbnail(url=self.client.user.avatar_url)
+            embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.send(embed=embed3)
+
+    @commands.command()
+    async def profile2(self, ctx):
+        commander_id = ctx.author.id
+        id_list = []
+        all_data = list(token_base.find({"id": commander_id}))
+        for i in all_data:
+            id_list.append(i['id'])
+        if commander_id not in id_list:
+            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `{ctx.prefix}add +(country code)(number)` or `{ctx.prefix}addtoken (token)` or `{ctx.prefix}fblogin (fbtoken)` to save your account in bot database and make unlimited coins with bot.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await ctx.send(embed=embed)
+        embed=discord.Embed(title="**Loading A/c(s)...**", color=discord.Colour.random())
+        x = await ctx.send(embed=embed)
+        token_list = []
+        all_data = list(token_base.find({"id": commander_id}))
+        for i in all_data:
+            token_list.append(i['token'])
+        s = 0
+        embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
+        embed2=discord.Embed(color=discord.Colour.random())
+        embed3=discord.Embed(color=discord.Colour.random())
+        embed4=discord.Embed(color=discord.Colour.random())
+        for token in token_list:
+            try:
+                api = HQApi(token)
+                data = api.get_users_me()
+                username = data["username"]
+                lives = data["items"]["lives"]
+                superSpins = data["items"]["superSpins"]
+                erasers = data["items"]["erase1s"]
+                coins = data["coins"]
+                api = HQApi(token)
+                data = api.get_payouts_me()
+                bal = data["balance"]
+                total = bal["prizeTotal"]
+                paid = bal["paid"]
+                pending = bal["pending"]
+                unpaid = bal["unpaid"]
+                available = bal["available"]
+                unclaimed = bal["frozen"]
+
+                s = s + 1
+                embed=discord.Embed(title=f"**Loading A/c(s)...({s})**", color=discord.Colour.random())
+                await x.edit(embed=embed)
+                if s < 21:
+                    name = f"{s}. {username}"
+                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    embed.add_field(name=name, value=value)
+                elif s < 41:
+                    name = f"{s}. {username}"
+                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    embed2.add_field(name=name, value=value)
+                else:
+                    name = f"{s}. {username}"
+                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    embed3.add_field(name=name, value=value)
+            except:
+                pass
+        if s <= 20:
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await x.edit(embed=embed)
+        if s <= 40:
+            embed2.set_thumbnail(url=self.client.user.avatar_url)
+            embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.send(embed=embed2)
+        if s <= 60:
+            embed3.set_thumbnail(url=self.client.user.avatar_url)
+            embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.send(embed=embed3)
         
-
-
 
 def setup(client):
     client.add_cog(Profile(client))
