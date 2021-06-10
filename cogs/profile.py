@@ -99,15 +99,17 @@ class Profile(commands.Cog):
                 unclaimed = bal["frozen"]
 
                 s = s + 1
+                embed=discord.Embed(title=f"**Loading A/c(s)...({s})**", color=discord.Colour.random())
+                await x.edit(embed=embed)
                 if s < 21:
                     name = f"{s}. {username}"
                     value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed.add_field(name=name, value=value)
-                if s < 41:
+                elif s < 41:
                     name = f"{s}. {username}"
                     value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed2.add_field(name=name, value=value)
-                if s < 61:
+                else:
                     name = f"{s}. {username}"
                     value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed3.add_field(name=name, value=value)
