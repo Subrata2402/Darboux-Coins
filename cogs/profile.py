@@ -115,12 +115,12 @@ class Profile(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=embed)
         if s <= 40:
-            embed=discord.Embed(description=value_2, color=discord.Colour.random())
+            embed2=discord.Embed(description=value_2, color=discord.Colour.random())
             embed2.set_thumbnail(url=self.client.user.avatar_url)
             embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed2)
         if s <= 60:
-            embed=discord.Embed(description=value_3, color=discord.Colour.random())
+            embed3=discord.Embed(description=value_3, color=discord.Colour.random())
             embed3.set_thumbnail(url=self.client.user.avatar_url)
             embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed3)
