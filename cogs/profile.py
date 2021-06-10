@@ -193,15 +193,15 @@ class Profile(commands.Cog):
                     embed3.add_field(name=name, value=value)
             except:
                 pass
-        if s < 21:
+        if s > 0:
             embed1.set_thumbnail(url=self.client.user.avatar_url)
             embed1.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=embed1)
-        if s < 41:
+        if s > 20:
             embed2.set_thumbnail(url=self.client.user.avatar_url)
             embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed2)
-        if s < 61:
+        if s > 40:
             embed3.set_thumbnail(url=self.client.user.avatar_url)
             embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed3)
