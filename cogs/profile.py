@@ -181,30 +181,27 @@ class Profile(commands.Cog):
                 await x.edit(embed=embed)
                 if s < 21:
                     name = f"{s}. {username}"
-                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed.add_field(name=name, value=value)
                 elif s < 41:
                     name = f"{s}. {username}"
-                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed2.add_field(name=name, value=value)
                 else:
                     name = f"{s}. {username}"
-                    value = f"<:extra_coins:844448578881847326> {coins}\t<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\t<:super_spin:844448472908300299> {superSpins}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                    value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed3.add_field(name=name, value=value)
             except:
                 pass
-        if s <= 20:
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await x.edit(embed=embed)
-        if s <= 40:
-            embed2.set_thumbnail(url=self.client.user.avatar_url)
-            embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed2)
-        if s <= 60:
-            embed3.set_thumbnail(url=self.client.user.avatar_url)
-            embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed3)
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        await x.edit(embed=embed)
+        embed2.set_thumbnail(url=self.client.user.avatar_url)
+        embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        await ctx.send(embed=embed2)
+        embed3.set_thumbnail(url=self.client.user.avatar_url)
+        embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        await ctx.send(embed=embed3)
         
 
 def setup(client):
