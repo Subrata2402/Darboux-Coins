@@ -102,11 +102,11 @@ class Profile(commands.Cog):
                 embed=discord.Embed(title=f"**Loading A/c(s)...({s})**", color=discord.Colour.random())
                 await x.edit(embed=embed)
                 if s <= 20:
-                    value_1 + = f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
+                    value_1 += f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
                 elif s <= 40:
-                    value_2 + = f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
+                    value_2 += f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
                 else:
-                    value_3 + = f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
+                    value_3 += f"**__{s}. {username}__**\n<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout.\n\n"
             except:
                 pass
         if s <= 20:
