@@ -193,9 +193,10 @@ class Profile(commands.Cog):
                     embed3.add_field(name=name, value=value)
             except:
                 pass
+        await x.delete()
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await x.edit(embed=embed)
+        await ctx.send(embed=embed)
         embed2.set_thumbnail(url=self.client.user.avatar_url)
         embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed2)
