@@ -64,11 +64,11 @@ class Profile(commands.Cog):
         for i in all_data:
             id_list.append(i['id'])
         if commander_id not in id_list:
-            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `{ctx.prefix}add +(country code)(number)` or `{ctx.prefix}addtoken (token)` or `{ctx.prefix}fblogin (fbtoken)` to save your account in bot database and make unlimited coins with bot.", color=discord.Colour.random())
+            embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        embed=discord.Embed(title="**Loading A/c(s)...**", color=discord.Colour.random())
+        embed=discord.Embed(title="**Loading Your Accounts...**", color=discord.Colour.random())
         x = await ctx.send(embed=embed)
         token_list = []
         all_data = list(token_base.find({"id": commander_id}))
@@ -99,7 +99,7 @@ class Profile(commands.Cog):
                 unclaimed = bal["frozen"]
 
                 s = s + 1
-                embed=discord.Embed(title=f"**Loading A/c(s)...({s})**", color=discord.Colour.random())
+                embed=discord.Embed(title=f"**Loading Your Accounts... - {s}**", color=discord.Colour.random())
                 await x.edit(embed=embed)
                 if s < 21:
                     name = f"{s}. {username}"
