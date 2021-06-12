@@ -25,7 +25,7 @@ class Help(commands.Cog):
     async def help(self, ctx):
         page1 = discord.Embed(color=discord.Colour.random())
         page1.add_field(name=f"{ctx.prefix}add +(country code)(number)", value="> To save your HQ Trivia account in bot.")
-        page1.add_field(name=f"{ctx.prefix}addtoken (token)", value="> Add your HQ Trivia account in bot with token.")
+        page1.add_field(name=f"{ctx.prefix}addtoken (bearer token)", value="> Add your HQ Trivia account in bot with bearer token.")
         page1.add_field(name=f"{ctx.prefix}fblink", value="> Get HQ Facebook Login Link.")
         page1.add_field(name=f"{ctx.prefix}fblogin (fbtoken)", value="> Add your HQ Trivia account in bot with Facebook access token.")
         page1.add_field(name=f"{ctx.prefix}glink", value="> Get HQ Google Login Link.")
@@ -38,7 +38,7 @@ class Help(commands.Cog):
 
         page2 = discord.Embed(color=discord.Colour.random())
         page2.add_field(name=f"{ctx.prefix}accounts", value="> To check, how many accounts you have added in the bot.")
-        page2.add_field(name=f"{ctx.prefix}token (username)", value="> Get access token of your HQ account.")
+        page2.add_field(name=f"{ctx.prefix}token (username)", value="> Get bearer token of your HQ account.")
         page2.add_field(name=f"{ctx.prefix}details (username)", value="> Get details of your HQ Trivia account.")
         page2.add_field(name=f"{ctx.prefix}hquser (username)", value="> Get any HQ user's info.")
         page2.add_field(name=f"{ctx.prefix}remove (username)", value="> Remove your HQ Trivia account from the bot database.")
