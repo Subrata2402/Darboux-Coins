@@ -21,7 +21,6 @@ from bs4 import BeautifulSoup
 data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb.net/Darboux?retryWrites=true&w=majority')#Your Database Url
 db = data.get_database("Darboux")#Your db name
 token_base = db.token
-login_token_base = db.login_token
 
 
 class UserStats(commands.Cog):
@@ -53,9 +52,15 @@ class UserStats(commands.Cog):
             winCount = data["winCount"]
             gamesPlayed = data["gamesPlayed"]
             highScore = data["highScore"]
-            embed=discord.Embed(title=f"**__{username}'s account details !__**", description=f"**• Username : {username}\n• Total Winnings : {total}\n• Unclaimed : {unclaimed}\n• Total Games Played : {gamesPlayed}\n• Total Wins : {winCount}\n• High Score : {highScore}**", color=discord.Colour.random())
+            embed=discord.Embed(title=f"**HQ User Stats**", color=discord.Colour.random())
+            embed.add_field(name="Username", value=username)
+            embed.add_field(name="User ID", value=id)
+            embed.add_field(name="Created On", value=at)
+            embed.add_field(name="Total Winnings", value=f"{total} (Unclaimed : {unclaimed})")
+            embed.add_field(name="High Score", value=highScore)
+            embed.add_field(name="Games Won", value=f"{winCount}/{gamesPlayed}")
             embed.set_thumbnail(url=avatar_url)
-            embed.set_footer(text=f"User ID : {id} | Created At : {at}")
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
         except:
             embed=discord.Embed(title="❎ Not Found", description=f"Couldn't find any HQ account account with name `{name}`.", color=discord.Colour.random())
