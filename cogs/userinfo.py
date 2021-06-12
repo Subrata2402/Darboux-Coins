@@ -39,6 +39,7 @@ class UserStats(commands.Cog):
             data = api.search(name)
             id = data["data"][0]["userId"]
             data = api.get_user(id)
+            print(data)
             username = data["username"]
             id = data["userId"]
             avatar_url = data["avatarUrl"]
