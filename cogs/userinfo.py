@@ -52,7 +52,7 @@ class UserStats(commands.Cog):
             winCount = data["winCount"]
             gamesPlayed = data["gamesPlayed"]
             highScore = data["highScore"]
-            refferal = data["refferalUrl"]
+            refferal = data["referralUrl"]
             embed=discord.Embed(title=f"**HQ User Stats**", color=discord.Colour.random())
             embed.add_field(name="Username", value=username)
             embed.add_field(name="User ID", value=id)
