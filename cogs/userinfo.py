@@ -52,6 +52,7 @@ class UserStats(commands.Cog):
             winCount = data["winCount"]
             gamesPlayed = data["gamesPlayed"]
             highScore = data["highScore"]
+            refferal = data["refferalUrl"]
             embed=discord.Embed(title=f"**HQ User Stats**", color=discord.Colour.random())
             embed.add_field(name="Username", value=username)
             embed.add_field(name="User ID", value=id)
@@ -59,6 +60,7 @@ class UserStats(commands.Cog):
             embed.add_field(name="Total Winnings", value=f"{total} (Unclaimed : {unclaimed})")
             embed.add_field(name="High Score", value=highScore)
             embed.add_field(name="Games Won", value=f"{winCount}/{gamesPlayed}")
+            embed.add_field(name="Refferal Url", value=f"[Click Here]({refferal})")
             embed.set_thumbnail(url=avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
