@@ -44,14 +44,15 @@ class Google(commands.Cog):
             await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
 
 
-    @commands.command(aliases=["glinkverify","googleverify","hqglogin","hqgverify"])
+    @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify"])
     @commands.dm_only()
     async def gverify(self, ctx, url=None):
         if url is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}gverify <url>` to add an HQ Trivia account in bot.", color=discord.Colour.random())
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}glogin <url>` to add an HQ Trivia account in bot.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        embed=discord.Embed(title="Verification Disabled", description="Sorry, this process is not available right now. Please try again later.", color=discord.Colour.random())
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/823971641959776326/834684689059020820/1200px-Google__G__Logo.svg.png")
+        embed=discord.Embed(title="⚠️ Google Login", description="Sorry, this process is temporary not available. Please try again later.", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
     @gverify.error
