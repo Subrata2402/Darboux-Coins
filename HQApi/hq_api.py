@@ -102,7 +102,7 @@ class BaseHQApi:
     def referrals(self):
         return self.fetch("GET", "show-referrals")
 
-    def fblogin(self, access_token):
+    def facebook_login(self, access_token):
         return self.fetch("POST", "users/provider-auth", {"type":"FACEBOOK","token": access_token})
 
     def leaderboard(self, mode: str):
