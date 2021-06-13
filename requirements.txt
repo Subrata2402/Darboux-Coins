@@ -1,7 +1,6 @@
 discord
 asyncio
 pymongo
-HQApi
 requests
 lomond
 datetime 
