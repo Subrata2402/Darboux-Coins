@@ -52,6 +52,11 @@ class FacebookLogin(commands.Cog):
         if token is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}fblogin <fbtoken>` to add your HQ Trivia account in bot database.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        api = HQApi()
+        #data = requests.post(url="https://api-quiz.hype.space/users/provider-auth", data={"type":"FACEBOOK","token": token}).json()
+        r = api.facebook_login(token)
+        data = r.json()
+        print(data)
         try:
             api = HQApi()
             #data = requests.post(url="https://api-quiz.hype.space/users/provider-auth", data={"type":"FACEBOOK","token": token}).json()
