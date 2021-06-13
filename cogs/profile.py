@@ -68,17 +68,19 @@ class Profile(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
+        if ctx.guild:
+            await ctx.send("Check your DM! Details send in DM's.")
         embed=discord.Embed(title="**Loading Your Accounts...**", color=discord.Colour.random())
-        x = await ctx.send(embed=embed)
+        x = await ctx.author.send(embed=embed)
         token_list = []
         all_data = list(token_base.find({"id": commander_id}))
         for i in all_data:
             token_list.append(i['token'])
         s = 0
+        a = 0
         embed1=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
-        embed4=discord.Embed(color=discord.Colour.random())
         for token in token_list:
             try:
                 api = HQApi(token)
@@ -114,7 +116,9 @@ class Profile(commands.Cog):
                     value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed3.add_field(name=name, value=value)
             except:
-                pass
+                username = token_base.find_one({"token": token})["username"]
+                b = b + 1
+                description += f"{b}. {username}\n"
         if s > 0:
             embed1.set_thumbnail(url=self.client.user.avatar_url)
             embed1.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -122,11 +126,16 @@ class Profile(commands.Cog):
         if s > 20:
             embed2.set_thumbnail(url=self.client.user.avatar_url)
             embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed2)
+            await ctx.author.send(embed=embed2)
         if s > 40:
             embed3.set_thumbnail(url=self.client.user.avatar_url)
             embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed3)
+            await ctx.author.send(embed=embed3)
+        if b > 0:
+            embed4=discord.Embed(title="⚠️ Expired Accounts", description=f"{description}\n\nThese account's tokens are expired. Please use `{ctx.prefix}refresh (username)` to refresh these accounts.", color=discord.Colour.random())
+            embed4.set_thumbnail(url=self.client.user.avatar_url)
+            embed4.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.author.send(embed=embed4)
         
 
 def setup(client):
