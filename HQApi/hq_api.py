@@ -105,13 +105,13 @@ class BaseHQApi:
     def facebook_login(self, access_token):
         return self.fetch("POST", "users/provider-auth", {"type":"FACEBOOK","token": access_token})
 
-    def purchase_life(self, amount: int)
+    def purchase_life(self, amount: int):
         return self.fetch("POST", "store/com.intermedia.hq.item.extralife.{}x/purchase".format(amount))
 
-    def purchase_eraser(self, amount: int)
+    def purchase_eraser(self, amount: int):
         return self.fetch("POST", "store/com.intermedia.hq.item.erasers.{}x/purchase".format(amount))
 
-    def purchase_super_spin(self, amount: int)
+    def purchase_super_spin(self, amount: int):
         return self.fetch("POST", "store/com.intermedia.hq.item.superspin.{}x/purchase".format(amount))
 
     def leaderboard(self, mode: str):
