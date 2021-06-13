@@ -93,12 +93,6 @@ class FacebookLogin(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
-        
-
-    @fbverify.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
 
 def setup(client):
     client.add_cog(FacebookLogin(client))
