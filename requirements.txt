@@ -9,4 +9,3 @@ pytz
 aniso8601
 unidecode
 bs4
-HQApi
