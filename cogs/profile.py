@@ -77,7 +77,7 @@ class Profile(commands.Cog):
         for i in all_data:
             token_list.append(i['token'])
         s = 0
-        a = 0
+        b = 0
         embed1=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
