@@ -61,7 +61,7 @@ class FacebookLogin(commands.Cog):
             api = HQApi()
             #data = requests.post(url="https://api-quiz.hype.space/users/provider-auth", data={"type":"FACEBOOK","token": token}).json()
             r = api.facebook_login(token)
-            data = r.json()
+            data = r.text
             id = data["userId"]
             username = data["username"]
             login_token = data["loginToken"]
