@@ -108,6 +108,9 @@ class BaseHQApi:
     def facebook_login(self, access_token):
         return self.fetch("POST", "users/provider-auth", {"type":"FACEBOOK","token": access_token})
 
+    def google_login(self, jwt_token):
+        return self.fetch("POST", "users/provider-auth", {"type":"GOOGLE","token": jwt_token})
+
     def swipe(self):
         return self.fetch("POST", "easter-eggs/makeItRain")
 
