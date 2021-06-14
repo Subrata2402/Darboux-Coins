@@ -63,7 +63,8 @@ class FacebookLogin(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
         try:
-            data = requests.post(url="https://api-quiz.hype.space/users/provider-auth", data={"type":"FACEBOOK","token": token}).json()
+            api = HQApi()
+            data = api.facebook_login(token)
             id = data["userId"]
             username = data["username"]
             login_token = data["loginToken"]
