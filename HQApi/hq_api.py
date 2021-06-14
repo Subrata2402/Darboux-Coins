@@ -68,6 +68,9 @@ class BaseHQApi:
     def accept_friend(self, id: str):
         return self.fetch("PUT", "friends/{}/status".format(id), {"status": "ACCEPTED"})
 
+    def friend_list(self):
+        return self.fetch("GET", "friends")
+
     def check_username(self, name: str):
         return self.fetch("POST", "usernames/available", {"username": name})
 
