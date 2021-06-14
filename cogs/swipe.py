@@ -60,7 +60,7 @@ class Swipe(commands.Cog):
         try:
             r = api.swipe()
             data = r["data"]
-            embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an <:life:844142423524245524> Extra Life.", color=discord.Colour.random())
+            embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an Extra <:extra_life:844448511264948225> Life.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=embed)
