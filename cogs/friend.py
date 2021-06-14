@@ -55,10 +55,7 @@ class Friends(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
         username = data["username"]
-        url = "https://api-quiz.hype.space/friends"
-        headers = {"Authorization": f"Bearer {token}",
-                   "x-hq-client": "Android/1.3.0"}
-        r = requests.get(url = url, headers=headers).json()
+        r = api.friend_list()
         description_info_1 = f""
         description_info_2 = f""
         s = 0
