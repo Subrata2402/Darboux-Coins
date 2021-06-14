@@ -31,7 +31,6 @@ class FacebookLogin(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["flink"])
-    @commands.dm_only()
     async def fblink(self, ctx):
         if ctx.guild:
             try:
@@ -47,7 +46,6 @@ class FacebookLogin(commands.Cog):
 
 
     @commands.command(aliases=["fblogin", "hqflogin", "hqfblogin"])
-    @commands.dm_only()
     async def fbverify(self, ctx, token=None):
         if ctx.guild:
             try:
