@@ -58,7 +58,7 @@ class Swipe(commands.Cog):
         x = await ctx.send(embed=embed)
         await asyncio.sleep(2)
         try:
-            r = (api.swipe()).json()
+            r = api.swipe()
             data = r["data"]
             embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an <:life:844142423524245524> Extra Life.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
