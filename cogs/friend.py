@@ -101,6 +101,8 @@ class Friends(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
+        if ctx.guild:
+            await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
         token = token_base.find_one({'username': username})['token']
         try:
             api = HQApi(token)
@@ -109,7 +111,7 @@ class Friends(commands.Cog):
             embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
+            return await ctx.author.send(embed=embed)
         username = data["username"]
         r = api.friend_list()
         s = 0
@@ -126,7 +128,7 @@ class Friends(commands.Cog):
             winCount = data["winCount"]
             s = s + 1
             name = f"{s}. {name}"
-            value = f"**Total Winnings :** {total}\n**High Score :** {highScore}\n**Games Won :** {winCount}/{gamesPlayed}"
+            value = f"> Total Winnings : {total}\n> High Score : {highScore}\n> Games Won : {winCount}/{gamesPlayed}"
             if s < 21:
                 embed1.add_field(name=name, value=value)
             elif s < 41:
