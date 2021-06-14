@@ -134,15 +134,13 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        headers = {"Authorization": f"Bearer {token}"}
         if not amount:
             if coins < 100:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an <:eraser:844448550498205736> Extra Eraser. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            r = requests.post(f"https://api-quiz.hype.space/store/com.intermedia.hq.item.erasers.1x/purchase", headers=headers)
-            data = r.json()
+            data = api.purchase_eraser(1)
             coins = data["coinsTotal"]
             erasers = data["itemsTotal"]["eraser"]
             embed=discord.Embed(title="Eraser Purchased ✅", description=f"You have successfully purchased an <:eraser:844448550498205736> Extra Eraser!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -176,8 +174,7 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        r = requests.post(f"https://api-quiz.hype.space/store/com.intermedia.hq.item.erasers.{amount}x/purchase", headers=headers)
-        data = r.json()
+        data = api.purchase_eraser(amount)
         coins = data["coinsTotal"]
         erasers = data["itemsTotal"]["eraser"]
         embed=discord.Embed(title="Eraser Purchased ✅", description=f"You have successfully purchased {amount} <:eraser:844448550498205736> Extra Eraser{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -214,15 +211,13 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        headers = {"Authorization": f"Bearer {token}"}
         if not amount:
             if coins < 150:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an Extra <:super_spin:844448472908300299> Super-spin. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            r = requests.post("https://api-quiz.hype.space/store/com.intermedia.hq.item.superspin.1x/purchase", headers=headers)
-            data = r.json()
+            data = api.purchase_super_spin(1)
             coins = data["coinsTotal"]
             superSpins = int(superSpins) + 1
             embed=discord.Embed(title="Super-spin Purchased ✅", description=f"You have successfully purchased an Extra <:super_spin:844448472908300299> Super-spin!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -256,8 +251,7 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        r = requests.post(f"https://api-quiz.hype.space/store/com.intermedia.hq.item.superspin.{amount}x/purchase", headers=headers)
-        data = r.json()
+        data = api.purchase_super_spin(amount)
         coins = data["coinsTotal"]
         superSpins = int(superSpins) + int(amount)
         embed=discord.Embed(title="Super-spin Purchased ✅", description=f"You have successfully purchased {amount} Extra <:super_spin:844448472908300299> Super-spin{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
