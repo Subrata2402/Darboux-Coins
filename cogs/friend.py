@@ -29,64 +29,9 @@ class Friends(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def friends(self, ctx, username=None):
-        """Get friend lists."""
-        if username is None:
-            embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friends [username]` to check your all friends list.", color=discord.Colour.random())
-            return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
-        token = token_base.find_one({'username': username})['token']
-        try:
-            api = HQApi(token)
-            data = api.get_users_me()
-        except ApiResponseError:
-            embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
-        username = data["username"]
-        r = api.friend_list()
-        description_info_1 = f""
-        description_info_2 = f""
-        s = 0
-        for data in r["data"]:
-            name = data["username"]
-            total = data["leaderboard"]["total"]
-            highScore = data["highScore"]
-            gamesPlayed = data["gamesPlayed"]
-            winCount = data["winCount"]
-            s = s + 1
-            if s < 21:
-                description_info_1 += f"• Username: **{name}** ({total})\n• Description: **({gamesPlayed}, {winCount}, {highScore})**\n\n"
-            else:
-                description_info_2 += f"• Username: **{name}** ({total})\n• Description: **({gamesPlayed}, {winCount}, {highScore})**\n\n"
-        if s == 0:
-            embed=discord.Embed(title=f"**__{username}'s Friends List !__**", description=f"Couldn't find any friends in your friend list.", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
-        embed=discord.Embed(title=f"**__{username}'s Friends List !__**\n\nYou have {s} Friend{'' if s == 1 else 's'}.", description=f"Description Format :\n**(Games Played, Total Wins, High Score)**\n\n{description_info_1}", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await ctx.send(embed=embed)
-        if s > 20:
-            embed=discord.Embed(title=f"**__{username}'s Friends List !__**", description=description_info_2, color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
 
     @commands.command()
-    async def friends2(self, ctx, username=None):
+    async def friends(self, ctx, username=None):
         """Get friend lists."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friends [username]` to check your all friends list.", color=discord.Colour.random())
