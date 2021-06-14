@@ -125,10 +125,6 @@ class Friends(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    @addfriend.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f'```\n{error}\n```')
 
     @commands.command()
     async def acceptfriend(self, ctx, username=None, name=None):
@@ -169,10 +165,6 @@ class Friends(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    @acceptfriend.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f'```\n{error}\n```')
 
     @commands.command()
     async def removefriend(self, ctx, username=None, name=None):
@@ -213,10 +205,6 @@ class Friends(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    @removefriend.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f'```\n{error}\n```')
 
     @commands.command()
     async def friendstatus(self, ctx, username=None, name=None):
@@ -262,10 +250,6 @@ class Friends(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    @friendstatus.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f'```\n{error}\n```')
 
 def setup(client):
     client.add_cog(Friends(client))
