@@ -44,7 +44,7 @@ class DcPlay(commands.Cog):
     async def set(self, ctx):
         token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI3NDc3MDY0LCJ1c2VybmFtZSI6IlN1YnJhdGE5YjkxaGQiLCJhdmF0YXJVcmwiOiJodHRwczovL2Nkbi5wcm9kLmh5cGUuc3BhY2UvZGEvZ3JlZW4ucG5nIiwidG9rZW4iOiI4Vm1PTkciLCJyb2xlcyI6W10sImNsaWVudCI6IkFuZHJvaWQvMS41Mi4zIiwiZ3Vlc3RJZCI6bnVsbCwidiI6MSwiaWF0IjoxNjIxMzA1MzIxLCJleHAiOjE2MjkwODEzMjEsImlzcyI6Imh5cGVxdWl6LzEifQ.U_yCk2eayDDFRIcV9QciLe_fMHK09q8ihFVYRIsUaoY"
         api = HQApi(token)
-        data = api.friend_list()
+        data = api.swipe()
         await ctx.send(data)
 
     @commands.command()
