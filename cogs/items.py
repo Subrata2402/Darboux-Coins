@@ -32,7 +32,7 @@ class Items(commands.Cog):
 
     @commands.command()
     async def life(self, ctx, username=None, amount=None):
-        """Purchase Life."""
+        """Purchase Extra Life."""
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}life [username] (amount)` to purchase an Extra Life in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
@@ -58,15 +58,13 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        headers = {"Authorization": f"Bearer {token}"}
         if not amount:
             if coins < 400:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an Extra <:extra_life:844448511264948225> Life. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            r = requests.post("https://api-quiz.hype.space/store/com.intermedia.hq.item.extralife.1x/purchase", headers=headers)
-            data = r.json()
+            data = api.purchase_life(1)
             coins = data["coinsTotal"]
             life = data["itemsTotal"]["extra-life"]
             embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased an Extra <:extra_life:844448511264948225> Life!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -100,8 +98,7 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        r = requests.post(f"https://api-quiz.hype.space/store/com.intermedia.hq.item.extralife.{amount}x/purchase", headers=headers)
-        data = r.json()
+        data = api.purchase_life(amount)
         coins = data["coinsTotal"]
         life = data["itemsTotal"]["extra-life"]
         embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} Extra <:extra_life:844448511264948225> Life{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
