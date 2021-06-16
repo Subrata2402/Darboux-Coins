@@ -41,7 +41,7 @@ class Details(commands.Cog):
         for j in all_data:
             id_list.append(j['id'])
         if commander_id not in id_list:
-            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `{ctx.prefix}add +(country code)(number)` or `{ctx.prefix}addtoken (token)` or `{ctx.prefix}fblogin (fbtoken)` to save your account in bot database and make unlimited coins with bot.", color=discord.Colour.random())
+            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any of your accounts in bot database.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
