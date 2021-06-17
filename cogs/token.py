@@ -76,13 +76,13 @@ class Token(commands.Cog):
                               'access_token': token,
                               'username': username, 'user_id': id}
             login_token_base.insert_one(user_info_dict)
-            embed=discord.Embed(title="Account Added ✅", description=f"Successfully add an account with name `{username}`", color=discord.Colour.random())
+            embed=discord.Embed(title="Account Added ✅", description=f"Successfully add an account with name `{username}` in bot database.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
             await channel.send(f"{ctx.author} add a account via access token.")
         else:
-            embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
+            embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database with name `{username}`. You can't add it again.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
