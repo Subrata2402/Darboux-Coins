@@ -43,13 +43,14 @@ class Token(commands.Cog):
 
     
     @commands.command(pass_context=True, aliases=['addt'])
-    @commands.dm_only()
     async def addtoken(self, ctx, token=None):
         """Add token in bot database."""
         if token is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put token after `{ctx.prefix}addtoken`. Please use correct : `{ctx.prefix}addtoken [token]`", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         channel = self.client.get_channel(841489971109560321)
+        if ctx.guild:
+            return await ctx.send(f"{ctx.author.mention}, **You can add token with bot only in DM's.**")
         try:
             api = HQApi(token)
             data = api.get_users_me()
@@ -86,11 +87,6 @@ class Token(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    @addtoken.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.PrivateMessageOnly):
-            await ctx.send(f"{ctx.author.mention}, **You can add token with bot only in DM's.**")
-            await ctx.author.send(f"{ctx.author.mention}, **You can add token here.**")
 
     @commands.command(pass_context=True)
     async def token(self, ctx, username=None):
@@ -103,9 +99,10 @@ class Token(commands.Cog):
         all_data = list(token_base.find({"id": commander_id, "username": username}))
         for i in all_data:
             name_list.append(i['username'])
+        if ctx.guild:
+            await ctx.send(f"{ctx.author.mention}, Check your DM!")
         if username in name_list:
             spec_user_token = token_base.find_one({'username': username})['token']
-            await ctx.send(f"{ctx.author.mention}, Check your DM!")
             embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
