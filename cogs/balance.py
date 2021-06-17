@@ -45,8 +45,10 @@ class Details(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
+        if ctx.guild:
+            await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
         embed=discord.Embed(title="Fetching your account balance and Cashout details...", color=0x00ffff)
-        x = await ctx.send(embed=embed)
+        x = await ctx.author.send(embed=embed)
         description = ""
         total = 0
         paid = 0
@@ -87,7 +89,7 @@ class Details(commands.Cog):
             embed=discord.Embed(title="⚠️ Token Expired", description=f"{description}\nThis account's tokens are expired. Please refresh your accounts to use this command `{ctx.prefix}refresh <username>`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
+            await ctx.author.send(embed=embed)
         else:
             return
 
