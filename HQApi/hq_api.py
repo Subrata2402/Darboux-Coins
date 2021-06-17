@@ -80,7 +80,7 @@ class BaseHQApi:
     def edit_username(self, username: str):
         return self.fetch("PATCH", "users/me", {"username": username})
 
-    def get_logintoken(self):
+    def get_login_token(self):
         return self.fetch("GET", "users/me/token")
 
     def send_documents(self, id, email, paypal_email, country):
