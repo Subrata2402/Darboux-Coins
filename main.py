@@ -81,7 +81,7 @@ extensions = [
               "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
               "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
               "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items",
-              "cogs.fblogin", "cogs.glogin", "cogs.test", "cogs.profile"
+              "cogs.fblogin", "cogs.glogin", "cogs.test", "cogs.profile", "cogs.fb_login_method"
 ]
 if __name__ == "__main__":
     for extension in extensions:
