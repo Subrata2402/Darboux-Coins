@@ -69,49 +69,14 @@ class FbMethod(commands.Cog):
         embed8.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed8.timestamp = datetime.datetime.utcnow()
 
-        pages = [page1, page2, page3, page4, page5]
-
-        message = await ctx.send(embed = page1)
-        await message.add_reaction('⏮')
-        await message.add_reaction('◀')
-        await message.add_reaction('▶')
-        await message.add_reaction('⏭')
-
-        def check(reaction, user):
-            return user == ctx.author
-
-        i = 0
-        reaction = None
-
-        while True:
-            if str(reaction) == '⏮':
-                i = 0
-                await message.edit(embed = pages[i])
-            elif str(reaction) == '◀':
-                if i > 0:
-                    i -= 1
-                    await message.edit(embed = pages[i])
-            elif str(reaction) == '▶':
-                if i < 4:
-                    i += 1
-                    await message.edit(embed = pages[i])
-            elif str(reaction) == '⏭':
-                i = 4
-                await message.edit(embed = pages[i])
-            try:
-                reaction, user = await self.client.wait_for('reaction_add', timeout = 60.0, check = check)
-                try:
-                    await message.remove_reaction(reaction, user)
-                except:
-                    pass
-            except:
-                break
-        try:
-            await message.clear_reactions()
-        except:
-            print("Don't have permission to remove reactions.")
-
-
+        paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx)
+        paginator.add_reaction('⏮', "first")
+        paginator.add_reaction('◀', "back")
+        #paginator.add_reaction('<:emoji_60:855472859034943488>', "lock")
+        paginator.add_reaction('▶', "next")
+        paginator.add_reaction('⏭', "last")
+        embeds = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8]
+        await paginator.run(embeds)
 
 def setup(client):
     client.add_cog(FbMethod(client))
