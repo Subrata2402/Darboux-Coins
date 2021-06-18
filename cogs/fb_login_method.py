@@ -34,8 +34,9 @@ class FbMethod(commands.Cog):
         if ctx.guild:
             return await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
 
-        embed1=discord.Embed(title="**__Facebook Login Method__**", description=f"**Thanks {ctx.author.mention}, for using {self.client.user.mention} Bot. Follow these steps to add your HQ Trivia account with bot by Facebook.\n\nUse below emojis to change the page and get the process of Facebook Login Method.**", color=discord.Colour.random())
+        embed1=discord.Embed(title="**__Facebook Login Method__**", description=f"**Hey {ctx.author.mention}, Thanks for using {self.client.user.mention} Bot. Follow these steps to link your HQ Trivia account with bot by Facebook.\n\nUse below emojis to change the page and get the process of Facebook Login Method.**", color=discord.Colour.random())
         embed1.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        embed1.set_thumbnail(url=self.client.user.avatar_url)
         embed1.timestamp = datetime.datetime.utcnow()
 
         embed2=discord.Embed(title="**__Step - 1__**", description=f"**Download Web Inspector (Open Source) Application from Google Play Store. [Click Here](https://play.google.com/store/apps/details?id=ai.agusibrahim.xhrlog) to redirect in Google Play Store.**", color=discord.Colour.random())
