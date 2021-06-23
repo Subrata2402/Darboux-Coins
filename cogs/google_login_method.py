@@ -62,7 +62,7 @@ class GoogleLoginMethod(commands.Cog):
         #paginator.add_reaction('<:emoji_60:855472859034943488>', "lock")
         paginator.add_reaction('▶', "next")
         paginator.add_reaction('⏭', "last")
-        embeds = [embed1, embed2, embed3, embed4]
+        embeds = [embed1, embed2, embed3, embed4, embed5]
         await paginator.run(embeds)
 
 def setup(client):
