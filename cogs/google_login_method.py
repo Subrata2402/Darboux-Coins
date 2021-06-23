@@ -52,7 +52,7 @@ class GoogleLoginMethod(commands.Cog):
         embed5=discord.Embed(title="**__Step - 4__**", description=f'**Then use `{ctx.prefix}glogin <copied link>` and successfully add your HQ Trivia account in bot database. Use `{ctx.prefix}accounts` to check your all save accounts.**', color=discord.Colour.random())
         embed5.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed5.timestamp = datetime.datetime.utcnow()
-        embed5.set_image(url="")
+        embed5.set_image(url="https://media.discordapp.net/attachments/838633900950552606/857254783122538516/IMG_20210623_191414.jpg")
         
         
 
