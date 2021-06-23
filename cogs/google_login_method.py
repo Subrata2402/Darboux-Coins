@@ -39,12 +39,12 @@ class GoogleLoginMethod(commands.Cog):
         embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed2.timestamp = datetime.datetime.utcnow()
 
-        embed3=discord.Embed(title="**__Step -2__**", description=f"**After Click the link you will get an page which will say "Choose an account to continue to [HQ Trivia](https://hqtrivia.com)". Choose an google account which you want to login with HQ Trivia.**", color=discord.Colour.random())
+        embed3=discord.Embed(title="**__Step -2__**", description=f'**After Click the link you will get an page which will say "Choose an account to continue to [HQ Trivia](https://hqtrivia.com)'. Choose an google account which you want to login with HQ Trivia.**", color=discord.Colour.random())
         embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed3.timestamp = datetime.datetime.utcnow()
         embed3.set_image(url="https://media.discordapp.net/attachments/838633900950552606/857251498105634826/IMG_20210623_190108.jpg")
         
-        embed4=discord.Embed(title="**__Step - 3__**", description=f"**After choose an account you will get an error page like the below image. Click and hold your finger on the "localhost:8000". A link will be copied.**", color=discord.Colour.random())
+        embed4=discord.Embed(title="**__Step - 3__**", description=f'**After choose an account you will get an error page like the below image. Click and hold your finger on the "localhost:8000". A link will be copied.**', color=discord.Colour.random())
         embed4.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed4.timestamp = datetime.datetime.utcnow()
         embed4.set_image(url="https://media.discordapp.net/attachments/838633900950552606/857251778872606720/IMG_20210623_184934.jpg")
