@@ -39,7 +39,7 @@ class GoogleLoginMethod(commands.Cog):
         embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed2.timestamp = datetime.datetime.utcnow()
 
-        embed3=discord.Embed(title="**__Step -2__**", description=f'**After Click the link you will get an page which will say "Choose an account to continue to [HQ Trivia](https://hqtrivia.com)'. Choose an google account which you want to login with HQ Trivia.**", color=discord.Colour.random())
+        embed3=discord.Embed(title="**__Step -2__**", description=f'**After Click the link you will get an page which will say "Choose an account to continue to [HQ Trivia](https://hqtrivia.com)'. Choose an google account which you want to login with HQ Trivia.**', color=discord.Colour.random())
         embed3.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed3.timestamp = datetime.datetime.utcnow()
         embed3.set_image(url="https://media.discordapp.net/attachments/838633900950552606/857251498105634826/IMG_20210623_190108.jpg")
