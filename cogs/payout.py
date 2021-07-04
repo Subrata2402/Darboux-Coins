@@ -83,15 +83,15 @@ class Cashout(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-    @payout.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f'```\n{error}\n```')
 
     @commands.command()
-    @commands.dm_only()
     async def cashout(self, ctx, email=None, username=None):
         """Make Cashout of an account."""
+        if ctx.guild:
+            embed=discord.Embed(title="⚠️ Direct Message Only", description="For the security of your HQ account, use that Command in DM only.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await ctx.send(embed=embed)
         if not email or not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}cashout [email] [username]` to cashout from your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
@@ -132,14 +132,7 @@ class Cashout(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
-
-    @cashout.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            embed=discord.Embed(title="⚠️ Direct Message Only", description="For the security of your HQ account, use that Command in DM only.", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
+            
 
 
 def setup(client):
