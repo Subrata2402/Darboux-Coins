@@ -111,13 +111,15 @@ class Cashout(commands.Cog):
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
+            data = requests.post(url="https://api-quiz.hype.space/users/me/payouts", headers={"Authorization": f"Bearer {token}"}, data={"email": email}).json()
             try:
-                data = api.make_payout(email)
-            except Exception as e:
+                data = data["data"]
+            except:
+                e = data["error"]
                 embed=discord.Embed(title="⚠️ Api Response Error", description=e, color=discord.Colour.random())
+                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            print(data)
-            data = data["data"]
             amount = data["amount"]
             email = data["targetEmail"]
             embed=discord.Embed(title="**Cashout Done ✅**", description=f"Successfully Cashout of Amount **{amount}** to PayPal Email **{email}**", color=discord.Colour.random())
