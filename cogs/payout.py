@@ -112,10 +112,9 @@ class Cashout(commands.Cog):
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             try:
-                data = requests.post(url="https://api-quiz.hype.space/users/me/payouts", headers={"Authorization": f"Bearer {token}"}, data={"email": email}).json()
+                data = api.make_payout(email)
             except Exception as e:
-                error = e["error"]
-                embed=discord.Embed(title="⚠️ Api Response Error", description=error, color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=e, color=discord.Colour.random())
                 return await ctx.send(embed=embed)
             print(data)
             data = data["data"]
