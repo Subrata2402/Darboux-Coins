@@ -2,7 +2,6 @@ import discord
 import random
 from discord.ext import commands
 import asyncio
-from pymongo import MongoClient
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from HQApi import HQApi, HQWebSocket
@@ -17,10 +16,7 @@ import aniso8601
 from pytz import timezone
 from unidecode import unidecode
 from bs4 import BeautifulSoup
-
-data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb.net/Darboux?retryWrites=true&w=majority')#Your Database Url
-db = data.get_database("Darboux")#Your db name
-token_base = db.token
+from database.db import login_token_base
 
 
 class UserStats(commands.Cog):
@@ -31,9 +27,11 @@ class UserStats(commands.Cog):
     @commands.command(aliases=["user", "hqstats", "hqstat"])
     async def hquser(self, ctx, name:str):
         """Get any user's stats."""
-        token = token_base.find_one({"username": "bernita48"})["token"]
+        token = login_token_base.find_one({"username": "bernita48"})["login_token"]
+        api = HQApi()
+        data = api.get_tokens(token)
+        token = data["accessToken"]
         api = HQApi(token)
-        data = api.get_users_me()
         try:
             data = api.search(name)
             id = data["data"][0]["userId"]
