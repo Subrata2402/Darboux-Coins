@@ -103,10 +103,10 @@ class Token(commands.Cog):
             await ctx.send(f"{ctx.author.mention}, Check your DM!")
         if username in name_list:
             spec_user_token = token_base.find_one({'username': username})['token']
-            embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.author.send(embed=embed)
+            #embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=discord.Colour.random())
+            #embed.set_thumbnail(url=self.client.user.avatar_url)
+            #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.author.send(f"**{username} | Access Token\n\n```\n{spec_user_token}\n```**")
         else:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
