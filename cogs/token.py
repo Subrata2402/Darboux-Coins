@@ -106,7 +106,7 @@ class Token(commands.Cog):
             #embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=discord.Colour.random())
             #embed.set_thumbnail(url=self.client.user.avatar_url)
             #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.author.send(f"**{username} | Access Token\n\n```\n{spec_user_token}\n```**")
+            await ctx.author.send(f"**{username} | Access Token**\n```\n{spec_user_token}\n```")
         else:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
