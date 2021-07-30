@@ -28,11 +28,30 @@ class DcPlay(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    
+    @commands.command()
+    @commands.is_owner()
+    async def tq(self, ctx):
+        embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ Counting...**", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        x = await ctx.send(embed=embed)
+        all_data = list(q_base.find())
+        tq = 0
+        for i in all_data:
+            tq = tq + 1
+        embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ {tq}** <:questions:851142736442687488>", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar_url)
+        await x.edit(embed=embed)
 
     @commands.command(aliases=["splay"])
-    async def sdcplay(self, ctx, username:str):
+    async def sdcplay(self, ctx, username:str=None):
         """Play HQ Daily Challenge."""
+        if username is None:
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write username after `{ctx.prefix}sdcplay`. Please correct use Command to play HQ Trivia Daily Challenge.\n`{ctx.prefix}sdcplay <username>`\nExample: `{ctx.prefix}{ctx.command} Josephine46`", color=discord.Colour.random())
+            #embed.add_field(name="Usage :", value=f"{ctx.prefix}add +<country code><number>")
+            #embed.add_field(name="Example:", value=f"{ctx.prefix}add +13158686534")
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await ctx.send(embed=embed)
         try:
             await ctx.message.delete()
         except:
@@ -57,9 +76,10 @@ class DcPlay(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
         coins = data["coins"]
-        embed=discord.Embed(title="Starting HQ Offair Trivia...", color=discord.Colour.random())
+        embed=discord.Embed(title="Starting HQ Offair Trivia...", color=0x00ffff)
         x = await ctx.send(embed=embed)
-        username = "||Private Account||"
+        if ctx.guild:
+            username = "||Private Account||"
         await asyncio.sleep(2)
         embed=discord.Embed(title="Playing HQ Offair Trivia...", description=f"**• Username : {username}\n• Games Played : 00\n• Questions Correct : 00/00\n• Coins Earned : 0\n• Total Coins : {coins}**", color=discord.Colour.random())
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -79,11 +99,18 @@ class DcPlay(commands.Cog):
             hours=int(hours)
             minutes=((milli/(60))-(hours*(60)))
             minutes=int(minutes)
+            hm = hours + minutes
             seconds=((milli)-(hours*(3600))-(minutes*(60)))
             seconds=int(seconds)
             await asyncio.sleep(1)
-            if hours <= 0:
+            if hm == 0:
+                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
+                await x.edit(embed=embed)
+            elif hours == 0:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{minutes}** minute{'' if minutes == 1 else 's'} **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
+                await x.edit(embed=embed)
+            elif minutes == 0:
+                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
             else:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} **{minutes}** minute{'' if minutes == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
@@ -98,10 +125,15 @@ class DcPlay(commands.Cog):
             option3=f"{answers[2]}"
             await asyncio.sleep(2)
             if question in q_list:
-                option = q_base.find_one({'question': question})['option']
-                select = int(option)
+                answer = q_base.find_one({'question': question})['answer']
+                if option1 == answer:
+                    select = 1
+                elif option2 == answer:
+                    select = 2
+                else:
+                    select = 3
             else:
-                select = int(2)
+                select = 2
             data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             #print(data)
             answer_counts = {}
@@ -171,10 +203,15 @@ class DcPlay(commands.Cog):
             option3=f"{answers[2]}"
             await asyncio.sleep(2)
             if question in q_list:
-                option = q_base.find_one({'question': question})['option']
-                select = int(option)
+                answer = q_base.find_one({'question': question})['answer']
+                if option1 == answer:
+                    select = 1
+                elif option2 == answer:
+                    select = 2
+                else:
+                    select = 3
             else:
-                select = int(2)
+                select = 2
             data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             #print(data)
             answer_counts = {}
@@ -249,10 +286,15 @@ class DcPlay(commands.Cog):
             option3=f"{answers[2]}"
             await asyncio.sleep(2)
             if question in q_list:
-                option = q_base.find_one({'question': question})['option']
-                select = int(option)
+                answer = q_base.find_one({'question': question})['answer']
+                if option1 == answer:
+                    select = 1
+                elif option2 == answer:
+                    select = 2
+                else:
+                    select = 3
             else:
-                select = int(2)
+                select = 2
             data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             #print(data)
             answer_counts = {}
@@ -327,10 +369,15 @@ class DcPlay(commands.Cog):
             option3=f"{answers[2]}"
             await asyncio.sleep(2)
             if question in q_list:
-                option = q_base.find_one({'question': question})['option']
-                select = int(option)
+                answer = q_base.find_one({'question': question})['answer']
+                if option1 == answer:
+                    select = 1
+                elif option2 == answer:
+                    select = 2
+                else:
+                    select = 3
             else:
-                select = int(2)
+                select = 2
             data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             #print(data)
             answer_counts = {}
@@ -405,10 +452,15 @@ class DcPlay(commands.Cog):
             option3=f"{answers[2]}"
             await asyncio.sleep(2)
             if question in q_list:
-                option = q_base.find_one({'question': question})['option']
-                select = int(option)
+                answer = q_base.find_one({'question': question})['answer']
+                if option1 == answer:
+                    select = 1
+                elif option2 == answer:
+                    select = 2
+                else:
+                    select = 3
             else:
-                select = int(2)
+                select = 2
             data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             #print(data)
             answer_counts = {}
