@@ -28,19 +28,6 @@ class DcPlay(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    @commands.is_owner()
-    async def tq(self, ctx):
-        embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ Counting...**", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        x = await ctx.send(embed=embed)
-        all_data = list(q_base.find())
-        tq = 0
-        for i in all_data:
-            tq = tq + 1
-        embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ {tq}** <:questions:851142736442687488>", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        await x.edit(embed=embed)
 
     @commands.command(aliases=["splay"])
     async def sdcplay(self, ctx, username:str=None):
