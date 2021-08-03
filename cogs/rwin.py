@@ -2,7 +2,6 @@ import discord
 import random
 from discord.ext import commands
 import asyncio
-from pymongo import MongoClient
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from HQApi import HQApi, HQWebSocket
@@ -17,11 +16,8 @@ import aniso8601
 from pytz import timezone
 from unidecode import unidecode
 from bs4 import BeautifulSoup
+from database.db import token_base, login_token_base
 
-data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb.net/Darboux?retryWrites=true&w=majority')#Your Database Url
-db = data.get_database("Darboux")#Your db name
-token_base = db.token
-login_token_base = db.login_token
 
 
 class RecentWins(commands.Cog):
