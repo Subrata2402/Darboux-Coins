@@ -26,13 +26,13 @@ class Help(commands.Cog):
         channelCount = len(set(self.client.get_all_channels()))
         date = self.client.user.created_at.__format__("%b %d, %Y %I:%M %p")
         
-        embed = discord.Embed(description=f"Bot Latency : [{round(self.client.latency * 1000)}ms](https://discord.bot/letency)", color=discord.Colour.random())
-        embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
+        embed = discord.Embed(description=f"● **Bot Latency :** {round(self.client.latency * 1000)}ms\n● **Total Guilds :** {serverCount}\n● **Total Users :** {memberCount}\n● **Developer :** Subrata#3250", color=discord.Colour.random())
+        """embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
         embed.add_field(name="Discord.py Version", value=f"[{dpyVersion}](https://discord.py/version)")
         embed.add_field(name="Total Connected Guilds", value=f"[{serverCount}](https://discord.server/count)")
         embed.add_field(name="Total Connected Members", value=f"[{memberCount}](https://discord.member/count)")
         embed.add_field(name="Total Connected Channels", value=f"[{channelCount}](https://discord.channel/count)")
-        embed.add_field(name="Bot Developer", value="[Schrodinger#8447](https://discord.id/702414646702768152)")
+        embed.add_field(name="Bot Developer", value="[Schrodinger#8447](https://discord.id/702414646702768152)")"""
         embed.set_footer(text=f"Bot ID : {self.client.user.id} | Created At | {date} | Version : 1.4.0")
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_author(name=f"{self.client.user.name}#{self.client.user.discriminator} | Bot Info !", icon_url=self.client.user.avatar_url)
