@@ -16,7 +16,7 @@ import aniso8601
 from pytz import timezone
 from unidecode import unidecode
 from bs4 import BeautifulSoup
-from database.db import token_base
+from database.db import token_base, q_base
 
 
 class DcPlay(commands.Cog):
