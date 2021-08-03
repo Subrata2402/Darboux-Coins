@@ -26,7 +26,7 @@ class Help(commands.Cog):
         channelCount = len(set(self.client.get_all_channels()))
         date = self.client.user.created_at.__format__("%b %d, %Y %I:%M %p")
         s = 0
-        for x in self.bot.commands:
+        for x in self.client.commands:
             s = s + 1
         
         embed = discord.Embed(description=f"● **Bot Latency :** {round(self.client.latency * 1000)}ms\n● **Coding Language :** Python[{pythonVersion}]\n● **Discord.py Version :** {dpyVersion}\n● **Bot Version :** 1.5\n● **Total Guilds :** {serverCount}\n● **Total Users :** {memberCount}\n● **Total Commands :** {s}\n● **Developer :** Subrata#3250", color=discord.Colour.random())
