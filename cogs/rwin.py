@@ -81,12 +81,12 @@ class RecentWins(commands.Cog):
             token = token_base.find_one({'username': username})['token']
             try:
                 api = HQApi(token)
+                data = api.get_users_me()
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            data = api.get_users_me()
             username = data["username"]
             api = HQApi(token)
             data = api.get_payouts_me()
