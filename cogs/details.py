@@ -42,7 +42,6 @@ class Details(commands.Cog):
             try:
                 api = HQApi(token)
                 data = api.get_users_me()
-                await ctx.send(data)
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
