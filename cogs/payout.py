@@ -103,7 +103,7 @@ class Cashout(commands.Cog):
                 api = HQApi(token)
                 data = api.get_payouts_me()
                 bal = data["balance"]
-                available = float(bal["available"][1:]
+                available = float(bal["available"][1:])
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
