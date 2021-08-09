@@ -101,9 +101,18 @@ class Cashout(commands.Cog):
             token = token_base.find_one({'username': username})['token']
             try:
                 api = HQApi(token)
-                data = api.get_users_me()
+                data = api.get_payouts_me()
+                bal = data["balance"]
+                available = float(bal["available"][1:]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                return await ctx.send(embed=embed)
+            if available < float(5):
+                need = float(5) - available
+                need_money = "{:.2f}".format(need)
+                embed=discord.Embed(title="⚠️ Insufficient Balance", description=f"You don't have sufficient balance for cashout. You need more **${need_money}** for cashout.", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
