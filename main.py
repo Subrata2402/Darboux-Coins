@@ -13,7 +13,7 @@ import os
 import sys
 import traceback
 import json
-
+from discord_components *
 from pymongo import MongoClient
 
 data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb.net/Darboux?retryWrites=true&w=majority')#Your Database Url
@@ -25,8 +25,10 @@ bot_prefix = "-","+"
 
 
 intents = discord.Intents.all()
-client = commands.Bot(command_prefix = bot_prefix, intents=intents, strip_after_prefix=True)
+ids = [790190926630486016, 660337342032248832]
+client = commands.Bot(command_prefix = bot_prefix, intents=intents, strip_after_prefix=True, owner_ids = ids)
 client.remove_command('help')
+DiscordComponents(client)
 
 @client.event
 async def on_ready():
