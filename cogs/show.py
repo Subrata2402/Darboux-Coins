@@ -50,9 +50,8 @@ class Show(commands.Cog):
         api = HQApi()
         response_data = api.get_show()
         tim = (response_data["nextShowTime"])
-        tm = aniso8601.parse_datetime(tim)
-        x_ind = tm.astimezone(timezone("Asia/Kolkata"))
-        time = x_ind.strftime("%d-%m-%Y %I:%M %p")
+        tm = aniso8601.parse_datetime(tim).timestamp()
+        time = f"<t:{int(tm)}>"
         prize = (response_data["nextShowPrize"])
         for data in response_data["upcoming"]:
             type = data["nextShowLabel"]["title"]
