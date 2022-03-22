@@ -72,7 +72,9 @@ class Google(commands.Cog):
             return await ctx.send(embed=embed)
         id_token = await self.get_id_token(url)
         api = HQApi()
-        data = api.google_login(token)
+        if not id_token:
+            return await ctx.send(ctx.author.mention + ", **Invalid URL provided!**")
+        data = api.google_login(id_token)
         id = data["userId"]
         username = data["username"]
         login_token = data["loginToken"]
