@@ -70,6 +70,7 @@ class Google(commands.Cog):
         if url is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"Use `{ctx.prefix}glogin <url>` to add an HQ Trivia account in bot.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        user_id = ctx.author.id
         id_token = await self.get_id_token(url)
         api = HQApi()
         if not id_token:
