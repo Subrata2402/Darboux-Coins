@@ -96,7 +96,7 @@ class Google(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
-            await channel.send(f"{ctx.author} add a account via Facebook.")
+            await channel.send(f"{ctx.author} add a account via Google.")
         else:
             embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
