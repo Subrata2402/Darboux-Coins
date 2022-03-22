@@ -13,7 +13,7 @@ import os
 import sys
 import traceback
 import json
-from discord_components *
+from discord_components import *
 from pymongo import MongoClient
 
 data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb.net/Darboux?retryWrites=true&w=majority')#Your Database Url
