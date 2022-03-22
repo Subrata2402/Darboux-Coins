@@ -12,4 +12,3 @@ bs4
 jwt
 DiscordUtils
 discord_components
-urllib
