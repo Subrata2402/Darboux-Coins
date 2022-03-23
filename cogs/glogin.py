@@ -27,7 +27,10 @@ class Google(commands.Cog):
         self.client = client
 
     async def get_id_token(self, url):
-        access_token = url.split("?code=")[1].split("&scope")[0]
+        try:
+            access_token = url.split("?code=")[1].split("&scope")[0]
+        except:
+            return None
         url = 'https://www.googleapis.com/oauth2/v4/token'
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         code = unquote(access_token)
