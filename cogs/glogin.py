@@ -32,7 +32,6 @@ class Google(commands.Cog):
         
 
     @commands.command(aliases=["googlelink"])
-    @commands.dm_only()
     async def glink(self, ctx):
         if ctx.guild:
             try:
@@ -48,7 +47,6 @@ class Google(commands.Cog):
 
 
     @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify", "google"])
-    @commands.dm_only()
     async def gverify(self, ctx, url=None):
         if ctx.guild:
             try:
