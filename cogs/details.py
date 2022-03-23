@@ -25,7 +25,7 @@ class Details(commands.Cog):
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
       
-        check_id = token_base.find({"id": commander_id, "username": username})
+        check_id = token_base.find_one({"id": commander_id, "username": username})
         if check_id:
             token = check_id['token']
             try:
