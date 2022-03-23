@@ -1,19 +1,6 @@
 import discord
 import random
 from discord.ext import commands
-import asyncio
-
-import asyncio
-
-import requests
-import json
-import time
-import colorsys
-import datetime
-
-
-
-
 
 class Help(commands.Cog):
 
@@ -127,9 +114,6 @@ class Help(commands.Cog):
             await message.clear_reactions()
         except:
             print("Don't have permission to remove reactions.")
-
-
-
 
 
 def setup(client):
