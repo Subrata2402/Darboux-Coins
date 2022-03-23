@@ -32,11 +32,8 @@ class Swipe(commands.Cog):
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}swipe [username]` to swipe your account and earn an Extra Life.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_id = token_base.find_one({"id": commander_id, "username": username})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -61,7 +58,7 @@ class Swipe(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=embed)
         except:
-            embed=discord.Embed(title="⚠️ Swiped Failed", description=f"You have already swiped your account.", color=discord.Colour.random())
+            embed=discord.Embed(title="⚠️ Swiped Failed", description=f"You have already swiped your account in this month.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await x.edit(embed=embed)
