@@ -39,7 +39,7 @@ class FacebookLogin(commands.Cog):
         await ctx.author.send(embed=embed)
 
 
-    @commands.command(aliases=["fblogin", "hqflogin", "hqfblogin"])
+    @commands.command(aliases=["fblogin", "facebook", "hqflogin", "hqfblogin"])
     async def fbverify(self, ctx, token=None):
         if ctx.guild:
             try:
