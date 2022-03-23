@@ -33,12 +33,10 @@ class Details(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
         commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
+      
+        check_id = token_base.find({"id": commander_id, "username": username})
+        if check_id:
+            token = check_id['token']
             try:
                 api = HQApi(token)
                 data = api.get_users_me()
