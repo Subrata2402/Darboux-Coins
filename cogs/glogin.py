@@ -47,7 +47,7 @@ class Google(commands.Cog):
         await ctx.author.send(embed=embed)
 
 
-    @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify"])
+    @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify", "google"])
     @commands.dm_only()
     async def gverify(self, ctx, url=None):
         if ctx.guild:
