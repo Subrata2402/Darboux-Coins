@@ -57,6 +57,7 @@ class Profile(commands.Cog):
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
         for token in token_list:
+            api = HQApi()
             data = api.get_tokens(token)
             name = data["username"]
             access_token = data["accessToken"]
