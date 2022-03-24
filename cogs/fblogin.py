@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from database.db import profile_base
+from database import db
 
 class FacebookLogin(commands.Cog, HQApi):
 
