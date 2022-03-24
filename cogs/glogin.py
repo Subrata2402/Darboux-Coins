@@ -10,6 +10,7 @@ from urllib.parse import unquote
 class Google(commands.Cog, HQApi):
 
     def __init__(self, client):
+        super().__init__()
         self.client = client
 
     async def get_id_token(self, url):
