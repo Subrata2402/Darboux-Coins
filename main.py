@@ -87,7 +87,7 @@ async def on_message(message):
 
 
 
-extensions = []
+extensions = ["cogs.glogin"]
               '''"cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
               "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
               "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
@@ -102,8 +102,5 @@ if __name__ == "__main__":
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()
 
-
-
-
-token = "ODM4NjMxODUyNjAzNDc0MDAx.YI96xg.QED9FMqv4ZG60VvB8gAx-z0IPuQ"
+token = "ODI1OTU1OTEzMDcyNTA4OTY5.YGFdYw.qGXROAOU_QQUh0UN3WwDZGsPBGE"
 client.run(token)
