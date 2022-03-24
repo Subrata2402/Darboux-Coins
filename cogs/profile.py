@@ -74,7 +74,6 @@ class Profile(commands.Cog):
             superSpins = data["items"]["superSpins"]
             erasers = data["items"]["erase1s"]
             coins = data["coins"]
-            api = HQApi(token)
             data = api.get_payouts_me()
             bal = data["balance"]
             total = bal["prizeTotal"]
