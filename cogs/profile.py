@@ -38,7 +38,7 @@ class Profile(commands.Cog):
     @commands.command()
     async def profile(self, ctx):
         commander_id = ctx.author.id
-        check_id = token_base.find_one({"id": commander_id})
+        check_id = login_token_base.find_one({"id": commander_id})
         if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -99,8 +99,9 @@ class Profile(commands.Cog):
                     name = f"{s}. {username}"
                     value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
                     embed3.add_field(name=name, value=value)
-            except:
-                username = login_token_base.find_one({"token": token})["username"]
+            except Exception as e:
+                print(e)
+                username = login_token_base.find_one({"token": token}).get("username")
                 b = b + 1
                 description += f"{b}. {username}\n"
         if s > 0:
