@@ -57,54 +57,49 @@ class Profile(commands.Cog):
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
         for index, token in enumerate(login_token_list):
-            try:
-                api = HQApi()
-                data = api.get_tokens(token)
-                name = data["username"]
-                user_id = data["userId"]
-                access_token = data["accessToken"]
-                update = ({'token': access_token})
-                token_base.update_one({'user_id': user_id}, {'$set': update})
-                update = ({'username': name})
-                token_base.update_one({'user_id': user_id}, {'$set': update})
-                login_token_base.update_one({'user_id': user_id}, {'$set': update})
-                api = HQApi(access_token)
-                data = api.get_users_me()
-                username = data["username"]
-                lives = data["items"]["lives"]
-                superSpins = data["items"]["superSpins"]
-                erasers = data["items"]["erase1s"]
-                coins = data["coins"]
-                api = HQApi(token)
-                data = api.get_payouts_me()
-                bal = data["balance"]
-                total = bal["prizeTotal"]
-                paid = bal["paid"]
-                pending = bal["pending"]
-                unpaid = bal["unpaid"]
-                available = bal["available"]
-                unclaimed = bal["frozen"]
+            api = HQApi()
+            data = api.get_tokens(token)
+            name = data["username"]
+            user_id = data["userId"]
+            access_token = data["accessToken"]
+            update = ({'token': access_token})
+            token_base.update_one({'user_id': user_id}, {'$set': update})
+            update = ({'username': name})
+            token_base.update_one({'user_id': user_id}, {'$set': update})
+            login_token_base.update_one({'user_id': user_id}, {'$set': update})
+            api = HQApi(access_token)
+            data = api.get_users_me()
+            username = data["username"]
+            lives = data["items"]["lives"]
+            superSpins = data["items"]["superSpins"]
+            erasers = data["items"]["erase1s"]
+            coins = data["coins"]
+            api = HQApi(token)
+            data = api.get_payouts_me()
+            bal = data["balance"]
+            total = bal["prizeTotal"]
+            paid = bal["paid"]
+            pending = bal["pending"]
+            unpaid = bal["unpaid"]
+            available = bal["available"]
+            unclaimed = bal["frozen"]
 
-                s = s + 1
-                embed=discord.Embed(title=f"**Loading Your Accounts... - {s}**", color=discord.Colour.random())
-                await x.edit(embed=embed)
-                if s < 21:
-                    name = f"{s}. {username}"
-                    value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
-                    embed1.add_field(name=name, value=value)
-                elif s < 41:
-                    name = f"{s}. {username}"
-                    value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
-                    embed2.add_field(name=name, value=value)
-                else:
-                    name = f"{s}. {username}"
-                    value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
-                    embed3.add_field(name=name, value=value)
-            except Exception as e:
-                print(e)
-                username = login_token_base.find_one({"login_token": token}).get("username")
-                b = b + 1
-                description += f"{b}. {username}\n"
+            s = s + 1
+            embed=discord.Embed(title=f"**Loading Your Accounts... - {s}**", color=discord.Colour.random())
+            await x.edit(embed=embed)
+            if s < 21:
+                name = f"{s}. {username}"
+                value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                embed1.add_field(name=name, value=value)
+            elif s < 41:
+                name = f"{s}. {username}"
+                value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                embed2.add_field(name=name, value=value)
+            else:
+                name = f"{s}. {username}"
+                value = f"<:extra_coins:844448578881847326> {coins}\n<:extra_life:844448511264948225> {lives}\n<:eraser:844448550498205736> {erasers}\n💰 {total} (Unclaimed : {unclaimed})\n💸 {available} ready for cashout."
+                embed3.add_field(name=name, value=value)
+        
         if s > 0:
             embed1.set_thumbnail(url=self.client.user.avatar_url)
             embed1.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
