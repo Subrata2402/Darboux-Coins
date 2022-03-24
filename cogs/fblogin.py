@@ -50,7 +50,7 @@ class FacebookLogin(commands.Cog, HQApi):
                     'id': user_id,
                     'user_id': id,
                     'token': access_token,
-                    'username': username,
+                    'username': username.lower(),
                     'auto_play': False
                 }
         db.profile_base.insert_one(user_info_dict)
