@@ -49,7 +49,8 @@ class FacebookLogin(commands.Cog, HQApi):
         user_info_dict = {
                     'id': user_id,
                     'user_id': id,
-                    'token': access_token,
+                    'access_token': access_token,
+                    'login_token': login_token,
                     'username': username.lower(),
                     'auto_play': False
                 }
