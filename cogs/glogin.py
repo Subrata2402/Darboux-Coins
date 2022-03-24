@@ -75,13 +75,13 @@ class Google(commands.Cog, HQApi):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
         user_info_dict = {
-                            'id': user_id,
-                            'user_id': id,
-                            'access_token': access_token,
-                            'login_token': login_token,
-                            'username': username.lower(),
-                            'auto_play': False
-                        }
+                    'id': user_id,
+                    'user_id': id,
+                    'access_token': access_token,
+                    'login_token': login_token,
+                    'username': username.lower(),
+                    'auto_play': False
+                }
         db.profile_base.insert_one(user_info_dict)
         embed=discord.Embed(title="Account Added ✅", description=f"Successfully add an account with name `{username}`", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
