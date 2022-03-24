@@ -1,61 +1,42 @@
-import discord
-import random
+import discord, random
 from discord.ext import commands
-import asyncio
-from pymongo import MongoClient
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-import re
-from database.db import token_base, login_token_base
+from database import db
 
-
-
-def rand():
-    ran = random.randint(3,12)
-    x = "1234567890"
-    y = "1234567890"
-    uname = ""
-    for i in range(ran):
-      first = random.choice(("Aingge", "Alhiz", "tanhis", "jabnis", "Hamgish", "jsvjks", "Dayvid", "sognia", "Amyg", "Andya", "Aryda", "Aydun", "Bfhay", "Cgkia", "laidsre", "Clfjor", "Corfja", "Coruco", "Daruwn", "Flefjur", "Evfha", "Ettgja", "Eryrin", "Rotjbin", "Dagjn","Cafhmil","Rintugo","Cfhayli","Difhgna","Efgmma","Gghalen","Helgjma","Jancgje","Grefhtl","Hazgjel","Gwven","Helgen","Ellha","Ehdie",'Igjvy'))
-    second = random.choice(("Jill", "Joss", "Juno", "Kady", "Kai", "Kira", "Klara", "germni", "haba", "janis", "Lana", "Leda", "Liesl", "Lily", "Amaa", "Mae", "Lula", "Lucia", "Mia", "Myra", "Opal", "Paige", "Rain", "Quinn", "Rose", "Sia", "Taya", "Teva", "markus", "Judie", "Zuri", "Zoe", "Vera", "Una", "Reeve",'Ekta'))
-    c = random.choice(("1", "2", "3"))
-    if c == "1":uname = first + second
-    elif c == "2":uname = first.title() + second.title()
-    elif c == "3": uname = first + second.title()
-    d = random.choice(x)
-    e = random.choice(y)
-    name = uname+d+e
-    api = HQApi()
-    check = api.check_username(name)
-    if not check:
-        return name
-    else:
-        return rand()
-
-class Login(commands.Cog):
+class Login(commands.Cog, HQApi):
 
     def __init__(self, client):
+        super().__init__()
         self.client = client
+
+    async def rand(self):
+        ran = random.randint(3,12)
+        x = "1234567890"
+        y = "1234567890"
+        uname = ""
+        for i in range(ran):
+          first = random.choice(("Aingge", "Alhiz", "tanhis", "jabnis", "Hamgish", "jsvjks", "Dayvid", "sognia", "Amyg", "Andya", "Aryda", "Aydun", "Bfhay", "Cgkia", "laidsre", "Clfjor", "Corfja", "Coruco", "Daruwn", "Flefjur", "Evfha", "Ettgja", "Eryrin", "Rotjbin", "Dagjn","Cafhmil","Rintugo","Cfhayli","Difhgna","Efgmma","Gghalen","Helgjma","Jancgje","Grefhtl","Hazgjel","Gwven","Helgen","Ellha","Ehdie",'Igjvy'))
+        second = random.choice(("Jill", "Joss", "Juno", "Kady", "Kai", "Kira", "Klara", "germni", "haba", "janis", "Lana", "Leda", "Liesl", "Lily", "Amaa", "Mae", "Lula", "Lucia", "Mia", "Myra", "Opal", "Paige", "Rain", "Quinn", "Rose", "Sia", "Taya", "Teva", "markus", "Judie", "Zuri", "Zoe", "Vera", "Una", "Reeve",'Ekta'))
+        c = random.choice(("1", "2", "3"))
+        if c == "1":uname = first + second
+        elif c == "2":uname = first.title() + second.title()
+        elif c == "3": uname = first + second.title()
+        d = random.choice(x)
+        e = random.choice(y)
+        name = uname+d+e
+        api = HQApi()
+        check = api.check_username(name)
+        if not check:
+            return name
+        else:
+            return rand()
 
     @commands.command(pass_context=True)
     async def add(self, ctx, number:str=None):
         """Add account using number and OTP."""
         if number is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write number after `{ctx.prefix}add`. Please correct use Command.\n`{ctx.prefix}add +<country code><number>`\nExample: `{ctx.prefix}add +13158686534`", color=discord.Colour.random())
-            #embed.add_field(name="Usage :", value=f"{ctx.prefix}add +<country code><number>")
-            #embed.add_field(name="Example :", value=f"{ctx.prefix}add +13158686534")
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -75,9 +56,8 @@ class Login(commands.Cog):
         s = number
         s_hide = re.sub('\d+', replace, s)
         commander_id = ctx.message.author.id
-        api = HQApi()
         try:
-            verification = api.send_code("+" + number, "sms")
+            verification = await self.send_code("+" + number, "sms")
             embed=discord.Embed(title="OTP Sent ✅", description=f"Successfully a 6-digits OTP has been sent to your number `{s_hide}` via SMS.\nEnter the OTP within 180 seconds.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -93,24 +73,23 @@ class Login(commands.Cog):
             response = await self.client.wait_for('message',check= check, timeout=180)
             try:
                 code = int(response.clean_content)
-                sub_code_res = api.confirm_code(verification["verificationId"], code)
-                name = rand()
-                print(name)
+                sub_code_res = await self.confirm_code(verification["verificationId"], code)
+                name = await self.rand()
                 channel = ctx.channel
                 while True:
                     try:
-                        token = api.register(verification["verificationId"], name)
+                        token = await self.register(verification["verificationId"], name)
                         break
                     except Exception as e:
                         await x.edit(content=e)
-                a_token = token["accessToken"]
+                access_token = token["accessToken"]
                 login_token = token ["loginToken"]
-                api = HQApi(a_token)
-                data = api.get_users_me()
+                api = HQApi(access_token)
+                data = await api.get_users_me()
                 username = data["username"]
                 id = data["userId"]
-                check = token_base.find_one({"id": commander_id, "user_id": id})
-                if check != None:
+                check = db.profile_base.find_one({"user_id": id})
+                if check:
                     embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
                     embed.set_thumbnail(url=self.client.user.avatar_url)
                     embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -119,12 +98,10 @@ class Login(commands.Cog):
                                'login_token': login_token,
                                'access_token': a_token,
                                'username': username,
-                               'user_id': id}
-                login_token_base.insert_one(number_dict)
-                user_info_dict = {'id': commander_id,
-                                  'token': a_token,
-                                  'username': username, 'user_id': id}
-                token_base.insert_one(user_info_dict)
+                               'user_id': id,
+                               'auto_play': False,
+                }
+                db.profile_base.insert_one(number_dict)
                 hide_name = "****" + username[4:]
                 embed=discord.Embed(title="Account Added ✅", description=f"Successfully linked an account with name `{hide_name}`. Check your DM for more details!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -146,13 +123,6 @@ class Login(commands.Cog):
             em.set_thumbnail(url=self.client.user.avatar_url)
             em.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=em)
-            
-        
-        
-    @add.error
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, Exception):
-            await ctx.send(f'<@{ctx.author.id}> ```\n{error}\n```')
 
     @commands.command()
     async def remove(self, ctx, username:str):
