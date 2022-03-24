@@ -61,12 +61,13 @@ class Profile(commands.Cog):
                 api = HQApi()
                 data = api.get_tokens(token)
                 name = data["username"]
+                user_id = data["userId"]
                 access_token = data["accessToken"]
                 update = ({'token': access_token})
-                token_base.update_one({'username': username}, {'$set': update})
+                token_base.update_one({'user_id': user_id}, {'$set': update})
                 update = ({'username': name})
-                token_base.update_one({'username': username}, {'$set': update})
-                login_token_base.update_one({'username': username}, {'$set': update})
+                token_base.update_one({'user_id': user_id}, {'$set': update})
+                login_token_base.update_one({'user_id': user_id}, {'$set': update})
                 api = HQApi(access_token)
                 data = api.get_users_me()
                 username = data["username"]
@@ -101,7 +102,7 @@ class Profile(commands.Cog):
                     embed3.add_field(name=name, value=value)
             except Exception as e:
                 print(e)
-                username = login_token_base.find_one({"token": token}).get("username")
+                username = login_token_base.find_one({"login_token": token}).get("username")
                 b = b + 1
                 description += f"{b}. {username}\n"
         if s > 0:
