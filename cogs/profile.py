@@ -56,17 +56,17 @@ class Profile(commands.Cog):
         embed1=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
-        for token in token_list:
-            api = HQApi()
-            data = api.get_tokens(token)
-            name = data["username"]
-            access_token = data["accessToken"]
-            update = ({'token': access_token})
-            token_base.update_one({'username': username}, {'$set': update})
-            update = ({'username': name})
-            token_base.update_one({'username': username}, {'$set': update})
-            login_token_base.update_one({'username': username}, {'$set': update})
+        for index, token in enumerate(token_list):
             try:
+                api = HQApi()
+                data = api.get_tokens(token)
+                name = data["username"]
+                access_token = data["accessToken"]
+                update = ({'token': access_token})
+                token_base.update_one({'username': username}, {'$set': update})
+                update = ({'username': name})
+                token_base.update_one({'username': username}, {'$set': update})
+                login_token_base.update_one({'username': username}, {'$set': update})
                 api = HQApi(access_token)
                 data = api.get_users_me()
                 username = data["username"]
