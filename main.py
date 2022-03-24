@@ -85,8 +85,6 @@ async def on_message(message):
        await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
    await client.process_commands(message)
 
-
-
 extensions = ["cogs.glogin"]
               '''"cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
               "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
