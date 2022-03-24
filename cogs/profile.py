@@ -4,20 +4,10 @@ from discord.ext import commands
 import asyncio
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
 from datetime import datetime
-import requests
-import json
-import time
-import colorsys
 import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
 from database.db import token_base, login_token_base
-
+from discord_components import *
 
 
 class Profile(commands.Cog):
@@ -29,25 +19,18 @@ class Profile(commands.Cog):
     @commands.command()
     async def accounts(self, ctx):
         commander_id = ctx.author.id
-        id_list = []
-        all_data = list(token_base.find({"id": commander_id}))
-        for i in all_data:
-            id_list.append(i['id'])
-        if commander_id not in id_list:
+        check_id = token_base.find_one({"id": commander_id})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        name_list = []
         all_data = list(token_base.find({"id": commander_id}))
-        name = f""
-        s = 0
-        for i in all_data:
-            name_list.append(i['username'])
-        for username in name_list:
-            s = int(s) + 1
-            name += f"{s} - {username}\n"
-        embed=discord.Embed(title=f"{ctx.author.name}'s accounts !", description=name, color=discord.Colour.random())
+        name_list = [data.get("username") for data in all_data]
+        name = ""
+        for index, username in enumerate(name_list):
+            name += f"{'0' if index+1 < 10 else ''}{index+1} - {username}\n"
+        embed=discord.Embed(title=f"{ctx.author.name}'s accounts !", description = f"```\n{name}\n```", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
@@ -55,11 +38,8 @@ class Profile(commands.Cog):
     @commands.command()
     async def profile(self, ctx):
         commander_id = ctx.author.id
-        id_list = []
-        all_data = list(token_base.find({"id": commander_id}))
-        for i in all_data:
-            id_list.append(i['id'])
-        if commander_id not in id_list:
+        check_id = token_base.find_one({"id": commander_id})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -68,10 +48,8 @@ class Profile(commands.Cog):
             await ctx.send("Check your DM! Details send in DM's.")
         embed=discord.Embed(title="**Loading Your Accounts...**", color=discord.Colour.random())
         x = await ctx.author.send(embed=embed)
-        token_list = []
         all_data = list(token_base.find({"id": commander_id}))
-        for i in all_data:
-            token_list.append(i['token'])
+        token_list = [data.get("token") for data in all_data]
         s = 0
         b = 0
         description = ""
@@ -79,8 +57,16 @@ class Profile(commands.Cog):
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
         for token in token_list:
+            data = api.get_tokens(token)
+            name = data["username"]
+            access_token = data["accessToken"]
+            update = ({'token': access_token})
+            token_base.update_one({'username': username}, {'$set': update})
+            update = ({'username': name})
+            token_base.update_one({'username': username}, {'$set': update})
+            login_token_base.update_one({'username': username}, {'$set': update})
             try:
-                api = HQApi(token)
+                api = HQApi(access_token)
                 data = api.get_users_me()
                 username = data["username"]
                 lives = data["items"]["lives"]
