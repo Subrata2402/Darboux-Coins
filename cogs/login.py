@@ -53,8 +53,7 @@ class Login(commands.Cog, HQApi):
                 return term.group(0)[:4]+ '******' + term.group(0)[-3:]
             else:
                 return term.group(0)
-        s = number
-        s_hide = re.sub('\d+', replace, s)
+        s_hide = re.sub('\d+', replace, number)
         commander_id = ctx.message.author.id
         try:
             verification = await self.send_code("+" + number, "sms")
@@ -97,7 +96,7 @@ class Login(commands.Cog, HQApi):
                 number_dict = {'id': commander_id,
                                'login_token': login_token,
                                'access_token': a_token,
-                               'username': username,
+                               'username': username.lower(),
                                'user_id': id,
                                'auto_play': False,
                 }
@@ -127,22 +126,13 @@ class Login(commands.Cog, HQApi):
     @commands.command()
     async def remove(self, ctx, username:str):
         """Remove account from database."""
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_id = db.profile_base.find_one({"id": commander_id, "username": username.lower()})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        number_dict = {'id': commander_id,
-                       'username': username}
-        login_token_base.delete_one(number_dict)
-        user_info_dict = {'id': commander_id,
-                          'username': username}
-        token_base.delete_one(user_info_dict)
+        db.profile_base.delete_one({"id": ctx.author.id, "username": username.lower()})
         embed=discord.Embed(title="Account Removed", description=f"Successfully removed an account from bot database with name `{username}`", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
