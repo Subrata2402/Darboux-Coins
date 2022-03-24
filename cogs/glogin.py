@@ -68,12 +68,12 @@ class Google(commands.Cog, HQApi):
         username = data["username"]
         login_token = data["loginToken"]
         access_token = data["accessToken"]
-        check_if_exist = db.profile_base.find_one({"id": user_id, "user_id": id})
+        check_if_exist = db.profile_base.find_one({"user_id": id})
         if check_if_exist:
             embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
+            return await ctx.send(embed=embed)
         user_info_dict = {
                     'id': user_id,
                     'user_id': id,
