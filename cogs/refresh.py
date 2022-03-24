@@ -55,7 +55,8 @@ class Refresh(commands.Cog):
             login_token_base.update_one({'username': username}, {'$set': update})
             embed=discord.Embed(title="Successfully refreshed your account ✅", color=discord.Colour.random())
             await x.edit(embed=embed)
-        except:
+        except Exception as e:
+            print(e)
             embed=discord.Embed(title="Refreshing Failed!", color=discord.Colour.random())
             await x.edit(embed=embed)
 
