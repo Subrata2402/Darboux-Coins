@@ -15,7 +15,7 @@ class Darboux(commands.Cog):
         print('====================')
         print(self.client.user)
         channel = self.client.get_channel(835743589241454592)
-        embed=discord.Embed(title="Bot Updated ✅", description="Bot successfully updated. No issues found!", color=0x00ffff)
+        embed=discord.Embed(title="Bot Updated ✅", description="Bot successfully updated. No issues found!", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await channel.send(embed=embed)
