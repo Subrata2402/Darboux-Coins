@@ -48,7 +48,7 @@ class Profile(commands.Cog):
             await ctx.send("Check your DM! Details send in DM's.")
         embed=discord.Embed(title="**Loading Your Accounts...**", color=discord.Colour.random())
         x = await ctx.author.send(embed=embed)
-        all_data = list(token_base.find({"id": commander_id}))
+        all_data = list(login_token_base.find({"id": commander_id}))
         login_token_list = [data.get("login_token") for data in all_data]
         s = 0
         b = 0
