@@ -36,11 +36,8 @@ class Refresh(commands.Cog):
         embed=discord.Embed(title="Refreshing...", color=discord.Colour.random())
         x = await ctx.send(embed=embed)
         commander_id = ctx.author.id
-        name_list = []
-        all_data = list(login_token_base.find({"id": commander_id}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_id = login_token_base.find_one({"id": commander_id, "username": username})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
