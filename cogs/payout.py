@@ -63,7 +63,6 @@ class Cashout(commands.Cog):
         if not email or not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}cashout [email] [username]` to cashout from your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        channel = self.client.get_channel(841489919067029535)
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             try:
@@ -95,6 +94,7 @@ class Cashout(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
+            channel = self.client.get_channel(841489919067029535)
             await channel.send(f"**{ctx.author}** made a Successfully cashout of amount **{amount}**")
         else:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
