@@ -89,7 +89,7 @@ class DcPlay(commands.Cog):
             else:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} **{minutes}** minute{'' if minutes == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
-            offair_id = await api.get_schedule()['offairTrivia']['games'][0]['gameUuid']
+            offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
         while True:
             offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
