@@ -13,24 +13,22 @@ class Login(commands.Cog, HQApi):
     async def rand(self):
         ran = random.randint(3,12)
         x = "1234567890"
-        y = "1234567890"
         uname = ""
         for i in range(ran):
-          first = random.choice(("Aingge", "Alhiz", "tanhis", "jabnis", "Hamgish", "jsvjks", "Dayvid", "sognia", "Amyg", "Andya", "Aryda", "Aydun", "Bfhay", "Cgkia", "laidsre", "Clfjor", "Corfja", "Coruco", "Daruwn", "Flefjur", "Evfha", "Ettgja", "Eryrin", "Rotjbin", "Dagjn","Cafhmil","Rintugo","Cfhayli","Difhgna","Efgmma","Gghalen","Helgjma","Jancgje","Grefhtl","Hazgjel","Gwven","Helgen","Ellha","Ehdie",'Igjvy'))
-        second = random.choice(("Jill", "Joss", "Juno", "Kady", "Kai", "Kira", "Klara", "germni", "haba", "janis", "Lana", "Leda", "Liesl", "Lily", "Amaa", "Mae", "Lula", "Lucia", "Mia", "Myra", "Opal", "Paige", "Rain", "Quinn", "Rose", "Sia", "Taya", "Teva", "markus", "Judie", "Zuri", "Zoe", "Vera", "Una", "Reeve",'Ekta'))
+            first = random.choice(("Aingge", "Alhiz", "tanhis", "jabnis", "Hamgish", "jsvjks", "Dayvid", "sognia", "Amyg", "Andya", "Aryda", "Aydun", "Bfhay", "Cgkia", "laidsre", "Clfjor", "Corfja", "Coruco", "Daruwn", "Flefjur", "Evfha", "Ettgja", "Eryrin", "Rotjbin", "Dagjn","Cafhmil","Rintugo","Cfhayli","Difhgna","Efgmma","Gghalen","Helgjma","Jancgje","Grefhtl","Hazgjel","Gwven","Helgen","Ellha","Ehdie",'Igjvy'))
+            second = random.choice(("Jill", "Joss", "Juno", "Kady", "Kai", "Kira", "Klara", "germni", "haba", "janis", "Lana", "Leda", "Liesl", "Lily", "Amaa", "Mae", "Lula", "Lucia", "Mia", "Myra", "Opal", "Paige", "Rain", "Quinn", "Rose", "Sia", "Taya", "Teva", "markus", "Judie", "Zuri", "Zoe", "Vera", "Una", "Reeve",'Ekta'))
         c = random.choice(("1", "2", "3"))
         if c == "1":uname = first + second
         elif c == "2":uname = first.title() + second.title()
         elif c == "3": uname = first + second.title()
         d = random.choice(x)
-        e = random.choice(y)
+        e = random.choice(x)
         name = uname+d+e
-        api = HQApi()
-        check = api.check_username(name)
+        check = await self.check_username(name)
         if not check:
             return name
         else:
-            return rand()
+            return await self.rand()
 
     @commands.command(pass_context=True)
     async def add(self, ctx, number:str=None):
@@ -74,7 +72,6 @@ class Login(commands.Cog, HQApi):
                 code = int(response.clean_content)
                 sub_code_res = await self.confirm_code(verification["verificationId"], code)
                 name = await self.rand()
-                channel = ctx.channel
                 while True:
                     try:
                         data = await self.register(verification["verificationId"], name)
