@@ -13,7 +13,8 @@ class DcPlay(commands.Cog):
     async def get_answer(self, question):
         check_question = db.questions_base.find_one({"question": question})
         if not check_question: return None
-        return answer = db.questions_base.find_one({"question": question}).get("answer")
+        answer = db.questions_base.find_one({"question": question}).get("answer")
+        return answer
 
     async def add_question(self, question, answer):
         check_question = db.questions_base.find_one({"question": question})
