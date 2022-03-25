@@ -122,6 +122,7 @@ class Login(commands.Cog, HQApi):
     @commands.command()
     async def remove(self, ctx, username:str):
         """Remove account from database."""
+        commander_id = ctx.author.id
         check_id = db.profile_base.find_one({"id": commander_id, "username": username.lower()})
         if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
