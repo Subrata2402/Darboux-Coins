@@ -1,28 +1,14 @@
-import discord
-import random
+import discord, asyncio
 from discord.ext import commands
-import asyncio
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from database.db import token_base, q_base
-
+from database import db
 
 class DcPlay(commands.Cog):
 
     def __init__(self, client):
         self.client = client
+        self.fetching_thumb = "https://cdn.discordapp.com/emojis/773955381063974972.gif"
 
     @commands.command()
     @commands.is_owner()
@@ -30,10 +16,7 @@ class DcPlay(commands.Cog):
         embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ Counting...**", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         x = await ctx.send(embed=embed)
-        all_data = list(q_base.find())
-        tq = 0
-        for i in all_data:
-            tq = tq + 1
+        tq = len(list(db.q_base.find()))
         embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ {tq}** <:questions:851142736442687488>", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await x.edit(embed=embed)
@@ -43,8 +26,6 @@ class DcPlay(commands.Cog):
         """Play HQ Daily Challenge."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write username after `{ctx.prefix}dcplay`. Please correct use Command to play HQ Trivia Daily Challenge.\n`{ctx.prefix}dcplay <username>`\nExample: `{ctx.prefix}add +13158686534`", color=discord.Colour.random())
-            #embed.add_field(name="Usage :", value=f"{ctx.prefix}add +<country code><number>")
-            #embed.add_field(name="Example:", value=f"{ctx.prefix}add +13158686534")
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
@@ -52,20 +33,15 @@ class DcPlay(commands.Cog):
             await ctx.message.delete()
         except:
             pass
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_id = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        token = token_base.find_one({'username': username})['token']
         try:
-            api = HQApi(token)
-            data = api.get_users_me()
+            api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+            data = await api.get_users_me()
         except ApiResponseError:
             embed=discord.Embed(title="⚠️ Token Expired", description=f"This account token is expired. Please use Command `{ctx.prefix}refresh {username}` to refresh your account.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -74,21 +50,17 @@ class DcPlay(commands.Cog):
         coins = data["coins"]
         embed=discord.Embed(title="Starting HQ Offair Trivia...", color=0x00ffff)
         x = await ctx.send(embed=embed)
-        if ctx.guild:
-            username = "||Private Account||"
+        if ctx.guild: username = "||Private Account||"
         await asyncio.sleep(2)
         embed=discord.Embed(title="Playing HQ Offair Trivia...", description=f"**• Username : {username}\n• Games Played : 00\n• Questions Correct : 00/00\n• Coins Earned : 0\n• Total Coins : {coins}**", color=discord.Colour.random())
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/773955381063974972.gif")
+        embed.set_thumbnail(url=self.fetching_thumb)
         await x.edit(embed=embed)
-        q_list = []
-        all_data = list(q_base.find())
-        for i in all_data:
-            q_list.append(i['question'])
+        questions_list = [data.get("question") for data in list(db.questions_base.find())]
         try:
-            offair_id = api.start_offair()['gameUuid']
+            offair_id = await api.start_offair()['gameUuid']
         except ApiResponseError:
-            offair_id = api.get_schedule()['offairTrivia']["waitTimeMs"]
+            offair_id = await api.get_schedule()['offairTrivia']["waitTimeMs"]
             time=int(offair_id)/int(1000)
             milli=int(time)
             hours=(milli/(3600))
