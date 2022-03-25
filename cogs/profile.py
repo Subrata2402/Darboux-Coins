@@ -106,15 +106,13 @@ class Profile(commands.Cog):
             
             if interaction.custom_id == "button4":
                 page = pages
-            if interaction.custom_id == "button3":
+            elif interaction.custom_id == "button3":
                 page += 1
-                if page > pages:
-                    page = pages
-            if interaction.custom_id == "button2":
+                if page > pages: page = pages
+            elif interaction.custom_id == "button2":
                 page -= 1
-                if page <= 0:
-                    page = 1
-            if interaction.custom_id == "button1":
+                if page <= 0: page = 1
+            else:
                 page = 1
                 
             start = (page - 1) * items_per_page
