@@ -160,7 +160,7 @@ class Login(commands.Cog, HQApi):
             return await x.edit(embed=embed)
         id_list = list(db.profile_base.find({"id": commander_id}))
         for id in id_list:
-            db.profile_base.delete_one(number_dict)
+            db.profile_base.delete_one({"id": commander_id})
         embed=discord.Embed(title="Account Removed", description=f"You have successfully removed your all accounts from bot database.", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
