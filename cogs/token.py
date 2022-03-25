@@ -35,7 +35,7 @@ class Token(commands.Cog):
             user_id = ctx.author.id
             data = await api.get_login_token()
             login_token = data["loginToken"]
-            access_token = data["accessToken"]
+            access_token = token
         except ApiResponseError:
             embed=discord.Embed(title="⚠️ Api Response Error", description="This is not a valid token or token is expired. Try again with a valid token or which is not expire!", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
