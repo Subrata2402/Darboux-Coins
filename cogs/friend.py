@@ -1,24 +1,8 @@
 import discord
-import random
 from discord.ext import commands
-import asyncio
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from database.db import token_base, login_token_base
-
-
+from database import db
 
 class Friends(commands.Cog):
 
@@ -32,43 +16,36 @@ class Friends(commands.Cog):
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friends [username]` to check your all friends list.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_id = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
         if ctx.guild:
             await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
-        token = token_base.find_one({'username': username})['token']
         try:
-            api = HQApi(token)
-            data = api.get_users_me()
+            api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+            data = await api.get_users_me()
         except ApiResponseError:
             embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.author.send(embed=embed)
         username = data["username"]
-        r = api.friend_list()
-        s = 0
+        response = await api.friend_list()
         embed1=discord.Embed(title=f"**__{username}'s Friends List !__**", color=discord.Colour.random())
         embed2=discord.Embed(color=discord.Colour.random())
         embed3=discord.Embed(color=discord.Colour.random())
         embed=discord.Embed(title=f"Loading {username}'s friends list...", color=discord.Colour.random())
         x = await ctx.author.send(embed=embed)
-        for data in r["data"]:
+        for index, data in enumerate(response["data"]):
             name = data["username"]
             total = data["leaderboard"]["total"]
             highScore = data["highScore"]
             gamesPlayed = data["gamesPlayed"]
             winCount = data["winCount"]
-            s = s + 1
-            name = f"{s}. {name}"
+            name = f"{index+1}. {name}"
             value = f"> Total Winnings : {total}\n> High Score : {highScore}\n> Games Won : {winCount}/{gamesPlayed}"
             if s < 21:
                 embed1.add_field(name=name, value=value)
