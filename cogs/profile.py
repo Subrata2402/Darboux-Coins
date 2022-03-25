@@ -89,11 +89,11 @@ class Profile(commands.Cog):
         embed.set_footer(text=f"Page : {'0' if page < 10 else ''}{page}/{'0' if pages < 10 else ''}{pages}")
         embed.timestamp = datetime.datetime.utcnow()
         if pages in [0, 1]:
-            message = await ctx.send(embed = embed)
+            message = await message.edit(embed = embed)
             return
         else:
             if page == 1:
-                message = await ctx.send(embed = embed, components=first_page_buttons)
+                message = await message.edit(embed = embed, components=first_page_buttons)
                 embed.clear_fields()
         def check(interaction):
             return interaction.message == message
