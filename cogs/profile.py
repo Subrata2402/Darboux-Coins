@@ -64,7 +64,7 @@ class Profile(commands.Cog):
             name = data["username"]
             user_id = data["userId"]
             access_token = data["accessToken"]
-            update = {'access_token': access_token, "username": username.lower()}
+            update = {'access_token': access_token, "username": name.lower()}
             db.profile_base.update_one({"user_id": user_id}, {"$set": update})
             
             api = HQApi(access_token)
@@ -123,7 +123,7 @@ class Profile(commands.Cog):
                 name = data["username"]
                 user_id = data["userId"]
                 access_token = data["accessToken"]
-                update = {'access_token': access_token, "username": username.lower()}
+                update = {'access_token': access_token, "username": name.lower()}
                 db.profile_base.update_one({"user_id": user_id}, {"$set": update})
                 
                 api = HQApi(access_token)
