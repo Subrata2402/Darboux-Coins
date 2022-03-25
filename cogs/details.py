@@ -2,12 +2,7 @@ import discord
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-import asyncio
-from datetime import datetime
-import datetime
-import aniso8601
-from pytz import timezone
-from database.db import token_base
+from database import db
 
 
 class Details(commands.Cog):
@@ -23,14 +18,11 @@ class Details(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-      
-        check_id = token_base.find_one({"id": commander_id, "username": username})
+        check_id = db.profile_base.find_one({"id": commander_id, "username": username})
         if check_id:
-            token = check_id['token']
             try:
-                api = HQApi(token)
-                data = api.get_users_me()
+                api = HQApi(db.profile_base.find_one({"id": commander_id, "username": username}).get("access_token"))
+                data = await api.get_users_me()
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -64,8 +56,7 @@ class Details(commands.Cog):
             embed.set_footer(text=f"ID: {id} | Created At: {created_at}")
             embed.set_thumbnail(url=avatar_url)
             await ctx.author.send(embed=embed)
-            if ctx.guild:
-                await ctx.send("Check your DM! Details send in DM's.")
+            if ctx.guild: await ctx.send("Check your DM! Details send in DM's.")
         else:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
             embed.set_thumbnail(url=self.client.user.avatar_url)
