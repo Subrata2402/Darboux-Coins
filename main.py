@@ -18,7 +18,7 @@ class Darboux(commands.Cog):
         embed=discord.Embed(title="Bot Updated ✅", description="Bot successfully updated. No issues found!", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await channel.send(embed=embed)
+        #await channel.send(embed=embed)
         while True:
             #await self.client.change_presence(activity=discord.Activity(type=3,name="on "+str(len(self.client.guilds))+" servers | -invite"))
             #await asyncio.sleep(5)
