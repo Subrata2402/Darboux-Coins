@@ -77,14 +77,12 @@ class Login(commands.Cog, HQApi):
                 channel = ctx.channel
                 while True:
                     try:
-                        token = await self.register(verification["verificationId"], name)
+                        data = await self.register(verification["verificationId"], name)
                         break
                     except Exception as e:
                         await x.edit(content=e)
-                access_token = token["accessToken"]
-                login_token = token ["loginToken"]
-                api = HQApi(access_token)
-                data = await api.get_users_me()
+                access_token = data["accessToken"]
+                login_token = data["loginToken"]
                 username = data["username"]
                 id = data["userId"]
                 check = db.profile_base.find_one({"user_id": id})
@@ -144,11 +142,8 @@ class Login(commands.Cog, HQApi):
     async def removeall(self, ctx):
         """Remove all accounts from database."""
         commander_id = ctx.author.id
-        id_list = []
-        all_data = list(token_base.find({"id": commander_id}))
-        for i in all_data:
-            id_list.append(i['id'])
-        if commander_id not in id_list:
+        check_id = db.profile_base.find_one({"id": commander_id})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not added any accounts. Use Command `{ctx.prefix}add +(country code)(number)` or `{ctx.prefix}addtoken (token)` or `{ctx.prefix}fblogin (fbtoken)` to save your account in bot database and make unlimited coins with bot.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -164,18 +159,15 @@ class Login(commands.Cog, HQApi):
         except:
             embed=discord.Embed(description=f"You have run out of time to reply.", color=0x00ffff)
             return await x.edit(embed=embed)
-        for commander_id in id_list:
-            number_dict = {'id': commander_id}
-            login_token_base.delete_one(number_dict)
-            user_info_dict = {'id': commander_id}
-            token_base.delete_one(user_info_dict)
+        id_list = list(db.profile_base.find({"id": commander_id}))
+        for id in id_list:
+            db.profile_base.delete_one(number_dict)
         embed=discord.Embed(title="Account Removed", description=f"You have successfully removed your all accounts from bot database.", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
         channel = self.client.get_channel(841490289134796810)
         await channel.send(f"{ctx.author} removed all accounts from bot database.")
-
 
 
 def setup(client):
