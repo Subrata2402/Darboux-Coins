@@ -9,7 +9,7 @@ class Refresh(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=["Refresh"])
+    @commands.command()
     async def refresh(self, ctx, username=None):
         """Refresh an account.."""
         if username is None:
