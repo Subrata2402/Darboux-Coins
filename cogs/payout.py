@@ -1,24 +1,8 @@
-import discord
-import random
+import discord, aniso8601
 from discord.ext import commands
-import asyncio
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from database.db import token_base, login_token_base
-
-
+from database import db
 
 class Cashout(commands.Cog):
 
@@ -31,42 +15,30 @@ class Cashout(commands.Cog):
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}payout [username]` to check your HQ account cashout details.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if check_if_exist:
             try:
-                api = HQApi(token)
-                data = api.get_users_me()
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+                data = await api.get_users_me()
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please use Command `{ctx.prefix}refresh {username}` to refresh your account.", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             username = data["username"]
-            api = HQApi(token)
-            data = api.get_payouts_me()
+            data = await api.get_payouts_me()
             description_info = f""
-            s = 0
-            for data in data["payouts"]:
-                s = int(s) + 1
-                if s > 10:
+            for index, data in enumerate(data["payouts"]):
+                if index+1 > 10:
                     break
                 amount = data["amount"]
                 email = data["targetEmail"]
                 tim = data["created"]
-                tm = aniso8601.parse_datetime(tim)
-                x =  tm.strftime("%H:%M:%S [%d/%m/%Y] ")
-                x_ind = tm.astimezone(timezone("Asia/Kolkata"))
-                create_at = x_ind.strftime("%d-%m-%Y %I:%M %p")
+                tm = aniso8601.parse_datetime(tim).timestamp()
+                create_at = f"<t:{int(tm)}>"
                 tim = data["modified"]
-                tm = aniso8601.parse_datetime(tim)
-                x =  tm.strftime("%H:%M:%S [%d/%m/%Y] ")
-                x_ind = tm.astimezone(timezone("Asia/Kolkata"))
-                modify_at = x_ind.strftime("%d-%m-%Y %I:%M %p")
+                tm = aniso8601.parse_datetime(tim).timestamp()
+                modify_at = f"<t:{int(tm)}>"
                 description_info += f"• Amount :** {amount}**\n• Email :** {email}**\n• Payment Created :** {create_at}**\n• Payment Completed :** {modify_at}**\n\n"
             await ctx.send("Details send in DM. Please check your DM!")
             embed=discord.Embed(title=f"**__Payout Summary of {username} !__**", description=description_info, color=discord.Colour.random())
@@ -91,17 +63,12 @@ class Cashout(commands.Cog):
         if not email or not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}cashout [email] [username]` to cashout from your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
         channel = self.client.get_channel(841489919067029535)
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if check_if_exist:
             try:
-                api = HQApi(token)
-                data = api.get_payouts_me()
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get('access_token'))
+                data = await api.get_payouts_me()
                 bal = data["balance"]
                 available = float(bal["available"][1:])
             except ApiResponseError:
@@ -117,7 +84,7 @@ class Cashout(commands.Cog):
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             try:
-                data = api.make_payout(email)
+                data = await api.make_payout(email)
             except Exception as e:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=e, color=discord.Colour.random())
                 return await ctx.send(embed=embed)
@@ -134,8 +101,6 @@ class Cashout(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
-            
-
 
 def setup(client):
     client.add_cog(Cashout(client))
