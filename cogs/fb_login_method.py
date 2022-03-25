@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import DiscordUtils
 
-
 class FbMethod(commands.Cog):
 
     def __init__(self, client):
