@@ -1,4 +1,4 @@
-import discord
+import discord, aniso8601
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
@@ -30,7 +30,7 @@ class Details(commands.Cog):
             username = data["username"]
             id = data["userId"]
             avatar_url = data["avatarUrl"]
-            created_at = data["created"]
+            created_at = aniso8601.parse_datetime(data["created"])
             ph_no = data["phoneNumber"]
             lives = data["items"]["lives"]
             superSpins = data["items"]["superSpins"]
