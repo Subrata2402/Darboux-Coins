@@ -48,7 +48,7 @@ class Profile(commands.Cog):
             return await ctx.send(embed=embed)
         if ctx.guild: await ctx.send("Check your DM! Details send in DM's.")
         embed=discord.Embed(title="**Loading Your Accounts...**", color=discord.Colour.random())
-        x = await ctx.author.send(embed=embed)
+        message = await ctx.author.send(embed=embed)
         all_data = list(db.profile_base.find({"id": ctx.author.id}))
         login_token_list = [data.get("login_token") for data in all_data]
         description = ""
@@ -89,11 +89,10 @@ class Profile(commands.Cog):
         embed.set_footer(text=f"Page : {'0' if page < 10 else ''}{page}/{'0' if pages < 10 else ''}{pages}")
         embed.timestamp = datetime.datetime.utcnow()
         if pages in [0, 1]:
-            message = await message.edit(embed = embed)
-            return
+            return await message.edit(embed = embed)
         else:
             if page == 1:
-                message = await message.edit(embed = embed, components=first_page_buttons)
+                await message.edit(embed = embed, components=first_page_buttons)
                 embed.clear_fields()
         def check(interaction):
             return interaction.message == message
