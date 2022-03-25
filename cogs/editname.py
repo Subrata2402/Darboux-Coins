@@ -28,6 +28,8 @@ class EditUsername(commands.Cog):
                 return await ctx.send(embed=embed)
             try:
                 data = await api.edit_username(name)
+                update = {"username": name.lower()}
+                db.profile_base.update_one({"id": ctx.author.id, "username": username.lower()}, {"$set": update})
                 embed=discord.Embed(title="**Username Edited Done ✅**", description=f"Successfully Edited username `{username}` to `{name}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
