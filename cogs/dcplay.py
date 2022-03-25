@@ -10,6 +10,16 @@ class DcPlay(commands.Cog):
         self.client = client
         self.fetching_thumb = "https://cdn.discordapp.com/emojis/773955381063974972.gif"
 
+    async def get_answer(self, question):
+        check_question = db.questions_base.find_one({"question": question})
+        if not check_question: return None
+        return answer = db.questions_base.find_one({"question": question}).get("answer")
+
+    async def add_question(self, question, answer):
+        check_question = db.questions_base.find_one({"question": question})
+        if not check_question:
+            db.questions_base.insert_one({"question": question, "answer": answer})
+
     @commands.command()
     @commands.is_owner()
     async def tq(self, ctx):
@@ -62,14 +72,8 @@ class DcPlay(commands.Cog):
         except ApiResponseError:
             offair_id = await api.get_schedule()['offairTrivia']["waitTimeMs"]
             time=int(offair_id)/int(1000)
-            milli=int(time)
-            hours=(milli/(3600))
-            hours=int(hours)
-            minutes=((milli/(60))-(hours*(60)))
-            minutes=int(minutes)
-            hm = hours + minutes
-            seconds=((milli)-(hours*(3600))-(minutes*(60)))
-            seconds=int(seconds)
+            hours, remainder = divmod(time, 3600)
+            minutes, seconds = divmod(remainder, 60)
             await asyncio.sleep(1)
             if hm == 0:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
@@ -83,67 +87,29 @@ class DcPlay(commands.Cog):
             else:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} **{minutes}** minute{'' if minutes == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
-            offair_id = api.get_schedule()['offairTrivia']['games'][0]['gameUuid']
+            offair_id = await api.get_schedule()['offairTrivia']['games'][0]['gameUuid']
         while True:
-            offair = api.offair_trivia(offair_id)
+            offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
             question=offair['question']['question']
-            option1=f"{answers[0]}"
-            option2=f"{answers[1]}"
-            option3=f"{answers[2]}"
-
-            if question in q_list:
-                answer = q_base.find_one({'question': question})['answer']
-                if option1 == answer:
-                    select = 1
-                elif option2 == answer:
-                    select = 2
-                else:
-                    select = 3
-            else:
-                select = 2
-            data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
-            #print(data)
-            answer_counts = {}
-            correct = ""
+            option1=answers[0]
+            option2=answers[1]
+            option3=answers[2]
+            
+            answer = await self.get_answer(question)
+            if answer:
+                if option1.lower() == answer.lower(): select = 1
+                elif option2.lower() == answer.lower(): select = 2
+                else: select = 3
+            else: select = 2
+            data = await api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             for answer in data["answerCounts"]:
-                ans_str = unidecode(answer["answer"])
-
-                if answer["correct"]:
-                    correct = ans_str
+                if answer["correct"]: correct = unidecode(answer["answer"])
+            await self.add_question(question, correct)
             coins = str(data["coinsEarned"])
             qcnt = (offair['question']['questionNumber'])
             qs = int(0) + int(qcnt)
-            if option1 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"1"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            elif option2 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"2"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            else:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"3"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
+            
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
                 coins = str(data['gameSummary']['coinsEarned'])
@@ -156,73 +122,34 @@ class DcPlay(commands.Cog):
         coins1 = int(coins)
         correct1 = int(correct)
         try:
-            offair_id = api.start_offair()['gameUuid']
+            offair_id = await api.start_offair()['gameUuid']
         except ApiResponseError:
             embed=discord.Embed(title="**Played Offair Trivia ✅**", description=f"**• Username : {username}\n• Games Played : 01\n• Questions Correct : {correct1}/12\n• Coins Earned : {coins1}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
             await x.edit(embed=embed)
         while True:
-            offair = api.offair_trivia(offair_id)
+            offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
             question=offair['question']['question']
             option1=f"{answers[0]}"
             option2=f"{answers[1]}"
             option3=f"{answers[2]}"
             
-            if question in q_list:
-                answer = q_base.find_one({'question': question})['answer']
-                if option1 == answer:
-                    select = 1
-                elif option2 == answer:
-                    select = 2
-                else:
-                    select = 3
-            else:
-                select = 2
-            data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
-            #print(data)
-            answer_counts = {}
-            correct = ""
+            answer = await self.get_answer(question)
+            if answer:
+                if option1.lower() == answer.lower(): select = 1
+                elif option2.lower() == answer.lower(): select = 2
+                else: select = 3
+            else: select = 2
+            data = await api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             for answer in data["answerCounts"]:
-                ans_str = unidecode(answer["answer"])
-
-                if answer["correct"]:
-                    correct = ans_str
+                if answer["correct"]: correct = unidecode(answer["answer"])
+            await self.add_question(question, correct)
             coins = str(data["coinsEarned"])
             qcnt = (offair['question']['questionNumber'])
             qs = int(12) + int(qcnt)
             s = coins1
-            if option1 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"1"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            elif option2 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"2"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            else:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"3"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
                 coins = str(data['gameSummary']['coinsEarned'])
@@ -237,7 +164,7 @@ class DcPlay(commands.Cog):
         coins2 = int(coins)
         correct2 = int(correct)
         try:
-            offair_id = api.start_offair()['gameUuid']
+            offair_id = await api.start_offair()['gameUuid']
         except ApiResponseError:
             coins = int(coins1) + int(coins2)
             correct = int(correct1) + int(correct2)
@@ -246,66 +173,28 @@ class DcPlay(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             await x.edit(embed=embed)
         while True:
-            offair = api.offair_trivia(offair_id)
+            offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
             question=offair['question']['question']
             option1=f"{answers[0]}"
             option2=f"{answers[1]}"
             option3=f"{answers[2]}"
             
-            if question in q_list:
-                answer = q_base.find_one({'question': question})['answer']
-                if option1 == answer:
-                    select = 1
-                elif option2 == answer:
-                    select = 2
-                else:
-                    select = 3
-            else:
-                select = 2
-            data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
-            #print(data)
-            answer_counts = {}
-            correct = ""
+            answer = await self.get_answer(question)
+            if answer:
+                if option1.lower() == answer.lower(): select = 1
+                elif option2.lower() == answer.lower(): select = 2
+                else: select = 3
+            else: select = 2
+            data = await api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             for answer in data["answerCounts"]:
-                ans_str = unidecode(answer["answer"])
-
-                if answer["correct"]:
-                    correct = ans_str
+                if answer["correct"]: correct = unidecode(answer["answer"])
+            await self.add_question(question, correct)
             coins = str(data["coinsEarned"])
             qcnt = (offair['question']['questionNumber'])
             qs = int(24) + int(qcnt)
             s = int(coins2) + int(coins1)
-            if option1 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"1"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            elif option2 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"2"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            else:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"3"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
+            
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
                 coins = str(data['gameSummary']['coinsEarned'])
@@ -320,7 +209,7 @@ class DcPlay(commands.Cog):
         coins3 = int(coins)
         correct3 = int(correct)
         try:
-            offair_id = api.start_offair()['gameUuid']
+            offair_id = await api.start_offair()['gameUuid']
         except ApiResponseError:
             coins = int(coins1) + int(coins2) + int(coins3)
             correct = int(correct1) + int(correct2) + int(correct3)
@@ -329,66 +218,28 @@ class DcPlay(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             await x.edit(embed=embed)
         while True:
-            offair = api.offair_trivia(offair_id)
+            offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
             question=offair['question']['question']
             option1=f"{answers[0]}"
             option2=f"{answers[1]}"
             option3=f"{answers[2]}"
             
-            if question in q_list:
-                answer = q_base.find_one({'question': question})['answer']
-                if option1 == answer:
-                    select = 1
-                elif option2 == answer:
-                    select = 2
-                else:
-                    select = 3
-            else:
-                select = 2
-            data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
-            #print(data)
-            answer_counts = {}
-            correct = ""
+            answer = await self.get_answer(question)
+            if answer:
+                if option1.lower() == answer.lower(): select = 1
+                elif option2.lower() == answer.lower(): select = 2
+                else: select = 3
+            else: select = 2
+            data = await api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             for answer in data["answerCounts"]:
-                ans_str = unidecode(answer["answer"])
-
-                if answer["correct"]:
-                    correct = ans_str
+                if answer["correct"]: correct = unidecode(answer["answer"])
+            await self.add_question(question, correct)
             coins = str(data["coinsEarned"])
             qcnt = (offair['question']['questionNumber'])
             qs = int(36) + int(qcnt)
             s = int(coins3) + int(coins2) +int(coins1)
-            if option1 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"1"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            elif option2 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"2"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            else:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"3"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
+            
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
                 coins = str(data['gameSummary']['coinsEarned'])
@@ -403,7 +254,7 @@ class DcPlay(commands.Cog):
         coins4 = int(coins)
         correct4 = int(correct)
         try:
-            offair_id = api.start_offair()['gameUuid']
+            offair_id = await api.start_offair()['gameUuid']
         except ApiResponseError:
             coins = int(coins1) + int(coins2) + int(coins3) + int(coins4)
             correct = int(correct1) + int(correct2) + int(correct3) + int(correct4)
@@ -412,66 +263,28 @@ class DcPlay(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             await x.edit(embed=embed)
         while True:
-            offair = api.offair_trivia(offair_id)
+            offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
             question=offair['question']['question']
             option1=f"{answers[0]}"
             option2=f"{answers[1]}"
             option3=f"{answers[2]}"
             
-            if question in q_list:
-                answer = q_base.find_one({'question': question})['answer']
-                if option1 == answer:
-                    select = 1
-                elif option2 == answer:
-                    select = 2
-                else:
-                    select = 3
-            else:
-                select = 2
-            data = api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
-            #print(data)
-            answer_counts = {}
-            correct = ""
+            answer = await self.get_answer(question)
+            if answer:
+                if option1.lower() == answer.lower(): select = 1
+                elif option2.lower() == answer.lower(): select = 2
+                else: select = 3
+            else: select = 2
+            data = await api.send_offair_answer(offair_id, offair['question']['answers'][select - 1]['offairAnswerId'])
             for answer in data["answerCounts"]:
-                ans_str = unidecode(answer["answer"])
-
-                if answer["correct"]:
-                    correct = ans_str
+                if answer["correct"]: correct = unidecode(answer["answer"])
+            await self.add_question(question, correct)
             coins = str(data["coinsEarned"])
             qcnt = (offair['question']['questionNumber'])
             qs = int(48) + int(qcnt)
             s = int(coins3) + int(coins2) +int(coins1) + int(coins4)
-            if option1 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"1"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            elif option2 == correct:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"2"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
-            else:
-                check_if_exist = q_base.find_one({"question": question})
-                if check_if_exist == None:
-                    questions_and_answer = {'question': question,
-                                            'answer': correct,
-                                            'option':"3"}
-                    q_base.insert_one(questions_and_answer)
-                else:
-                    pass
-                
+            
             if data['gameSummary']:
                 tcoins = str(data['gameSummary']['coinsTotal'])
                 coins = str(data['gameSummary']['coinsEarned'])
@@ -485,7 +298,6 @@ class DcPlay(commands.Cog):
                 await asyncio.sleep(1)
                 await x.edit(embed=embed)
                 break
-
 
 def setup(client):
     client.add_cog(DcPlay(client))
