@@ -1,7 +1,7 @@
 from discord_components import *
 
 
-def peginator_button(
+async def peginator_button(client,
                     emoji_1 = None,
                     emoji_2 = None,
                     emoji_3 = None,
@@ -11,6 +11,10 @@ def peginator_button(
                     disabled_3 = False,
                     disabled_4 = False
                     ):
+    emoji_2 = left_arrow = client.get_emoji(956817766176940062)
+    emoji_3 = right_arrow = client.get_emoji(956817878957584404)
+    emoji_1 = first_left_arrow = client.get_emoji(956817439117697024)
+    emoji_4 = last_right_arrow = client.get_emoji(956817169813995530)
     button = [
         [
             Button(style=ButtonStyle.blue, emoji=emoji_1, disabled=disabled_1, custom_id="button1"),
