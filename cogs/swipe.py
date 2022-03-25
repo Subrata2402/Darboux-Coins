@@ -1,4 +1,4 @@
-import discord
+import discord, asyncio
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
