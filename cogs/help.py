@@ -102,11 +102,11 @@ class Help(commands.Cog):
                 i = 4
                 
             if i == 0:
-                await interaction.respond(embed = pages[i], components = first_page_buttons)
+                await interaction.respond(type = 7, embed = pages[i], components = first_page_buttons)
             elif i == 4:
-                await interaction.respond(embed = pages[i], components = last_page_buttons)
+                await interaction.respond(type = 7, embed = pages[i], components = last_page_buttons)
             else:
-                await interaction.respond(embed = pages[i], components = middle_page_buttons)
+                await interaction.respond(type = 7, embed = pages[i], components = middle_page_buttons)
 
 def setup(client):
     client.add_cog(Help(client))
