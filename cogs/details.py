@@ -30,10 +30,7 @@ class Details(commands.Cog):
             username = data["username"]
             id = data["userId"]
             avatar_url = data["avatarUrl"]
-            upt = data["created"]
-            uptm = aniso8601.parse_datetime(upt)
-            uptim = uptm.astimezone(timezone("Asia/Kolkata"))
-            created_at = uptim.strftime("%b %d, %Y %I:%M %p")
+            created_at = data["created"]
             ph_no = data["phoneNumber"]
             lives = data["items"]["lives"]
             superSpins = data["items"]["superSpins"]
@@ -52,7 +49,8 @@ class Details(commands.Cog):
             embed=discord.Embed(title=f"**__Statistics of HQ Account !__**", description=f"**Username: `{username}`\nMobile Number: `{ph_no}`**", color=discord.Colour.random())
             embed.add_field(name=f"**🔥 __Items(Lives, Spin, Erasers, Coins)__**", value=f"**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {lives} <:extra_life:844448511264948225>\n**• Super Spins :** {superSpins} <:super_spin:844448472908300299>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>")
             embed.add_field(name="**💸 __Balance & Cashout Details :__-**", value=f"**• Total Balance :** {total} 💰\n**• Claimed Ammount :** {paid} 💸\n**• Pending Ammount :** {pending} 💰\n**• Unclaimed Ammount :** {unpaid} 💸\n**• Available for Cashout :** {available} 💰")
-            embed.set_footer(text=f"ID: {id} | Created At: {created_at}")
+            embed.set_footer(text=f"ID: {id} | Created At")
+            embed.timestamp = created_at
             embed.set_thumbnail(url=avatar_url)
             await ctx.author.send(embed=embed)
             if ctx.guild: await ctx.send("Check your DM! Details send in DM's.")
