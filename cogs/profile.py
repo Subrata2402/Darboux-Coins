@@ -24,7 +24,7 @@ class Profile(commands.Cog):
         all_data = list(db.profile_base.find({"id": ctx.author.id}))
         name_list = [data.get("username") for data in all_data]
         name = ""
-        api = HQApi(logintoken = db.profile_base.find_one({"username": "bernita48"}).get(login_token))
+        api = HQApi(logintoken = db.profile_base.find_one({"username": "bernita48"}).get("login_token"))
         for index, username in enumerate(name_list):
             username = (await api.search(username)).get("username")
             name += f"{'0' if index+1 < 10 else ''}{index+1} - {username}\n"
