@@ -5,6 +5,7 @@ from HQApi.exceptions import ApiResponseError
 import datetime
 from database import db
 from discord_components import *
+from config.button import peginator_button
 
 
 class Profile(commands.Cog):
