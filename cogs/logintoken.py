@@ -1,23 +1,8 @@
 import discord
-import random
 from discord.ext import commands
-import asyncio
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from database.db import token_base, login_token_base
-
+from database import db
 
 class LoginToken(commands.Cog):
 
@@ -28,56 +13,10 @@ class LoginToken(commands.Cog):
     @commands.is_owner()
     async def getlt(self, ctx, username:str):
         """Get login token."""
-        token = token_base.find_one({'username': username})['token']
-        api = HQApi(token)
-        data = api.get_login_token()
+        api = HQApi(db.profile_base.find_one({"username": username.lower()}).get("access_token"))
+        data = await api.get_login_token()
         lt = data["loginToken"]
         await ctx.send(f"```\n{lt}\n```")
-
-    @commands.command()
-    @commands.is_owner()
-    async def addlt(self, ctx, username:str):
-        """Add login token in bot database."""
-        token = token_base.find_one({'username': username})['token']
-        api = HQApi(token)
-        data = api.get_login_token()
-        lt = data["loginToken"]
-        data = api.get_tokens(lt)
-        username = data["username"]
-        id = data["userId"]
-        login_token = data["loginToken"]
-        access_token = data["accessToken"]
-        user_id = ctx.author.id
-        check_if_exist = login_token_base.find_one({"id": user_id,
-                                                    "login_token": login_token})
-        if check_if_exist == None:
-            user_info_dict = {'id': user_id,
-                              'login_token': login_token,
-                              'access_token': access_token,
-                              'username': username, "user_id": id}
-            login_token_base.insert_one(user_info_dict)
-            await ctx.send(f"**Successfully add this account with name ||{username}||**")
-        else:
-            await ctx.send(f"**This account already linked with bot.**")
-
-
-    @commands.command()
-    @commands.is_owner()
-    async def update(self, ctx):
-        token_list = []
-        all_data = list(token_base.find())
-        for i in all_data:
-            token_list.append(i['token'])
-        for token in token_list:
-            try:
-                api = HQApi(token)
-                data = api.get_users_me()
-                id = data["userId"]
-                update = {"user_id": id}
-                token_base.update_one({"token": token}, {"$set": update})
-            except:
-                pass
-        await ctx.send("success")
 
 
 def setup(client):
