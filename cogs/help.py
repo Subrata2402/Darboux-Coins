@@ -107,6 +107,7 @@ class Help(commands.Cog):
                 await interaction.respond(type = 7, embed = pages[i], components = last_page_buttons)
             else:
                 await interaction.respond(type = 7, embed = pages[i], components = middle_page_buttons)
+            print(i)
 
 def setup(client):
     client.add_cog(Help(client))
