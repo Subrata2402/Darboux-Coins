@@ -4,7 +4,6 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-
 class Details(commands.Cog):
 
     def __init__(self, client):
