@@ -41,7 +41,7 @@ class Token(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        check_if_exist = token_base.find_one({"id": user_id, "user_id": id})
+        check_if_exist = db.profile_base.find_one({"id": user_id, "user_id": id})
         if check_if_exist == None:
             user_info_dict = {
                         'id': user_id,
