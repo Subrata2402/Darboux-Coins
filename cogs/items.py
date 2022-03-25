@@ -1,30 +1,13 @@
 import discord
-import random
 from discord.ext import commands
-import asyncio
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from database.db import login_token_base, token_base
-
-
+from database import db
 
 class Items(commands.Cog):
 
     def __init__(self, client):
         self.client = client
-
 
     @commands.command()
     async def life(self, ctx, username=None, amount=None):
@@ -32,20 +15,15 @@ class Items(commands.Cog):
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}life [username] (amount)` to purchase an Extra Life in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        token = token_base.find_one({'username': username})['token']
         try:
-            api = HQApi(token)
-            data = api.get_users_me()
+            api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+            data = await api.get_users_me()
             coins = data["coins"]
             erasers = data["items"]["erase1s"]
             superSpins = data["items"]["superSpins"]
@@ -60,7 +38,7 @@ class Items(commands.Cog):
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            data = api.purchase_life(1)
+            data = await api.purchase_life(1)
             coins = data["coinsTotal"]
             life = data["itemsTotal"]["extra-life"]
             embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased an Extra <:extra_life:844448511264948225> Life!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -94,7 +72,7 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        data = api.purchase_life(amount)
+        data = await api.purchase_life(amount)
         coins = data["coinsTotal"]
         life = data["itemsTotal"]["extra-life"]
         embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} Extra <:extra_life:844448511264948225> Life{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -108,20 +86,15 @@ class Items(commands.Cog):
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}eraser [username] (amount)` to purchase an Extra Eraser in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        token = token_base.find_one({'username': username})['token']
         try:
-            api = HQApi(token)
-            data = api.get_users_me()
+            api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+            data = await api.get_users_me()
             coins = data["coins"]
             life = data["items"]["lives"]
             superSpins = data["items"]["superSpins"]
@@ -136,7 +109,7 @@ class Items(commands.Cog):
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            data = api.purchase_eraser(1)
+            data = await api.purchase_eraser(1)
             coins = data["coinsTotal"]
             erasers = data["itemsTotal"]["eraser"]
             embed=discord.Embed(title="Eraser Purchased ✅", description=f"You have successfully purchased an <:eraser:844448550498205736> Extra Eraser!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -170,7 +143,7 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        data = api.purchase_eraser(amount)
+        data = await api.purchase_eraser(amount)
         coins = data["coinsTotal"]
         erasers = data["itemsTotal"]["eraser"]
         embed=discord.Embed(title="Eraser Purchased ✅", description=f"You have successfully purchased {amount} <:eraser:844448550498205736> Extra Eraser{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
@@ -184,20 +157,15 @@ class Items(commands.Cog):
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}superspin [username] (amount)` to purchase an Extra Super-spin in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username not in name_list:
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        token = token_base.find_one({'username': username})['token']
         try:
-            api = HQApi(token)
-            data = api.get_users_me()
+            api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+            data = await api.get_users_me()
             coins = data["coins"]
             erasers = data["items"]["erase1s"]
             life = data["items"]["lives"]
@@ -247,7 +215,7 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        data = api.purchase_super_spin(amount)
+        data = await api.purchase_super_spin(amount)
         coins = data["coinsTotal"]
         superSpins = int(superSpins) + int(amount)
         embed=discord.Embed(title="Super-spin Purchased ✅", description=f"You have successfully purchased {amount} Extra <:super_spin:844448472908300299> Super-spin{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
