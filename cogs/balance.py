@@ -1,57 +1,34 @@
 import discord
-import random
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-from database.db import token_base, login_token_base
+from database import db
 
-
-class Details(commands.Cog):
+class Details(commands.Cog, HQApi):
 
     def __init__(self, client):
+        super().__init__()
         self.client = client
 
     @commands.command(aliases=["bal"])
     async def balance(self, ctx):
         """Get account details."""
-        commander_id = ctx.author.id
-        name_list = []
-        id_list = []
-        all_data = list(token_base.find({"id": commander_id}))
-        for i in all_data:
-            name_list.append(i['username'])
-        for j in all_data:
-            id_list.append(j['id'])
-        if commander_id not in id_list:
+        check_id = db.profile_base.find_one({"id": ctx.author.id})
+        if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not added any of your accounts in bot database.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        if ctx.guild:
-            await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
+        if ctx.guild: await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
         embed=discord.Embed(title="Fetching your account balance and Cashout details...", color=0x00ffff)
         x = await ctx.author.send(embed=embed)
         description = ""
-        total = 0
-        paid = 0
-        pending = 0
-        unpaid = 0
-        available = 0
-        sl_no = 0
-        ex_no = 0
-        for username in name_list:
-            token = token_base.find_one({'username': username})['token']
+        total = paid = pending = unpaid = available = sl_no = ex_no = 0
+        token_list = [data.get("access_token") for data in list(db.profile_base.find({"id": ctx.author.id}))]
+        for token in token_list:
             try:
                 api = HQApi(token)
-                data = api.get_payouts_me()
+                data = await api.get_payouts_me()
                 bal = data["balance"]
                 total = float(total) + float(bal["prizeTotal"][1:])
                 paid = float(paid) + float(bal["paid"][1:])
@@ -80,8 +57,6 @@ class Details(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.author.send(embed=embed)
-        else:
-            return
 
 def setup(client):
     client.add_cog(Details(client))
