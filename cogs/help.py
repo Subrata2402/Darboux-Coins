@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from config.button import peginator_button
 
 class Help(commands.Cog):
 
@@ -9,6 +10,10 @@ class Help(commands.Cog):
 
     @commands.command()
     async def help(self, ctx):
+        first_page_buttons = await peginator_button(self.client, disabled_1 = True, disabled_2 = True)
+        last_page_buttons = await peginator_button(self.client, disabled_3 = True, disabled_4 = True)
+        middle_page_buttons = await peginator_button(self.client)
+        
         page1 = discord.Embed(color=discord.Colour.random())
         page1.add_field(name=f"{ctx.prefix}add +(country code)(number)", value="> To save your HQ Trivia account in bot.")
         page1.add_field(name=f"{ctx.prefix}addtoken (bearer token)", value="> Add your HQ Trivia account in bot with bearer token.")
@@ -74,46 +79,34 @@ class Help(commands.Cog):
 
         pages = [page1, page2, page3, page4, page5]
 
-        message = await ctx.send(embed = page1)
-        await message.add_reaction('⏮')
-        await message.add_reaction('◀')
-        await message.add_reaction('▶')
-        await message.add_reaction('⏭')
+        message = await ctx.send(embed = page1, components = first_page_buttons)
 
-        def check(reaction, user):
-            return user == ctx.author
-
+        def check(interaction):
+            return interaction.author == ctx.author and interaction.message == message
         i = 0
-        reaction = None
-
         while True:
-            if str(reaction) == '⏮':
+            try:
+                interaction = await self.client.wait_for("button_click", timeout = 45.0, check = check)
+            except:
+                buttons = await peginator_button(client = self.client, disabled_1 = True, disabled_2 = True, disabled_3 = True, disabled_4 = True)
+                return await message.edit(components = buttons)
+            if interaction.custom_id == "button_4":
                 i = 0
-                await message.edit(embed = pages[i])
-            elif str(reaction) == '◀':
+            elif interaction.custom_id == "button_3":
                 if i > 0:
                     i -= 1
-                    await message.edit(embed = pages[i])
-            elif str(reaction) == '▶':
+            elif interaction.custom_id == "button_2":
                 if i < 4:
                     i += 1
-                    await message.edit(embed = pages[i])
-            elif str(reaction) == '⏭':
+            else:
                 i = 4
-                await message.edit(embed = pages[i])
-            try:
-                reaction, user = await self.client.wait_for('reaction_add', timeout = 60.0, check = check)
-                try:
-                    await message.remove_reaction(reaction, user)
-                except:
-                    pass
-            except:
-                break
-        try:
-            await message.clear_reactions()
-        except:
-            print("Don't have permission to remove reactions.")
-
+                
+            if i == 0:
+                await interaction.respond(embed = pages[i], components = first_page_buttons)
+            elif i == 4:
+                await interaction.respond(embed = pages[i], components = last_page_buttons)
+            else:
+                await interaction.respond(embed = pages[i], components = middle_page_buttons)
 
 def setup(client):
     client.add_cog(Help(client))
