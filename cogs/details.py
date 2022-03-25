@@ -18,10 +18,10 @@ class Details(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        check_id = db.profile_base.find_one({"id": commander_id, "username": username})
+        check_id = db.profile_base.find_one({"id": commander_id, "username": username.lower()})
         if check_id:
             try:
-                api = HQApi(db.profile_base.find_one({"id": commander_id, "username": username}).get("access_token"))
+                api = HQApi(db.profile_base.find_one({"id": commander_id, "username": username.lower()}).get("access_token"))
                 data = await api.get_users_me()
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
