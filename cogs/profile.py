@@ -93,6 +93,7 @@ class Profile(commands.Cog):
         else:
             if page == 1:
                 message = await ctx.send(embed = embed, components=first_page_buttons)
+                embed.clear_fields()
         def check(interaction):
             return interaction.message == message
         while True:
@@ -152,7 +153,7 @@ class Profile(commands.Cog):
                 await interaction.respond(type = 7, embed=embed, components=last_page_buttons)
             else:
                 await interaction.respond(type = 7, embed=embed, components=middle_page_buttons)
-
+            embed.clear_fields()
 
 def setup(client):
     client.add_cog(Profile(client))
