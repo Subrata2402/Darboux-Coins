@@ -3,7 +3,7 @@ from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
-rom config.button import peginator_button
+from config.button import peginator_button
 
 class Friends(commands.Cog):
 
