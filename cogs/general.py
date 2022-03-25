@@ -39,7 +39,7 @@ class Help(commands.Cog):
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["join","Join"])
+    @commands.command(aliases=["join"])
     async def support(self, ctx):
         embed=discord.Embed(title="**Join Our Official Server !**", description="**Join Link : [Click Here](https://discord.gg/TAcEnfS8Rs)**", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
