@@ -152,21 +152,25 @@ class Login(commands.Cog, HQApi):
         x = await ctx.send(embed=embed)
 
         def check(message):
-            return message.author == ctx.author and message.channel == ctx.channel and message.content.lower() == "yes"
+            return message.author == ctx.author and message.channel == ctx.channel
         try:
             message = await self.client.wait_for('message', timeout=60, check=check)
         except:
             embed=discord.Embed(description=f"You have run out of time to reply.", color=0x00ffff)
             return await x.edit(embed=embed)
-        id_list = list(db.profile_base.find({"id": commander_id}))
-        for id in id_list:
-            db.profile_base.delete_one({"id": commander_id})
-        embed=discord.Embed(title="Account Removed", description=f"You have successfully removed your all accounts from bot database.", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await ctx.send(embed=embed)
-        channel = self.client.get_channel(841490289134796810)
-        await channel.send(f"{ctx.author} removed all accounts from bot database.")
+        if message.content.lower() == "yes":
+            id_list = list(db.profile_base.find({"id": commander_id}))
+            for id in id_list:
+                db.profile_base.delete_one({"id": commander_id})
+            embed=discord.Embed(title="Account Removed", description=f"You have successfully removed your all accounts from bot database.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.send(embed=embed)
+            channel = self.client.get_channel(841490289134796810)
+            await channel.send(f"{ctx.author} removed all accounts from bot database.")
+        else:
+            embed=discord.Embed(description=f"The process has cancelled!", color=discord.Colour.random())
+            await x.edit(embed=embed)
 
 
 def setup(client):
