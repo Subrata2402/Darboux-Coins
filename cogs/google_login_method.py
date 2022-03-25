@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
-from HQApi import HQApi
 from datetime import datetime
-import datetime
 import DiscordUtils
 
 class GoogleLoginMethod(commands.Cog):
