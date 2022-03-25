@@ -1,22 +1,8 @@
-import discord
-import random
+import discord, aniso8601
 from discord.ext import commands
-import asyncio
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from database.db import login_token_base
+from database import db
 
 
 class UserStats(commands.Cog):
@@ -27,24 +13,20 @@ class UserStats(commands.Cog):
     @commands.command(aliases=["user", "hqstats", "hqstat"])
     async def hquser(self, ctx, name:str):
         """Get any user's stats."""
-        token = login_token_base.find_one({"username": "bernita48"})["login_token"]
+        login_token = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("login_token")
         api = HQApi()
-        data = api.get_tokens(token)
-        token = data["accessToken"]
-        api = HQApi(token)
+        data = await api.get_tokens(login_token)
+        access_token = data["accessToken"]
         try:
-            data = api.search(name)
+            api = HQApi(access_token)
+            data = await api.search(name)
             id = data["data"][0]["userId"]
-            data = api.get_user(id)
-            print(data)
+            data = await api.get_user(id)
             username = data["username"]
             id = data["userId"]
             avatar_url = data["avatarUrl"]
             create_at = data["created"]
-            tm = aniso8601.parse_datetime(create_at)
-            x =  tm.strftime("%H:%M:%S [%d/%m/%Y] ")
-            x_ind = tm.astimezone(timezone("Asia/Kolkata"))
-            at = x_ind.strftime("%d-%m-%Y %I:%M %p")
+            tm = aniso8601.parse_datetime(create_at).timestamp()
             total = data["leaderboard"]["total"]
             unclaimed = data["leaderboard"]["unclaimed"]
             winCount = data["winCount"]
@@ -54,7 +36,7 @@ class UserStats(commands.Cog):
             embed=discord.Embed(title=f"**HQ User Stats**", color=discord.Colour.random())
             embed.add_field(name="Username", value=username)
             embed.add_field(name="User ID", value=id)
-            embed.add_field(name="Created On", value=at)
+            embed.add_field(name="Created On", value=f"<t:{int(tm)}>")
             embed.add_field(name="Total Winnings", value=f"{total} (Unclaimed : {unclaimed})")
             embed.add_field(name="High Score", value=highScore)
             embed.add_field(name="Games Won", value=f"{winCount}/{gamesPlayed}")
