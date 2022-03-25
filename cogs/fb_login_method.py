@@ -1,21 +1,5 @@
 import discord
-import random
 from discord.ext import commands
-import asyncio
-from HQApi import HQApi
-from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
-import asyncio
-from datetime import datetime
-import requests
-import json
-import time
-import colorsys
-import datetime
-import aniso8601
-from pytz import timezone
-from unidecode import unidecode
-from bs4 import BeautifulSoup
 import DiscordUtils
 
 
