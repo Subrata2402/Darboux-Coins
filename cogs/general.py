@@ -1,15 +1,7 @@
 import discord
-import random
 from discord.ext import commands
-import asyncio
-import asyncio
-import requests
-import json
-import time
-import colorsys
 import datetime
 import platform
-import os
 
 
 class Help(commands.Cog):
