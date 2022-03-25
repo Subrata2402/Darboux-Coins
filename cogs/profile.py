@@ -50,7 +50,6 @@ class Profile(commands.Cog):
         message = await ctx.author.send(embed=embed)
         all_data = list(db.profile_base.find({"id": ctx.author.id}))
         login_token_list = [data.get("login_token") for data in all_data]
-        description = ""
         embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         page = 1
         items_per_page = 10
