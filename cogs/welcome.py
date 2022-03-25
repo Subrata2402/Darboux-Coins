@@ -1,16 +1,10 @@
-import discord
+import discord, datetime
 from discord.ext import commands
-from discord.ext.commands import bot
-import asyncio
-import datetime
-import os
-
 
 class Welcome(commands.Cog):
 
     def __init__(self, client):
         self.bot = client
-
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
