@@ -4,7 +4,6 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-
 class UserStats(commands.Cog):
 
     def __init__(self, client):
