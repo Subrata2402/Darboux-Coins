@@ -90,15 +90,15 @@ class Help(commands.Cog):
             except:
                 buttons = await peginator_button(client = self.client, disabled_1 = True, disabled_2 = True, disabled_3 = True, disabled_4 = True)
                 return await message.edit(components = buttons)
-            if interaction.custom_id == "button_4":
+            if interaction.custom_id == "button_1":
                 i = 0
-            elif interaction.custom_id == "button_3":
+            elif interaction.custom_id == "button_2":
                 if i > 0:
                     i -= 1
-            elif interaction.custom_id == "button_2":
+            elif interaction.custom_id == "button_3":
                 if i < 4:
                     i += 1
-            elif interaction.custom_id == "button_1":
+            elif interaction.custom_id == "button_4":
                 i = 4
                 
             if i == 0:
