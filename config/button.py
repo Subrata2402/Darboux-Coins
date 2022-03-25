@@ -1,1 +1,22 @@
+from discord_components import *
 
+
+def peginator_button(
+                    emoji_1 = None,
+                    emoji_2 = None,
+                    emoji_3 = None,
+                    emoji_4 = None,
+                    disabled_1 = False,
+                    disabled_2 = False,
+                    disabled_3 = False,
+                    disabled_4 = False
+                    ):
+    button = [
+        [
+            Button(style=ButtonStyle.blue, emoji=emoji_1, disabled=disabled_1, custom_id="button1"),
+            Button(style=ButtonStyle.blue, emoji=emoji_2, disabled=disabled_2, custom_id="button2"),
+            Button(style=ButtonStyle.blue, emoji=emoji_3, disabled=disabled_3, custom_id="button3"),
+            Button(style=ButtonStyle.blue, emoji=emoji_4, disabled=disabled_4, custom_id="button4")
+        ]
+    ]
+    return button
