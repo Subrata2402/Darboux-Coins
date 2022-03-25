@@ -77,7 +77,7 @@ class DcPlay(commands.Cog):
             hours, remainder = divmod(time, 3600)
             minutes, seconds = divmod(remainder, 60)
             await asyncio.sleep(1)
-            if hm == 0:
+            if hours + minutes == 0:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
             elif hours == 0:
