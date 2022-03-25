@@ -27,7 +27,7 @@ class DcPlay(commands.Cog):
         embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ Counting...**", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         x = await ctx.send(embed=embed)
-        tq = len(list(db.q_base.find()))
+        tq = len(list(db.questions_base.find()))
         embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ {tq}** <:questions:851142736442687488>", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await x.edit(embed=embed)
@@ -69,9 +69,9 @@ class DcPlay(commands.Cog):
         await x.edit(embed=embed)
         questions_list = [data.get("question") for data in list(db.questions_base.find())]
         try:
-            offair_id = await api.start_offair()['gameUuid']
+            offair_id = (await api.start_offair())['gameUuid']
         except ApiResponseError:
-            offair_id = await api.get_schedule()['offairTrivia']["waitTimeMs"]
+            offair_id = (await api.get_schedule())['offairTrivia']["waitTimeMs"]
             time=int(offair_id)/int(1000)
             hours, remainder = divmod(time, 3600)
             minutes, seconds = divmod(remainder, 60)
@@ -123,7 +123,7 @@ class DcPlay(commands.Cog):
         coins1 = int(coins)
         correct1 = int(correct)
         try:
-            offair_id = await api.start_offair()['gameUuid']
+            offair_id = (await api.start_offair())['gameUuid']
         except ApiResponseError:
             embed=discord.Embed(title="**Played Offair Trivia ✅**", description=f"**• Username : {username}\n• Games Played : 01\n• Questions Correct : {correct1}/12\n• Coins Earned : {coins1}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -165,7 +165,7 @@ class DcPlay(commands.Cog):
         coins2 = int(coins)
         correct2 = int(correct)
         try:
-            offair_id = await api.start_offair()['gameUuid']
+            offair_id = (await api.start_offair())['gameUuid']
         except ApiResponseError:
             coins = int(coins1) + int(coins2)
             correct = int(correct1) + int(correct2)
@@ -210,7 +210,7 @@ class DcPlay(commands.Cog):
         coins3 = int(coins)
         correct3 = int(correct)
         try:
-            offair_id = await api.start_offair()['gameUuid']
+            offair_id = (await api.start_offair())['gameUuid']
         except ApiResponseError:
             coins = int(coins1) + int(coins2) + int(coins3)
             correct = int(correct1) + int(correct2) + int(correct3)
@@ -255,7 +255,7 @@ class DcPlay(commands.Cog):
         coins4 = int(coins)
         correct4 = int(correct)
         try:
-            offair_id = await api.start_offair()['gameUuid']
+            offair_id = (await api.start_offair())['gameUuid']
         except ApiResponseError:
             coins = int(coins1) + int(coins2) + int(coins3) + int(coins4)
             correct = int(correct1) + int(correct2) + int(correct3) + int(correct4)
