@@ -17,7 +17,7 @@ class Details(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        check_id = db.profile_base.find_one({"id": commander_id, "username": username.lower()})
+        check_id = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_id:
             try:
                 api = HQApi(db.profile_base.find_one({"id": commander_id, "username": username.lower()}).get("access_token"))
