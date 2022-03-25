@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import asyncio
 import time
-import sys
+import sys, traceback
 from discord_components import *
 
 class Darboux(commands.Cog):
@@ -86,12 +86,13 @@ async def on_message(message):
    await client.process_commands(message)
 
 extensions = [
-              "cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
-              "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
-              "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
-              "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items",
-              "cogs.fblogin", "cogs.glogin", "cogs.test", "cogs.profile", "cogs.fb_login_method"
-]
+        "cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
+        "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
+        "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
+        "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items",
+        "cogs.fblogin", "cogs.glogin", "cogs.test", "cogs.profile", "cogs.fb_login_method"
+    ]
+
 if __name__ == "__main__":
     for extension in extensions:
         try:
