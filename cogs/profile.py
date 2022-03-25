@@ -55,10 +55,10 @@ class Profile(commands.Cog):
         embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         page = 1
         items_per_page = 2
-        pages = math.ceil(len(all_data) / items_per_page)
+        pages = math.ceil(len(login_token_list) / items_per_page)
         start = (page - 1) * items_per_page
         end = start + items_per_page
-        for index, login_token in enumerate(all_data[start:end], start=start):
+        for index, login_token in enumerate(login_token_list[start:end], start=start):
             api = HQApi()
             data = await api.get_tokens(login_token)
             name = data["username"]
@@ -117,7 +117,7 @@ class Profile(commands.Cog):
                 
             start = (page - 1) * items_per_page
             end = start + items_per_page
-            for index, login_token in enumerate(all_data[start:end], start=start):
+            for index, login_token in enumerate(login_token_list[start:end], start=start):
                 api = HQApi()
                 data = await api.get_tokens(login_token)
                 name = data["username"]
