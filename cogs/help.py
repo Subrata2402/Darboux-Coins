@@ -98,7 +98,7 @@ class Help(commands.Cog):
             elif interaction.custom_id == "button_2":
                 if i < 4:
                     i += 1
-            else:
+            elif interaction.custom_id == "button_1":
                 i = 4
                 
             if i == 0:
