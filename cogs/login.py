@@ -68,55 +68,56 @@ class Login(commands.Cog, HQApi):
             return m.author == ctx.message.author and m.channel == ctx.message.channel
         try:
             response = await self.client.wait_for('message',check= check, timeout=180)
-            try:
-                code = int(response.clean_content)
-                sub_code_res = await self.confirm_code(verification["verificationId"], code)
-                name = await self.rand()
-                while True:
-                    try:
-                        data = await self.register(verification["verificationId"], name)
-                        break
-                    except Exception as e:
-                        await x.edit(content=e)
-                access_token = data["accessToken"]
-                login_token = data["loginToken"]
-                username = data["username"]
-                id = data["userId"]
-                check = db.profile_base.find_one({"user_id": id})
-                if check:
-                    embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
-                    embed.set_thumbnail(url=self.client.user.avatar_url)
-                    embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                    return await x.edit(embed=embed)
-                number_dict = {'id': commander_id,
-                               'login_token': login_token,
-                               'access_token': a_token,
-                               'username': username.lower(),
-                               'user_id': id,
-                               'auto_play': False,
-                }
-                db.profile_base.insert_one(number_dict)
-                hide_name = "****" + username[4:]
-                embed=discord.Embed(title="Account Added ✅", description=f"Successfully linked an account with name `{hide_name}`. Check your DM for more details!", color=discord.Colour.random())
-                embed.set_thumbnail(url=self.client.user.avatar_url)
-                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                await x.edit(embed=embed)
-                embed=discord.Embed(description=f"Hey {ctx.author.name} you have successfully linked an account with name `{username}` Use `+dcplay {username}` to play HQ Trivia Daily Challenge. For more details use `+help`", color=discord.Colour.random())
-                embed.set_thumbnail(url=self.client.user.avatar_url)
-                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                await ctx.author.send(embed=embed)
-                channel = self.client.get_channel(841489971109560321)
-                await channel.send(f"**{ctx.author}** add an account via number and OTP.")
-            except:
-                em = discord.Embed(title="❎ Incorrect Code", description="Entered code is incorrect. If you want to login then restart this session once again.", color=discord.Colour.random())
-                em.set_thumbnail(url=self.client.user.avatar_url)
-                em.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                await x.edit(embed=em)
         except asyncio.TimeoutError:
             em = discord.Embed(title="⚠️ Time Out Error", description="Session timed out, you didn't enter the OTP in time. If you want to login then restart this session once again.", color=discord.Colour.random())
             em.set_thumbnail(url=self.client.user.avatar_url)
             em.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            return await x.edit(embed=em)
+        try:
+            code = int(response.clean_content)
+            sub_code_res = await self.confirm_code(verification["verificationId"], code)
+            name = await self.rand()
+            while True:
+                try:
+                    data = await self.register(verification["verificationId"], name)
+                    break
+                except Exception as e:
+                    await x.edit(content=e)
+            access_token = data["accessToken"]
+            login_token = data["loginToken"]
+            username = data["username"]
+            id = data["userId"]
+            check = db.profile_base.find_one({"user_id": id})
+            if check:
+                embed=discord.Embed(title="⚠️ Already Exists", description="This account already exists in bot database. You can't add it again.", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                return await x.edit(embed=embed)
+            number_dict = {'id': commander_id,
+                           'login_token': login_token,
+                           'access_token': a_token,
+                           'username': username.lower(),
+                           'user_id': id,
+                           'auto_play': False,
+            }
+            db.profile_base.insert_one(number_dict)
+            hide_name = "****" + username[4:]
+            embed=discord.Embed(title="Account Added ✅", description=f"Successfully linked an account with name `{hide_name}`. Check your DM for more details!", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await x.edit(embed=embed)
+            embed=discord.Embed(description=f"Hey {ctx.author.name} you have successfully linked an account with name `{username}` Use `+dcplay {username}` to play HQ Trivia Daily Challenge. For more details use `+help`", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await ctx.author.send(embed=embed)
+            channel = self.client.get_channel(841489971109560321)
+            await channel.send(f"**{ctx.author}** add an account via number and OTP.")
+        except:
+            em = discord.Embed(title="❎ Incorrect Code", description="Entered code is incorrect. If you want to login then restart this session once again.", color=discord.Colour.random())
+            em.set_thumbnail(url=self.client.user.avatar_url)
+            em.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await x.edit(embed=em)
+        
 
     @commands.command()
     async def remove(self, ctx, username:str):
