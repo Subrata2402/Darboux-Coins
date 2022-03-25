@@ -157,7 +157,7 @@ class HQApi(BaseHQApi):
         self.headers = {
             "x-hq-client": "Android/" + self.hq_version}
         if logintoken:
-            self.token = (await self.get_tokens(logintoken))["accessToken"]
+            self.token = self.get_tokens(logintoken)["accessToken"]
         if self.token:
             self.headers["Authorization"] = "Bearer " + self.token
 
