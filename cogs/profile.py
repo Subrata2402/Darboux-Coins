@@ -54,7 +54,7 @@ class Profile(commands.Cog):
         description = ""
         embed=discord.Embed(title="__Available Linked Accounts !__", color=discord.Colour.random())
         page = 1
-        items_per_page = 2
+        items_per_page = 10
         pages = math.ceil(len(login_token_list) / items_per_page)
         start = (page - 1) * items_per_page
         end = start + items_per_page
