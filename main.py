@@ -85,13 +85,13 @@ async def on_message(message):
        await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
    await client.process_commands(message)
 
-extensions = ["cogs.glogin"]
-              #"cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
-              #"cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
-       #       "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
-      #     #   "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items",
-           #   "cogs.fblogin", "cogs.glogin", "cogs.test", "cogs.profile", "cogs.fb_login_method"
-#]'''
+extensions = [
+              "cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
+              "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
+              "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
+              "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items",
+              "cogs.fblogin", "cogs.glogin", "cogs.test", "cogs.profile", "cogs.fb_login_method"
+]
 if __name__ == "__main__":
     for extension in extensions:
         try:
