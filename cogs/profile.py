@@ -7,7 +7,6 @@ from database import db
 from discord_components import *
 from config.button import peginator_button
 
-
 class Profile(commands.Cog):
 
     def __init__(self, client):
