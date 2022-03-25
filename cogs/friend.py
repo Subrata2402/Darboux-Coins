@@ -47,6 +47,7 @@ class Friends(commands.Cog):
             winCount = data["winCount"]
             name = f"{index+1}. {name}"
             value = f"> Total Winnings : {total}\n> High Score : {highScore}\n> Games Won : {winCount}/{gamesPlayed}"
+            s = index + 1
             if s < 21:
                 embed1.add_field(name=name, value=value)
             elif s < 41:
@@ -79,16 +80,11 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}addfriend [username] [friend's username]` to send a friend request.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if check_if_exist:
             try:
-                api = HQApi(token)
-                data = api.search(name)
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+                data = await api.search(name)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
@@ -96,7 +92,7 @@ class Friends(commands.Cog):
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             try:
-                data = api.add_friend(id)
+                data = await api.add_friend(id)
                 embed=discord.Embed(title="**Request Send Done ✅**", description=f"**Successfully sent friend request to `{name}`**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -119,16 +115,11 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}acceptfriend [username] [friend's username]` to accept a friend request.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if check_if_exist:
             try:
-                api = HQApi(token)
-                data = api.search(name)
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+                data = await api.search(name)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
@@ -136,7 +127,7 @@ class Friends(commands.Cog):
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             try:
-                data = api.accept_friend(id)
+                data = await api.accept_friend(id)
                 embed=discord.Embed(title="**Friend Request Accepted ✅**", description=f"**Successfully accept friend request `{name}`**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -159,16 +150,11 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}removefriend [username] [friend's username]` to remove a friend from your friends list.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if check_if_exist:
             try:
-                api = HQApi(token)
-                data = api.search(name)
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+                data = await api.search(name)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
@@ -176,7 +162,7 @@ class Friends(commands.Cog):
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
             try:
-                data = api.remove_friend(id)
+                data = await api.remove_friend(id)
                 embed=discord.Embed(title="**Friend Removed ✅**", description=f"**Successfully friend removed `{name}`**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -199,23 +185,18 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friendstatus [username] [Friend's username]` to check your friend's status.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        commander_id = ctx.author.id
-        name_list = []
-        all_data = list(token_base.find({"id": commander_id, "username": username}))
-        for i in all_data:
-            name_list.append(i['username'])
-        if username in name_list:
-            token = token_base.find_one({'username': username})['token']
+        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+        if check_if_exist:
             try:
-                api = HQApi(token)
-                data = api.search(name)
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+                data = await api.search(name)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            data = api.friend_status(id)
+            data = await api.friend_status(id)
             stats = data['status']
             if stats == "None":
                 stats = f"{name} is not your friend."
