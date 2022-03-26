@@ -83,6 +83,7 @@ class Profile(commands.Cog):
             embed.add_field(name=name, value=value, inline = False)
         pages = 1 if pages == 0 else pages
         embed.set_footer(text=f"Page : {'0' if page < 10 else ''}{page}/{'0' if pages < 10 else ''}{pages}")
+        embed.set_thumbnail(url = self.client.user.avatar_url)
         embed.timestamp = datetime.datetime.utcnow()
         if pages in [0, 1]:
             return await message.edit(embed = embed)
