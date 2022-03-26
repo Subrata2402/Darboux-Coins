@@ -39,7 +39,9 @@ class AutoPlay(commands.Cog, HQApi):
                 except:
                     try:
                         update = {"auto_play": False}
-                        db.profile_base.update_one({"id": all_data.get("id"), "user_id": all_data.get("user_id")}, {"$set", update})
+                        id = all_data.get("id")
+                        user_id = all_data.get("user_id")
+                        db.profile_base.update_one({"id": id, "user_id": user_id}, {"$set", update})
                         user = await self.client.get_user(all_data.get("id"))
                         embed = discord.Embed(title = "⚠️ Token Expired",
                             description = f"{all_data.get('username')}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
