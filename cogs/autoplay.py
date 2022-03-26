@@ -5,9 +5,10 @@ from HQApi.exceptions import ApiResponseError
 from database import db
 from unidecode import unidecode
 
-class AutoPlay(commands.Cog):
+class AutoPlay(commands.Cog, HQApi):
     
     def __init__(self, client):
+        super().__init__()
         self.client = client
 
     async def get_answer(self, question):
@@ -23,6 +24,10 @@ class AutoPlay(commands.Cog):
 
     async def auto_play(self):
         for all_data in list(db.profile_base.find()):
+            active = (await self.get_show())["active"]
+            if active:
+                await asyncio.sleep(600)
+                continue
             auto_play_mode = all_data.get('auto_play')
             if auto_play_mode:
                 api = HQApi(all_data.get("access_token"))
@@ -30,7 +35,7 @@ class AutoPlay(commands.Cog):
                     data = await api.get_users_me()
                     username = data["username"]
                     coins = data["coins"]
-                    if coins >= 1200: continue
+                    if coins >= 1500: continue
                 except:
                     try:
                         update = {"auto_play": False}
