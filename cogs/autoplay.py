@@ -46,6 +46,7 @@ class AutoPlay(commands.Cog, HQApi):
                             color = discord.Colour.random())
                         await user.send(content = user.mention, embed = embed)
                     except Exception as e:
+                        print(e)
                         continue
                 try:
                     offair_id = (await api.start_offair())['gameUuid']
