@@ -54,6 +54,7 @@ class DcPlay(commands.Cog):
             time=int(offair_id)/int(1000)
             hours, remainder = divmod(time, 3600)
             minutes, seconds = divmod(remainder, 60)
+            hours, minutes, seconds = int(hours), int(minutes), int(seconds)
             await asyncio.sleep(1)
             if hours + minutes == 0:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
@@ -67,7 +68,10 @@ class DcPlay(commands.Cog):
             else:
                 embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} **{minutes}** minute{'' if minutes == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
                 await x.edit(embed=embed)
-            offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
+            if time == 0:
+                offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
+            else:
+                return
         while True:
             offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
@@ -107,7 +111,7 @@ class DcPlay(commands.Cog):
             embed=discord.Embed(title="**Played Offair Trivia ✅**", description=f"**• Username : {username}\n• Games Played : 01\n• Questions Correct : {correct1}/12\n• Coins Earned : {coins1}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
-            await x.edit(embed=embed)
+            return await x.edit(embed=embed)
         while True:
             offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
@@ -151,7 +155,7 @@ class DcPlay(commands.Cog):
             embed=discord.Embed(title="**Played Offair Trivia ✅**", description=f"**• Username : {username}\n• Games Played : 02\n• Questions Correct : {correct}/24\n• Coins Earned : {coins}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
-            await x.edit(embed=embed)
+            return await x.edit(embed=embed)
         while True:
             offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
@@ -196,7 +200,7 @@ class DcPlay(commands.Cog):
             embed=discord.Embed(title="**Played Offair Trivia ✅**", description=f"**• Username : {username}\n• Games Played : 03\n• Questions Correct : {correct}/36\n• Coins Earned : {coins}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
-            await x.edit(embed=embed)
+            return await x.edit(embed=embed)
         while True:
             offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
@@ -241,7 +245,7 @@ class DcPlay(commands.Cog):
             embed=discord.Embed(title="**Played Offair Trivia ✅**", description=f"**• Username : {username}\n• Games Played : 04\n• Questions Correct : {correct}/48\n• Coins Earned : {coins}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
-            await x.edit(embed=embed)
+            return await x.edit(embed=embed)
         while True:
             offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
