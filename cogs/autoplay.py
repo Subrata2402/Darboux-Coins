@@ -64,7 +64,7 @@ class AutoPlay(commands.Cog):
                     for answer in data["answerCounts"]:
                         if answer["correct"]: correct = unidecode(answer["answer"])
                     await self.add_question(question, correct)
-                    if answer['gameSummary']:
+                    if data['gameSummary']:
                         tcoins = str(data['gameSummary']['coinsTotal'])
                         coins = str(data['gameSummary']['coinsEarned'])
                         correct = str(data['gameSummary']['questionsCorrect'])
@@ -74,6 +74,7 @@ class AutoPlay(commands.Cog):
                         channel = self.client.get_channel(957198388028375050)
                         await channel.send(embed = embed)
                         break
+
         await asyncio.sleep(60)
         await self.auto_play()
                     
