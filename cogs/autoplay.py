@@ -37,19 +37,16 @@ class AutoPlay(commands.Cog, HQApi):
                     coins = data["coins"]
                     if coins >= 1500: continue
                 except:
-                    #try:
-                    update = {"auto_play": False}
-                    id = all_data["id"]
-                    user_id = all_data["username"]
-                    db.profile_base.update_one({"id": id, "username": user_id}, {"$set", update})
-                    user = await self.client.get_user(all_data.get("id"))
-                    embed = discord.Embed(title = "⚠️ Token Expired",
-                        description = f"{all_data.get('username')}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
-                        color = discord.Colour.random())
-                    await user.send(content = user.mention, embed = embed)
-                    """except Exception as e:
-                        print(e)
-                        continue"""
+                    try:
+                        update = {"auto_play": False}
+                        db.profile_base.update_one({"id": all_data.get("id"), "user_id": all_data.get("user_id")}, {"$set": update})
+                        user = await self.client.get_user(all_data.get("id"))
+                        embed = discord.Embed(title = "⚠️ Token Expired",
+                            description = f"{all_data.get('username')}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
+                            color = discord.Colour.random())
+                        await user.send(content = user.mention, embed = embed)
+                    except Exception as e:
+                        continue
                 try:
                     offair_id = (await api.start_offair())['gameUuid']
                 except ApiResponseError:
