@@ -22,7 +22,7 @@ class Refresh(commands.Cog):
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await x.edit(embed=embed)
+            return await ctx.send(embed=embed)
         embed=discord.Embed(title="Refreshing...", color=discord.Colour.random())
         x = await ctx.send(embed=embed)
         try:
