@@ -99,7 +99,7 @@ class AutoPlay(commands.Cog):
             await ctx.send(embed = embed)
         elif mode.lower() == "off":
             mode = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("auto_play")
-            if not mode:
+            if mode:
                 update = {"auto_play": False}
                 db.profile_base.update_one({"id": ctx.author.id, "username": username.lower()}, {"$set": update})
                 embed = discord.Embed(title = "Disabled Auto Play Mode ✅", description = f"You have successfully disabled auto play mode for `{username}`", color = discord.Colour.random())
