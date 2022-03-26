@@ -90,7 +90,7 @@ extensions = [
         "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
         "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
         "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items",
-        "cogs.fblogin", "cogs.glogin", "cogs.profile", "cogs.fb_login_method"
+        "cogs.fblogin", "cogs.glogin", "cogs.profile", "cogs.fb_login_method", "cogs.autoplay"
     ]
 
 if __name__ == "__main__":
