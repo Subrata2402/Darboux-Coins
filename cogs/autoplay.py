@@ -47,7 +47,7 @@ class AutoPlay(commands.Cog, HQApi):
                         await user.send(content = user.mention, embed = embed)
                     except Exception as e:
                         print(e)
-                        continue
+                    continue
                 try:
                     offair_id = (await api.start_offair())['gameUuid']
                 except ApiResponseError:
