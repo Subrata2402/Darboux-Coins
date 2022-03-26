@@ -29,6 +29,7 @@ class AutoPlay(commands.Cog):
                     data = await api.get_users_me()
                     username = data["username"]
                     coins = data["coins"]
+                    if coins >= 1200: continue
                 except:
                     try:
                         update = {"auto_play": False}
@@ -40,7 +41,6 @@ class AutoPlay(commands.Cog):
                         await user.send(content = user.mention, embed = embed)
                     except:
                         pass
-                if coins >= 1200: continue
                 try:
                     offair_id = (await api.start_offair())['gameUuid']
                 except ApiResponseError:
