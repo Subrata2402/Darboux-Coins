@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
@@ -34,7 +35,7 @@ class AutoPlay(commands.Cog):
                         db.profile_base.update_one({"id": data.get("id"), "user_id": data.get("user_id")}, {"$set", update})
                         user = await self.client.get_user(data.get("id"))
                         embed = discord.Embed(title = "⚠️ Token Expired",
-                            description = f"{data.get("username")}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {data.get("username")}` and after refresh your account please on auto play mode once again.",
+                            description = f"{data.get('username')}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {data.get('username')}` and after refresh your account please on auto play mode once again.",
                             color = discord.Colour.random())
                         await user.send(content = user.mention, embed = embed)
                     except:
