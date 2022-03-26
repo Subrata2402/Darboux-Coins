@@ -1,4 +1,4 @@
-import discord
+import discord, asyncio
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
@@ -72,6 +72,8 @@ class AutoPlay(commands.Cog):
                         embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/773955381063974972.gif")
                         channel = self.client.get_channel(957198388028375050)
                         await channel.send(embed = embed)
+                        break
+        await asyncio.sleep(60)
         await self.auto_play()
                     
     @commands.Cog.listener()
