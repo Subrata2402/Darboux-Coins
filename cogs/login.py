@@ -1,4 +1,4 @@
-import discord, random, re
+import discord, random, re, asyncio
 from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
