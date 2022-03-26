@@ -3,6 +3,7 @@ from discord.ext import commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
+from unidecode import unidecode
 
 class AutoPlay(commands.Cog):
     
