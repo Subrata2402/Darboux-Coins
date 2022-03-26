@@ -39,8 +39,8 @@ class AutoPlay(commands.Cog, HQApi):
                 except:
                     try:
                         update = {"auto_play": False}
-                        id = all_data.get("id")
-                        user_id = all_data.get("user_id")
+                        id = all_data["id"]
+                        user_id = all_data["user_id"]
                         db.profile_base.update_one({"id": id, "user_id": user_id}, {"$set", update})
                         user = await self.client.get_user(all_data.get("id"))
                         embed = discord.Embed(title = "⚠️ Token Expired",
