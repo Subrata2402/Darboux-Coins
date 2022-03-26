@@ -1,6 +1,5 @@
 from discord_components import *
 
-
 async def peginator_button(client,
                     emoji_1 = None,
                     emoji_2 = None,
