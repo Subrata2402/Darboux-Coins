@@ -21,7 +21,7 @@ class Help(commands.Cog):
         page1.add_field(name=f"{ctx.prefix}google [response url]", value="> Add your HQ Trivia account in bot with Google response url.")
         page1.add_field(name=f"{ctx.prefix}dcplay [username]", value="> Play HQ Trivia Daily Challenge and wins 48/48 to get you 400 <:extra_coins:844448578881847326> Coins.")
         page1.add_field(name=f"{ctx.prefix}sdcplay [username]", value="> Play HQ Trivia Daily Challenge in Slowmode and wins 48/48 to get you 400 <:extra_coins:844448578881847326> Coins.")
-        page1.add_field(name=f"{ctx.prefix}autoplay [username] [on/off]", value="> Get HQ Facebook Login Link.")
+        page1.add_field(name=f"{ctx.prefix}autoplay [username] [on/off]", value="> Toggle on/off for auto playing Daily Challenge for coins (Max. 1500 Coins).")
         #page1.add_field(name=f"{ctx.prefix}glink", value="> Get HQ Google Login Link.")
         page1.set_thumbnail(url=self.client.user.avatar_url)
         page1.set_author(name="| Darboux Coins Help Menu !", icon_url=self.client.user.avatar_url)
