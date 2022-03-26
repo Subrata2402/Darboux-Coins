@@ -45,8 +45,9 @@ class AutoPlay(commands.Cog, HQApi):
                             description = f"{all_data.get('username')}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
                             color = discord.Colour.random())
                         await user.send(content = user.mention, embed = embed)
-                    except:
-                        pass
+                    except Exception as e:
+                        print(e)
+                        continue
                 try:
                     offair_id = (await api.start_offair())['gameUuid']
                 except ApiResponseError:
