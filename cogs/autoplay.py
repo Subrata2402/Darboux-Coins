@@ -22,10 +22,10 @@ class AutoPlay(commands.Cog):
             db.questions_base.insert_one({"question": question, "answer": answer})
 
     async def auto_play(self):
-        for data in list(db.profile_base.find()):
-            auto_play_mode = data.get('auto_play')
+        for all_data in list(db.profile_base.find()):
+            auto_play_mode = all_data.get('auto_play')
             if auto_play_mode:
-                api = HQApi(data.get("access_token"))
+                api = HQApi(all_data.get("access_token"))
                 try:
                     data = await api.get_users_me()
                     username = data["username"]
@@ -34,10 +34,10 @@ class AutoPlay(commands.Cog):
                 except:
                     try:
                         update = {"auto_play": False}
-                        db.profile_base.update_one({"id": data.get("id"), "user_id": data.get("user_id")}, {"$set", update})
-                        user = await self.client.get_user(data.get("id"))
+                        db.profile_base.update_one({"id": all_data.get("id"), "user_id": all_data.get("user_id")}, {"$set", update})
+                        user = await self.client.get_user(all_data.get("id"))
                         embed = discord.Embed(title = "⚠️ Token Expired",
-                            description = f"{data.get('username')}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {data.get('username')}` and after refresh your account please on auto play mode once again.",
+                            description = f"{all_data.get('username')}'s token has expired! For this I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
                             color = discord.Colour.random())
                         await user.send(content = user.mention, embed = embed)
                     except:
@@ -73,6 +73,11 @@ class AutoPlay(commands.Cog):
                         embed.set_thumbnail(url=self.client.user.avatar_url)
                         channel = self.client.get_channel(957198388028375050)
                         await channel.send(embed = embed)
+                        try:
+                            user = self.client.get_user(all_data.get("id"))
+                            await user.send(embed = embed)
+                        except:
+                            pass
                         break
 
         await asyncio.sleep(60)
