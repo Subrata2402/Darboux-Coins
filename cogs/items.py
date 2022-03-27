@@ -15,6 +15,10 @@ class Items(commands.Cog):
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}life [username] (amount)` to purchase an Extra Life in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
@@ -86,6 +90,10 @@ class Items(commands.Cog):
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}eraser [username] (amount)` to purchase an Extra Eraser in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
@@ -157,6 +165,10 @@ class Items(commands.Cog):
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}superspin [username] (amount)` to purchase an Extra Super-spin in your HQ Trivia account.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
