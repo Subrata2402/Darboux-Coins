@@ -13,6 +13,10 @@ class RecentWins(commands.Cog):
     async def recentwins(self, ctx, username:str):
         """Get recent winnings."""
         if not username: return await ctx.send(f"{ctx.author.mention}, you didn't enter any username.")
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             try:
@@ -37,7 +41,8 @@ class RecentWins(commands.Cog):
             embed=discord.Embed(title=f"**__{username}'s Winnings Info !__**", description=description_info, color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
+            await ctx.author.send(embed=embed)
+            if ctx.guild: await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
         else:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
