@@ -44,7 +44,7 @@ class DcPlay(commands.Cog):
         await asyncio.sleep(2)
         embed=discord.Embed(title="Playing HQ Offair Trivia...", description=f"**• Username : {username}\n• Games Played : 00\n• Questions Correct : 00/00\n• Coins Earned : 0\n• Total Coins : {coins}**", color=discord.Colour.random())
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        embed.set_thumbnail(url=self.fetching_thumb)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/773955381063974972.gif")
         await x.edit(embed=embed)
         questions_list = [data.get("question") for data in list(db.questions_base.find())]
         try:
