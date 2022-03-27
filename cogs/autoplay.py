@@ -92,6 +92,10 @@ class AutoPlay(commands.Cog, HQApi):
     async def autoplay(self, ctx, username = None, mode = None):
         if not username: return await ctx.send(ctx.author.mention + " You didn't mention username.")
         if not mode: return await ctx.send(ctx.author.mention + " You didn't mention any mode. Please choose either `on` or `off` to set AutoPlay mode.")
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all saved accounts.", color=discord.Colour.random())
