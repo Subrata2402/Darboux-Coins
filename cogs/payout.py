@@ -15,6 +15,10 @@ class Cashout(commands.Cog):
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}payout [username]` to check your HQ account cashout details.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             try:
@@ -45,6 +49,7 @@ class Cashout(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
             await ctx.author.send(embed=embed)
+            if ctx.guild: await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
         else:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
