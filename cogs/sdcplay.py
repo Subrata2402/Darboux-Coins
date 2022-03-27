@@ -11,6 +11,16 @@ class DcPlay(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    async def get_answer(self, question):
+        check_question = db.questions_base.find_one({"question": question})
+        if not check_question: return None
+        answer = db.questions_base.find_one({"question": question}).get("answer")
+        return answer
+
+    async def add_question(self, question, answer):
+        check_question = db.questions_base.find_one({"question": question})
+        if not check_question:
+            db.questions_base.insert_one({"question": question, "answer": answer})
 
     @commands.command(aliases=["splay"])
     async def sdcplay(self, ctx, username:str=None):
