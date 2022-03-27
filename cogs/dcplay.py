@@ -73,26 +73,22 @@ class DcPlay(commands.Cog):
         except ApiResponseError:
             offair_id = (await api.get_schedule())['offairTrivia']["waitTimeMs"]
             time=int(offair_id)/int(1000)
-            hours, remainder = divmod(time, 3600)
-            minutes, seconds = divmod(remainder, 60)
-            hours, minutes, seconds = int(hours), int(minutes), int(seconds)
-            await asyncio.sleep(1)
-            if hours + minutes == 0:
-                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
-                await x.edit(embed=embed)
-            elif hours == 0:
-                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{minutes}** minute{'' if minutes == 1 else 's'} **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
-                await x.edit(embed=embed)
-            elif minutes == 0:
-                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
-                await x.edit(embed=embed)
-            else:
-                embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} **{minutes}** minute{'' if minutes == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
-                await x.edit(embed=embed)
             if time == 0:
                 offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
             else:
-                return
+                hours, remainder = divmod(time, 3600)
+                minutes, seconds = divmod(remainder, 60)
+                hours, minutes, seconds = int(hours), int(minutes), int(seconds)
+                await asyncio.sleep(1)
+                if hours + minutes == 0:
+                    embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
+                elif hours == 0:
+                    embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{minutes}** minute{'' if minutes == 1 else 's'} **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
+                elif minutes == 0:
+                    embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
+                else:
+                    embed=discord.Embed(description=f"You have played all games as of now, so you must wait **{hours}** hour{'' if hours == 1 else 's'} **{minutes}** minute{'' if minutes == 1 else 's'} and **{seconds}** second{'' if seconds == 1 else 's'} to play Daily Challenge once again.", color=discord.Colour.random())
+                return await x.edit(embed=embed)
         while True:
             offair = await api.offair_trivia(offair_id)
             answers = [unidecode(ans["text"]) for ans in offair['question']['answers']]
