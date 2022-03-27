@@ -118,6 +118,7 @@ class Profile(commands.Cog):
                 if page <= 0: page = 1
             else:
                 page = 1
+            await interaction.respond(type = 6)
                 
             start = (page - 1) * items_per_page
             end = start + items_per_page
@@ -151,11 +152,11 @@ class Profile(commands.Cog):
             embed.set_footer(text=f"Page : {'0' if page < 10 else ''}{page}/{'0' if pages < 10 else ''}{pages}")
             embed.timestamp = datetime.datetime.utcnow()
             if page == 1:
-                await interaction.respond(type = 7, embed=embed, components=first_page_buttons)
+                await message.edit(embed=embed, components=first_page_buttons)
             elif page == pages:
-                await interaction.respond(type = 7, embed=embed, components=last_page_buttons)
+                await message.edit(embed=embed, components=last_page_buttons)
             else:
-                await interaction.respond(type = 7, embed=embed, components=middle_page_buttons)
+                await message.edit(embed=embed, components=middle_page_buttons)
             embed.clear_fields()
 
 def setup(client):
