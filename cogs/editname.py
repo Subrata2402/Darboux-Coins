@@ -16,6 +16,10 @@ class EditUsername(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}editname [username] [new name]` to edit your HQ Trivia account username.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_id = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_id:
             try:
