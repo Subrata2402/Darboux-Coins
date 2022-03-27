@@ -17,6 +17,10 @@ class Refresh(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if not check_if_exist:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
