@@ -15,6 +15,10 @@ class Profile(commands.Cog):
 
     @commands.command()
     async def accounts(self, ctx):
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_id = db.profile_base.find_one({"id": ctx.author.id})
         if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
@@ -29,14 +33,18 @@ class Profile(commands.Cog):
         embed=discord.Embed(title=f"{ctx.author.name}'s accounts !", description = f"```\n{name}\n```", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await ctx.send(embed=embed)
+        await ctx.author.send(embed=embed)
+        if ctx.guild: await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
 
     @commands.command()
     async def profile(self, ctx):
         first_page_buttons = await peginator_button(self.client, disabled_1 = True, disabled_2 = True)
         last_page_buttons = await peginator_button(self.client, disabled_3 = True, disabled_4 = True)
         middle_page_buttons = await peginator_button(self.client)
-        
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_id = db.profile_base.find_one({"id": ctx.author.id})
         if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
