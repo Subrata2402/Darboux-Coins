@@ -174,7 +174,7 @@ class DcPlay(commands.Cog):
             option1=f"{answers[0]}"
             option2=f"{answers[1]}"
             option3=f"{answers[2]}"
-            await asyncio.sleep()
+            await asyncio.sleep(2)
             answer = await self.get_answer(question)
             if answer:
                 if option1.lower() == answer.lower(): select = 1
