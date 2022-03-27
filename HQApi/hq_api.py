@@ -185,7 +185,7 @@ class HQApi(BaseHQApi):
                                            headers=self.headers, proxies=self.p, verify=self.v).json()
             error = content.get("error")
             if error:
-                raise ApiResponseError(json.dumps(content))
+                raise ApiResponseError(error)
             return content
         except json.decoder.JSONDecodeError:
             raise BannedIPError("Your IP is banned")
