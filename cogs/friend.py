@@ -21,6 +21,10 @@ class Friends(commands.Cog):
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friends [username]` to check your all friends list.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_id = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=discord.Colour.random())
@@ -113,6 +117,10 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}addfriend [username] [friend's username]` to send a friend request.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             try:
@@ -148,6 +156,10 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}acceptfriend [username] [friend's username]` to accept a friend request.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             try:
@@ -183,6 +195,10 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}removefriend [username] [friend's username]` to remove a friend from your friends list.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             try:
@@ -218,6 +234,10 @@ class Friends(commands.Cog):
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friendstatus [username] [Friend's username]` to check your friend's status.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             try:
