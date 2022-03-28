@@ -89,6 +89,7 @@ class AutoPlay(commands.Cog, HQApi):
         await self.auto_play()
                 
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def autoplay(self, ctx, username = None, mode = None):
         if not username: return await ctx.send(ctx.author.mention + " You didn't mention username.")
         if not mode: return await ctx.send(ctx.author.mention + " You didn't mention any mode. Please choose either `on` or `off` to set AutoPlay mode.")
