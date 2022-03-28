@@ -10,7 +10,7 @@ class BaseHQApi:
         return self
 
     async def get_users_me(self):
-        response_data = {
+        """response_data = {
                     'achievementCount': 0,
                     'avatarUrl': 'https://cdn.prod.hype.space/da/gold.png',
                     'blocked': False,
@@ -57,14 +57,14 @@ class BaseHQApi:
                     'username': 'HelmaKai95',
                     'voip': False,
                     'winCount': 0
-                }
+                }"""
         return await self.fetch("GET", "users/me")
 
     async def get_user(self, id: str):
         return await self.fetch("GET", "users/{}".format(id))
 
     async def search(self, name):
-        response_data = {
+        """response_data = {
             'data': [{
                 'avatarUrl': 'https://cdn.prod.hype.space/da/purple.png',
                 'created': '2020-06-02T02:41:50.000Z',
@@ -90,11 +90,11 @@ class BaseHQApi:
                 'prev': '/users?q=Josephine3250&before=1',
                 'self': '/users?q=Josephine3250'
                 }
-            }
+            }"""
         return await self.fetch("GET", 'users?q={}'.format(name))
 
     async def get_payouts_me(self):
-        response_data = {
+        """response_data = {
                     'balance': {
                         'appealStatus': 'none',
                         'available': '$0',
@@ -160,13 +160,87 @@ class BaseHQApi:
                         'targetUserId': None,
                         'userId': 27232225
                     },
-                ]}
+                ]}"""
         return await self.fetch("GET", "users/me/payouts")
 
     async def get_show(self):
+        """response_data = {
+                    'active': False,
+                    'atCapacity': False,
+                    'broadcast': None,
+                    'broadcastFull': False,
+                    'gameType': None,
+                    'media': None,
+                    'nextGameType': 'trivia',
+                    'nextShowPrize': '$1,500',
+                    'nextShowTime': '2022-04-01T01:00:00.000Z',
+                    'nextShowVertical': 'general',
+                    'prize': None,
+                    'prizePoints': None,
+                    'showId': None,
+                    'showType': None,
+                    'startTime': None,
+                    'upcoming': [{
+                            'gameType': 'trivia',
+                            'media': [],
+                            'nextShowLabel': {'color': '#FFFFFF', 'title': 'HQ Trivia'},
+                            'optIn': {'color': '#FFFFFF', 'opt': 'hq-general'},
+                            'prize': '$1,500',
+                            'showType': 'hq',
+                            'time': '2022-04-01T01:00:00.000Z',
+                            'vertical': 'general'}
+                        ]}"""
         return await self.fetch("GET", "shows/now")
 
     async def get_schedule(self):
+        """response_data = {
+                    'announcements': [],
+                    'offairTrivia': {
+                                'games': [{
+                                    'answerResults': [True],
+                                    'category': 'TV',
+                                    'gameUuid': 'cl17nlnqc07vx01i98jpjfr3b',
+                                    'questionCount': 12,
+                                    'questionNumber': 2,
+                                    'reminders': [{
+                                            'message': 'Complete your Daily '
+                                                        'Challenge now before '
+                                                        'it’s too late!',
+                                            'sendMs': 14400000}],
+                                    'status': 'question_answered'}],
+                                'isGameInProgress': True,
+                                'powerups': {
+                                    'OFFAIR_PTS_MULTI_10': 0,
+                                    'OFFAIR_UNLOCK': 0,
+                                    'offair-10x-pts-multi': 0,
+                                    'offair-unlock': 0},
+                                'waitTimeMs': 0},
+                    'shows': [{
+                        'currency': 'USD',
+                        'display': {
+                            'accentColor': '#FFFFFF',
+                            'bgImage': 'https://cdn.prod.hype.space/static/channel/TRIVIA/Trivia-frame.png',
+                            'bgVideo': 'https://cdn.prod.hype.space/static/channel/TRIVIA/HQ-Trivia-portrait-70percentSpeed-190kbps-HVEC_H265.mp4',
+                            'description': 'Are you a sponge of random facts? HQ '
+                                           'Trivia is the viral hit live mobile '
+                                           'game show where your trivia smarts '
+                                           'helps you win real cash. Answer '
+                                           'questions that range from easy to '
+                                           'hard, and if you get them all right, '
+                                           'you win or split the cash prize.',
+                            'image': 'https://cdn.prod.hype.space/static/channel/TRIVIA/Trivia@3x.png?v=3',
+                            'logo': 'https://cdn.prod.hype.space/static/channel/TRIVIA/Trivia@3x.png?v=3',
+                            'subtitle': '$1,500 Prize!',
+                            'summary': 'Answer trivia for cash prizes',
+                            'title': 'HQ Trivia'},
+                        'gameType': 'trivia',
+                        'media': [],
+                        'opt': 'hq-general',
+                        'prizeCents': 150000,
+                        'showId': 15077,
+                        'showType': 'hq',
+                        'startTime': '2022-04-01T01:00:00.000Z',
+                        'vertical': 'general'}]}"""
         return await self.fetch("GET", 'shows/schedule')
 
     async def easter_egg(self, type: str = "makeItRain"):
