@@ -111,12 +111,36 @@ class BaseHQApi:
         return await self.fetch("POST", "easter-eggs/makeItRain")
 
     async def purchase_life(self, amount: int):
+        response_data = {
+                    'coinsPurchased': 0,
+                    'coinsTotal': 24562,
+                    'itemsPurchased': {'extra-life': 1},
+                    'itemsTotal': {'extra-life': 2, 'super-spin': 2},
+                    'subscriptions': [],
+                    'transactionId': None
+                }
         return await self.fetch("POST", "store/com.intermedia.hq.item.extralife.{}x/purchase".format(amount))
 
     async def purchase_eraser(self, amount: int):
+        response_data = {
+                    'coinsPurchased': 0,
+                    'coinsTotal': 24462,
+                    'itemsPurchased': {'eraser': 1},
+                    'itemsTotal': {'eraser': 1, 'extra-life': 2, 'super-spin': 2},
+                    'subscriptions': [],
+                    'transactionId': None
+                }
         return await self.fetch("POST", "store/com.intermedia.hq.item.erasers.{}x/purchase".format(amount))
 
     async def purchase_super_spin(self, amount: int):
+        response_data = {
+                    'coinsPurchased': 0,
+                    'coinsTotal': 24312,
+                    'itemsPurchased': {'super-spin': 1},
+                    'itemsTotal': {'eraser': 1, 'extra-life': 2, 'super-spin': 3},
+                    'subscriptions': [],
+                    'transactionId': None
+                }
         return await self.fetch("POST", "store/com.intermedia.hq.item.superspin.{}x/purchase".format(amount))
 
     async def leaderboard(self, mode: str):
