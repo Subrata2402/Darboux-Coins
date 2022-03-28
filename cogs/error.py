@@ -17,7 +17,7 @@ class Errors(commands.Cog):
                 timestamp = ctx.author.created_at)
         embed.set_footer(text = f"ID : {ctx.author.id} | Created at")
         embed.set_author(name = ctx.author, icon_url = ctx.author.avatar_url)
-        embed.set_thumbnail(url = ctx.guild.icon_url if ctx.guild else None)
+        if ctx.guild: embed.set_thumbnail(url = ctx.guild.icon_url)
         await channel.send(embed = embed)
 
     @commands.Cog.listener()
