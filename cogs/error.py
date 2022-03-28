@@ -33,28 +33,16 @@ class Errors(commands.Cog):
         error = getattr(error, "original", error)
 
         if isinstance(error, commands.CommandOnCooldown):
-            retry_after = int(error.retry_after)
-            minutes, seconds = divmod(retry_after, 60)
-            hours, minutes = divmod(minutes, 60)
-            if hours + minutes == 0:
-                wait_time = f"**{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
-            elif hours == 0:
-                wait_time = f"**{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
-            elif minutes == 0:
-                wait_time = f"**{'0' if hours < 10 else ''}{hours}** hour{'s' if hours != 1 else ''} **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
-            else:
-                wait_time = f"**{'0' if hours < 10 else ''}{hours}** hour{'s' if hours != 1 else ''} **{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} and **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
+            retry_after = error.retry_after
+            wait_time = f"**{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
             embed = discord.Embed(
-                title=f"⚠️ | Command on Cooldown",
-                description=f"This command is on cooldown, please retry after {wait_time}.",
-                color=discord.Colour.random(),
+                description=f"This command is on cooldown, please retry after {wait_time}."
             )
             return await ctx.send(embed=embed)
             
         if isinstance(error, commands.TooManyArguments):
             embed = discord.Embed(
-                description=f"⚠️ | You given one or more extra arguments which are not required!",
-                color=discord.Colour.random(),
+                description=f"⚠️ | You given one or more extra arguments which are not required!"
             )
             return await ctx.send(embed=embed)
 
@@ -72,7 +60,7 @@ class Errors(commands.Cog):
                 
 
         if isinstance(error, commands.NotOwner):
-            embed = discord.Embed(color=discord.Colour.random())
+            embed = discord.Embed()
             embed.description = f"⚠️ | This command only for bot developers. You can't use it."
             return await ctx.send(embed=embed)
 
