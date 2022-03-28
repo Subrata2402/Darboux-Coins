@@ -12,7 +12,7 @@ class Errors(commands.Cog):
     @commands.Cog.listener()
     async def on_command(self, ctx):
         channel = self.client.get_channel(958059478538936400)
-        embed = discord.Embed(description = f"Command : `{ctx.command.name}`\nGuild : `{ctx.guild.name}`\nChannel : `{ctx.channel.name}`\nCommand Failed : `{ctx.command_failed}`\nMessage :\n```\n{ctx.message.content}\n```",
+        embed = discord.Embed(description = f"Command : `{ctx.command.name}`\nGuild : `{ctx.guild.name if ctx.guild else None}`\nChannel : `{ctx.channel.name if ctx.guild else ctx.channel}`\nCommand Failed : `{ctx.command_failed}`\nMessage :\n```\n{ctx.message.content}\n```",
                 color = discord.Color.random(),
                 timestamp = ctx.author.created_at)
         embed.set_footer(text = f"ID : {ctx.author.id} | Created at")
