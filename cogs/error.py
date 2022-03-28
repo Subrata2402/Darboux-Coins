@@ -2,7 +2,6 @@ import math
 import os
 import sys
 import traceback
-from utils.emoji import cross, warning
 import discord
 from discord.ext import commands
 
@@ -46,7 +45,7 @@ class Errors(commands.Cog):
             else:
                 wait_time = f"**{'0' if hours < 10 else ''}{hours}** hour{'s' if hours != 1 else ''} **{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} and **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
             embed = discord.Embed(
-                title=f"{warning} | Command on Cooldown",
+                title=f"⚠️ | Command on Cooldown",
                 description=f"This command is on cooldown, please retry after {wait_time}.",
                 color=discord.Colour.random(),
             )
@@ -54,7 +53,7 @@ class Errors(commands.Cog):
             
         if isinstance(error, commands.TooManyArguments):
             embed = discord.Embed(
-                description=f"{warning} | You given one or more extra arguments which are not required!",
+                description=f"⚠️ | You given one or more extra arguments which are not required!",
                 color=discord.Colour.random(),
             )
             return await ctx.send(embed=embed)
@@ -63,25 +62,25 @@ class Errors(commands.Cog):
         if isinstance(error, commands.MaxConcurrencyReached):
             if error.per == commands.BucketType.guild:
                 if error.number == 1:
-                    embed=discord.Embed(description=f"{cross} | This command is already running in this server. Please wait for it to finish.", color=discord.Colour.random())
+                    embed=discord.Embed(description=f"⚠️ | This command is already running in this server. Please wait for it to finish.", color=discord.Colour.random())
                     return await ctx.send(embed=embed)
-                embed=discord.Embed(description=f"{cross} | {error.number} commands is already running in this server. Please wait for it to finish.", color=discord.Colour.random())
+                embed=discord.Embed(description=f"⚠️ | {error.number} commands is already running in this server. Please wait for it to finish.", color=discord.Colour.random())
                 return await ctx.send(embed=embed)
             else:
-                embed=discord.Embed(description=f"{cross} | You've already started a game, finish it first and then try another.", color=discord.Colour.random())
+                embed=discord.Embed(description=f"⚠️ | You've already started a game, finish it first and then try another.", color=discord.Colour.random())
                 return await ctx.send(embed=embed)
                 
 
         if isinstance(error, commands.NotOwner):
             embed = discord.Embed(color=discord.Colour.random())
-            embed.description = f"{cross} | This command only for bot developers. You can't use it."
+            embed.description = f"⚠️ | This command only for bot developers. You can't use it."
             return await ctx.send(embed=embed)
 
 
         if isinstance(error, discord.errors.Forbidden):
             try:
                 embed = discord.Embed(
-                    title=f"{warning} | Forbidden Error",
+                    title=f"⚠️ | Forbidden Error",
                     description=f"Error - 404 | Missing Permission(s)",
                     color=discord.Colour.random(),
                 )
@@ -101,7 +100,7 @@ class Errors(commands.Cog):
             return
 
         channel = await self.client.fetch_channel(958059379041640448)
-        embed=discord.Embed(title=f"{warning} | Found an error", description=f"Ignoring exception in command : `{ctx.command}`", color=discord.Colour.random())
+        embed=discord.Embed(title=f"⚠️ | Found an error", description=f"Ignoring exception in command : `{ctx.command}`", color=discord.Colour.random())
         embed.add_field(name = "Error Detected :", value=f"```\n{error}\n```")
         embed.add_field(name = "Cog Name :", value = ctx.command.cog_name)
         try:
