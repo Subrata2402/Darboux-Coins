@@ -33,7 +33,7 @@ class Errors(commands.Cog):
         error = getattr(error, "original", error)
 
         if isinstance(error, commands.CommandOnCooldown):
-            retry_after = error.retry_after
+            seconds = error.retry_after
             wait_time = f"**{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
             embed = discord.Embed(
                 description=f"This command is on cooldown, please retry after {wait_time}."
