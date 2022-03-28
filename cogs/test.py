@@ -22,6 +22,7 @@ data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb
 db = data.get_database("Darboux")#Your db name
 token_base = db.token
 q_base = db.questions
+question_base = db.hq_questions
 
 client = MongoClient("mongodb+srv://Subrata3250:subrata3250@cluster0.gqwt8.mongodb.net/DarbouxCoinsBackup?retryWrites=true&w=majority")
 db = client.get_database("DarbouxCoinsBackup")
@@ -36,8 +37,10 @@ class DcPlay(commands.Cog):
     @commands.is_owner()
     async def qbackup(self, ctx):
         all_data = list(q_base.find())
-        for question in all_data:
-            qt_base.insert_one(question)
+        for data in all_data:
+            question = data["question"].lower()
+            answer = data["answer"].lower()
+            question_base.insert_one({"question": question, "answer": answer})
         await ctx.send("success")
 
     @commands.command()
