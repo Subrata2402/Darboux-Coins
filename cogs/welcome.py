@@ -42,7 +42,7 @@ class Welcome(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        channel = self.bot.get_channel(845138450361221140)
+        channel = self.bot.get_channel(845131577306120202)
         if member.guild.id == 831051146880614431:
             return await channel.send(f"**{member.name}#{member.discriminator}** just left the server **{member.guild.name}**")
 
