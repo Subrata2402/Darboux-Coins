@@ -34,16 +34,18 @@ class Help(commands.Cog):
 
     @commands.command()
     async def invite(self, ctx):
-        embed=discord.Embed(description=f"**Click the below interaction button to invite me in your server.", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        components = [Button(style = ButtonStyle.URL, emoji = "👾", url = f"https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot", label = "Click Here to Invite")]
+        emoji = self.client.get_emoji(957904862631297085)
+        embed=discord.Embed(description=f"**Click the below interaction button to invite me in your server.**", color=discord.Colour.random())
+        #embed.set_thumbnail(url=self.client.user.avatar_url)
+        components = [Button(style = ButtonStyle.URL, emoji = emoji, url = f"https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot", label = "Click Here to Invite")]
         await ctx.send(embed = embed, components = components)
 
     @commands.command(aliases=["join"])
     async def support(self, ctx):
+        emoji = self.client.get_emoji(957904862631297085)
         embed=discord.Embed(description="**Click the below interaction button to join our official server for any support.**", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        components = [Button(style = ButtonStyle.URL, emoji = "👾", url = "https://discord.gg/TAcEnfS8Rs", label = "Click Here to Join")]
+        #embed.set_thumbnail(url=self.client.user.avatar_url)
+        components = [Button(style = ButtonStyle.URL, emoji = emoji, url = "https://discord.gg/TAcEnfS8Rs", label = "Click Here to Join")]
         await ctx.send(embed = embed, components = components)
     
     @commands.command()
