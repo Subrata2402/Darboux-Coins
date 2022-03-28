@@ -12,15 +12,15 @@ class DcPlay(commands.Cog):
         self.client = client
 
     async def get_answer(self, question):
-        check_question = db.questions_base.find_one({"question": question})
+        check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question: return None
-        answer = db.questions_base.find_one({"question": question}).get("answer")
+        answer = db.questions_base.find_one({"question": question.lower()}).get("answer")
         return answer
 
     async def add_question(self, question, answer):
-        check_question = db.questions_base.find_one({"question": question})
+        check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question:
-            db.questions_base.insert_one({"question": question, "answer": answer})
+            db.questions_base.insert_one({"question": question.lower(), "answer": answer.lower()})
 
     @commands.command(aliases=["splay"])
     async def sdcplay(self, ctx, username:str=None):
