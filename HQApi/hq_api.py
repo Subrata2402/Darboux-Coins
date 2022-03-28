@@ -10,15 +10,157 @@ class BaseHQApi:
         return self
 
     async def get_users_me(self):
+        response_data = {
+                    'achievementCount': 0,
+                    'avatarUrl': 'https://cdn.prod.hype.space/da/gold.png',
+                    'blocked': False,
+                    'blocksMe': False,
+                    'broadcasts': {'data': []},
+                    'coins': 678,
+                    'created': '2021-03-23T02:35:38.000Z',
+                    'deviceTokens': [],
+                    'erase1s': 0,
+                    'featured': False,
+                    'friendIds': [],
+                    'gamesPlayed': 12,
+                    'hasPhone': True,
+                    'highScore': 0,
+                    'identities': [],
+                    'items': {'erase1s': 0, 'lives': 2, 'popularChoices': None, 'superSpins': 0},
+                    'leaderboard': {
+                                'alltime': {'rank': 101, 'total': '$0', 'wins': 0},
+                                'rank': 101,
+                                'total': '$0',
+                                'totalCents': 0,
+                                'unclaimed': '$0',
+                                'weekly': {'rank': 101, 'total': '$0', 'wins': 0},
+                                'wins': 0
+                    },
+                    'lives': 2,
+                    'phoneNumber': '+447404447991',
+                    'preferences': {'hq-general': True, 'sharingEnabled': True},
+                    'referralUrl': 'https://hqtrivia.com/i/HelmaKai95',
+                    'referred': True,
+                    'referringUserId': 27015094,
+                    'stk': 'Mg==',
+                    'streakInfo': {
+                            'current': 0,
+                            'lastPlayed': '2022-03-28T21:40:42.327Z',
+                            'lifeUuid': None,
+                            'notify': True,
+                            'startDate': '2022-03-28T07:00:00.000Z',
+                            'target': 5,
+                            'total': 0,
+                            'userId': 27353247
+                    },
+                    'userId': 27353247,
+                    'username': 'HelmaKai95',
+                    'voip': False,
+                    'winCount': 0
+                }
         return await self.fetch("GET", "users/me")
 
     async def get_user(self, id: str):
         return await self.fetch("GET", "users/{}".format(id))
 
     async def search(self, name):
+        response_data = {
+            'data': [{
+                'avatarUrl': 'https://cdn.prod.hype.space/da/purple.png',
+                'created': '2020-06-02T02:41:50.000Z',
+                'featured': False,
+                'lastLive': None,
+                'live': False,
+                'subscriberCount': 0,
+                'userId': '26755116',
+                'username': 'josephine3250'
+            },
+            {
+                'avatarUrl': 'https://cdn.prod.hype.space/da/blue.png',
+                'created': '2021-05-24T06:07:00.000Z',
+                'featured': False,
+                'lastLive': None,
+                'live': False,
+                'subscriberCount': 0,
+                'userId': '27480572',
+                'username': 'Josephine3250fb'
+            }],
+            'links': {
+                'next': None,
+                'prev': '/users?q=Josephine3250&before=1',
+                'self': '/users?q=Josephine3250'
+                }
+            }
         return await self.fetch("GET", 'users?q={}'.format(name))
 
     async def get_payouts_me(self):
+        response_data = {
+                    'balance': {
+                        'appealStatus': 'none',
+                        'available': '$0',
+                        'documentRequired': False,
+                        'documentStatus': 'none',
+                        'eligibleForPayout': False,
+                        'frozen': '$0',
+                        'hasPending': False,
+                        'paid': '$10.50',
+                        'payoutEligibility': 'disallowed_not_enough',
+                        'payoutsConnected': True,
+                        'payoutsEmail': 'sakhman2001@gmail.com',
+                        'pending': '$0',
+                        'prizeTotal': '$10.50',
+                        'unpaid': '$0',
+                        'winsReadyForCashout': True
+                    },
+                    'charities': [{
+                        'charityIconUrl': 'https://cdn.prod.hype.space/charity-icons/7692404-A1IHqy',
+                        'charityId': 'ckfbjy9qp0000015a2u78gl3k',
+                        'displayName': "Tuesday's Children"
+                    },
+                    {
+                        'charityIconUrl': 'https://cdn.prod.hype.space/charity-icons/7692404-mkzp4p',
+                        'charityId': 'ckfbjxf7d0000011ubxtq2s6p',
+                        'displayName': 'Rock the Vote'
+                    }],
+                    'payouts': [{
+                        'amount': '$1.88',
+                        'created': '2021-05-03T01:43:02.000Z',
+                        'currency': 'USD',
+                        'metadata': {
+                                'batchId': 'KC2ZUQES5NTKE',
+                                'client': 'Android/1.49.8',
+                                'ipAddress': '54.242.1.233',
+                                'payoutsConnected': True,
+                                'senderBatchId': 'payout_4827411'
+                            },
+                        'modified': '2021-05-03T01:47:59.000Z',
+                        'payoutId': 4827411,
+                        'status': 10001,
+                        'targetEmail': 'sakhman2001@gmail.com',
+                        'targetPhone': None,
+                        'targetUserId': None,
+                        'userId': 27232225
+                    },
+                    {
+                        'amount': '$0.79',
+                        'created': '2021-04-07T03:03:47.000Z',
+                        'currency': 'USD',
+                        'metadata': {
+                                'batchId': '88ULYQXB74SME',
+                                'client': 'Android/1.49.8',
+                                'ipAddress': '35.175.205.12',
+                                'payoutsConnected': True,
+                                'senderBatchId': 'payout_4815149'
+                            },
+                        'modified': '2021-04-13T16:26:17.000Z',
+                        'payoutId': 4815149,
+                        'status': 10001,
+                        'targetEmail': 'sakhman2001@gmail.com',
+                        'targetPhone': None,
+                        'targetUserId': None,
+                        'userId': 27232225
+                    },
+                ]}
         return await self.fetch("GET", "users/me/payouts")
 
     async def get_show(self):
