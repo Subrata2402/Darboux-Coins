@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import datetime
 import platform
+from discord_components import *
 
 
 class Help(commands.Cog):
@@ -33,9 +34,10 @@ class Help(commands.Cog):
 
     @commands.command()
     async def invite(self, ctx):
-        embed=discord.Embed(title="**Invite Me to Your Server !**", description=f"**Invite Link : [Click Here](https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot)**", color=discord.Colour.random())
+        embed=discord.Embed(description=f"**Click the below interaction button to invite me in your server.", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
-        await ctx.send(embed=embed)
+        components = [Button(emoji = "👾", url = f"https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot", lebel = "Click Here to Invite")]
+        await ctx.send(embed=embed, components = components)
 
     @commands.command(aliases=["join"])
     async def support(self, ctx):
