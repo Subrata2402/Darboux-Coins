@@ -11,6 +11,7 @@ class Details(commands.Cog, HQApi):
         self.client = client
 
     @commands.command(aliases=["bal"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def balance(self, ctx):
         """Get account details."""
         check_id = db.profile_base.find_one({"id": ctx.author.id})
