@@ -11,6 +11,7 @@ class EditUsername(commands.Cog):
         self.client = client
 
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def editname(self, ctx, username=None, name=None):
         """Edit username."""
         if not username or not name:
