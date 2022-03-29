@@ -10,6 +10,7 @@ class Details(commands.Cog):
         self.client = client
 
     @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def details(self, ctx, username=None):
         """Get account details."""
         if username is None:
