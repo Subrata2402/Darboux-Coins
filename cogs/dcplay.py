@@ -33,6 +33,7 @@ class DcPlay(commands.Cog):
         await x.edit(embed=embed)
 
     @commands.command(aliases=["play"])
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def dcplay(self, ctx, username:str=None):
         """Play HQ Daily Challenge."""
         if username is None:
