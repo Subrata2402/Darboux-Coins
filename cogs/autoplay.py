@@ -24,6 +24,7 @@ class AutoPlay(commands.Cog, HQApi):
 
     async def auto_play(self):
         for all_data in list(db.profile_base.find()):
+            await asyncio.sleep(30)
             active = (await self.get_show())["active"]
             if active:
                 await asyncio.sleep(600)
