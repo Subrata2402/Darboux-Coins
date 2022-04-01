@@ -37,7 +37,7 @@ class DcPlay(commands.Cog):
     async def dcplay(self, ctx, username:str=None):
         """Play HQ Daily Challenge."""
         if username is None:
-            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write username after `{ctx.prefix}dcplay`. Please correct use Command to play HQ Trivia Daily Challenge.\n`{ctx.prefix}dcplay <username>`\nExample: `{ctx.prefix}add +13158686534`", color=discord.Colour.random())
+            embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write username after `{ctx.prefix}dcplay`. Please correct use Command to play HQ Trivia Daily Challenge.\n`{ctx.prefix}dcplay <username>`\nExample: `{ctx.prefix}dcplay josephine`", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
