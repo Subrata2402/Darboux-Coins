@@ -1,4 +1,4 @@
-import json, jwt, requests
+import json, jwt, aiohttp
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
 class BaseHQApi:
@@ -387,7 +387,6 @@ class HQApi(BaseHQApi):
                  proxy: str = None, verify: bool = True):
         super().__init__(token, logintoken)
         self.version = "2.4.3"
-        self.session = requests.Session()
         self.token = token
         self.logintoken = logintoken
         self.hq_version = version
@@ -402,33 +401,34 @@ class HQApi(BaseHQApi):
             self.headers["Authorization"] = "Bearer " + self.token
 
     async def fetch(self, method="GET", func="", data=None, files=None):
-        if data is None:
-            data = {}
-        try:
-            if method == "GET":
-                content = self.session.get(self.host + "{}".format(func), data=data,
-                                           headers=self.headers, proxies=self.p, verify=self.v).json()
-            elif method == "POST":
-                content = self.session.post(self.host + "{}".format(func), data=data,
-                                            headers=self.headers, proxies=self.p, files=files, verify=self.v).json()
-            elif method == "PATCH":
-                content = self.session.patch(self.host + "{}".format(func), data=data,
-                                             headers=self.headers, proxies=self.p, verify=self.v).json()
-            elif method == "DELETE":
-                content = self.session.delete(self.host + "{}".format(func), data=data,
-                                              headers=self.headers, proxies=self.p, verify=self.v).json()
-            elif method == "PUT":
-                content = self.session.put(self.host + "{}".format(func), data=data,
-                                           headers=self.headers, proxies=self.p, verify=self.v).json()
-            else:
-                content = self.session.get(self.host + "{}".format(func), data=data,
-                                           headers=self.headers, proxies=self.p, verify=self.v).json()
-            error = content.get("error")
-            if error:
-                raise ApiResponseError(error)
-            return content
-        except json.decoder.JSONDecodeError:
-            raise BannedIPError("Your IP is banned")
+        if data is None: data = {}
+        async with aiohttp.ClientSession() as session:
+            try:
+                if method == "GET":
+                    response = await session.get(self.host + "{}".format(func), data=data,
+                                               headers=self.headers, proxies=self.p, verify=self.v)
+                elif method == "POST":
+                    response = await session.post(self.host + "{}".format(func), data=data,
+                                                headers=self.headers, proxies=self.p, files=files, verify=self.v)
+                elif method == "PATCH":
+                    response = await session.patch(self.host + "{}".format(func), data=data,
+                                                 headers=self.headers, proxies=self.p, verify=self.v)
+                elif method == "DELETE":
+                    response = await session.delete(self.host + "{}".format(func), data=data,
+                                                  headers=self.headers, proxies=self.p, verify=self.v)
+                elif method == "PUT":
+                    response = await session.put(self.host + "{}".format(func), data=data,
+                                               headers=self.headers, proxies=self.p, verify=self.v)
+                else:
+                    response = await session.get(self.host + "{}".format(func), data=data,
+                                               headers=self.headers, proxies=self.p, verify=self.v)
+                content = await response.json()
+                error = content.get("error")
+                if error:
+                    raise ApiResponseError(error)
+                return content
+            except json.decoder.JSONDecodeError:
+                raise BannedIPError("Your IP is banned")
 
     async def decode_jwt(self, jwt_text: str):
         return jwt.decode(jwt_text.encode(), verify=False)
