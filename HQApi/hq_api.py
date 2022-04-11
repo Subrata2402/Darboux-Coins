@@ -405,23 +405,22 @@ class HQApi(BaseHQApi):
         async with aiohttp.ClientSession() as session:
             try:
                 if method == "GET":
-                    response = await session.get(self.host + "{}".format(func), data=data,
-                                               headers=self.headers, proxies=self.p, verify=self.v)
+                    response = await session.get(self.host + "{}".format(func), headers=self.headers)
                 elif method == "POST":
                     response = await session.post(self.host + "{}".format(func), data=data,
-                                                headers=self.headers, proxies=self.p, files=files, verify=self.v)
+                                                headers=self.headers)
                 elif method == "PATCH":
                     response = await session.patch(self.host + "{}".format(func), data=data,
-                                                 headers=self.headers, proxies=self.p, verify=self.v)
+                                                 headers=self.headers)
                 elif method == "DELETE":
-                    response = await session.delete(self.host + "{}".format(func), data=data,
-                                                  headers=self.headers, proxies=self.p, verify=self.v)
+                    response = await session.delete(self.host + "{}".format(func),
+                                                  headers=self.headers)
                 elif method == "PUT":
                     response = await session.put(self.host + "{}".format(func), data=data,
-                                               headers=self.headers, proxies=self.p, verify=self.v)
+                                               headers=self.headers)
                 else:
-                    response = await session.get(self.host + "{}".format(func), data=data,
-                                               headers=self.headers, proxies=self.p, verify=self.v)
+                    response = await session.get(self.host + "{}".format(func),
+                                               headers=self.headers)
                 content = await response.json()
                 error = content.get("error")
                 if error:
