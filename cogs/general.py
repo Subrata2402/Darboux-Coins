@@ -51,7 +51,7 @@ class Help(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def reply(self, ctx, user_id=None, *, args=None):
-        if user_id != None and args != None:
+        if not user_id and not args:
             return await ctx.channel.send("You didn't provide a user's id and/or a message.")
         try:
             target = await self.client.fetch_user(user_id)
