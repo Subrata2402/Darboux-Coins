@@ -17,8 +17,8 @@ class GoogleLoginMethod(commands.Cog):
         embed1.set_thumbnail(url=self.client.user.avatar_url)
         embed1.timestamp = datetime.datetime.utcnow()
 
-        embed2=discord.Embed(title="**__Step - 1__**", description=f"**Use `{ctx.prefix}glink` in DM to initiate login with Google Account. You will be sent a login link by the bot. Click this link to login with Google Account.**", color=discord.Colour.random())
-        embed2.set_image(url="https://media.discordapp.net/attachments/838633900950552606/857249705607430174/IMG_20210623_185015.jpg")
+        embed2=discord.Embed(title="**__Step - 1__**", description=f"**Use `{ctx.prefix}google` in DM to initiate login with Google Account. You will be sent a login link by the bot. Click this link to login with Google Account.**", color=discord.Colour.random())
+        embed2.set_image(url="https://media.discordapp.net/attachments/827262575439380542/967343072323182642/IMG_20220423_140503.jpg")
         embed2.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed2.timestamp = datetime.datetime.utcnow()
 
@@ -32,10 +32,10 @@ class GoogleLoginMethod(commands.Cog):
         embed4.timestamp = datetime.datetime.utcnow()
         embed4.set_image(url="https://media.discordapp.net/attachments/838633900950552606/857251778872606720/IMG_20210623_184934.jpg")
         
-        embed5=discord.Embed(title="**__Step - 4__**", description=f'**Then use `{ctx.prefix}glogin <copied link>` and successfully add your HQ Trivia account in bot database. Use `{ctx.prefix}accounts` to check your all save accounts.**', color=discord.Colour.random())
+        embed5=discord.Embed(title="**__Step - 4__**", description=f'**Then use `{ctx.prefix}google <copied link>` and successfully add your HQ Trivia account in bot database. Use `{ctx.prefix}accounts` to check your all save accounts.**', color=discord.Colour.random())
         embed5.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed5.timestamp = datetime.datetime.utcnow()
-        embed5.set_image(url="https://media.discordapp.net/attachments/838633900950552606/857254783122538516/IMG_20210623_191414.jpg")
+        embed5.set_image(url="https://media.discordapp.net/attachments/827262575439380542/967343072063127574/IMG_20220423_140538.jpg")
         
         
 
