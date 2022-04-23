@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import DiscordUtils
+from config.button import peginator_button
 import datetime
 
 class FbMethod(commands.Cog):
@@ -12,6 +12,11 @@ class FbMethod(commands.Cog):
     async def fbmethod(self, ctx):
         if ctx.guild:
             return await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
+
+        first_page_buttons = await peginator_button(self.client, disabled_1 = True, disabled_2 = True)
+        last_page_buttons = await peginator_button(self.client, disabled_3 = True, disabled_4 = True)
+        middle_page_buttons = await peginator_button(self.client)
+        
 
         embed1=discord.Embed(title="**__Facebook Login Method__**", description=f"**Hey {ctx.author.mention}, Thanks for using {self.client.user.mention} Bot. Follow these steps to link your HQ Trivia account with bot by Facebook.\n\nUse below emojis to change the page and get the process of Facebook Login Method.**", color=discord.Colour.random())
         embed1.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -53,14 +58,37 @@ class FbMethod(commands.Cog):
         embed8.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         embed8.timestamp = datetime.datetime.utcnow()
 
-        paginator = DiscordUtils.Pagination.CustomEmbedPaginator(ctx)
-        paginator.add_reaction('⏮', "first")
-        paginator.add_reaction('◀', "back")
-        #paginator.add_reaction('<:emoji_60:855472859034943488>', "lock")
-        paginator.add_reaction('▶', "next")
-        paginator.add_reaction('⏭', "last")
-        embeds = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8]
-        await paginator.run(embeds)
+        pages = [embed1, embed2, embed3, embed4, embed5, embed6, embed7, embed8]
+        
+        message = await ctx.send(embed = embed1, components = first_page_buttons)
+
+        def check(interaction):
+            return interaction.author == ctx.author and interaction.message == message
+        i = 0
+        while True:
+            try:
+                interaction = await self.client.wait_for("button_click", timeout = 45.0, check = check)
+            except:
+                buttons = await peginator_button(client = self.client, disabled_1 = True, disabled_2 = True, disabled_3 = True, disabled_4 = True)
+                return await message.edit(components = buttons)
+            if interaction.custom_id == "button1":
+                i = 0
+            elif interaction.custom_id == "button2":
+                if i > 0:
+                    i -= 1
+            elif interaction.custom_id == "button3":
+                if i < 4:
+                    i += 1
+            elif interaction.custom_id == "button4":
+                i = 4
+                
+            if i == 0:
+                await interaction.respond(type = 7, embed = pages[i], components = first_page_buttons)
+            elif i == 4:
+                await interaction.respond(type = 7, embed = pages[i], components = last_page_buttons)
+            else:
+                await interaction.respond(type = 7, embed = pages[i], components = middle_page_buttons)
+
 
 def setup(client):
     client.add_cog(FbMethod(client))
