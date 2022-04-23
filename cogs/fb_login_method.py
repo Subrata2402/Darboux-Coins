@@ -77,14 +77,14 @@ class FbMethod(commands.Cog):
                 if i > 0:
                     i -= 1
             elif interaction.custom_id == "button3":
-                if i < 4:
+                if i < 7:
                     i += 1
             elif interaction.custom_id == "button4":
-                i = 4
+                i = 7
                 
             if i == 0:
                 await interaction.respond(type = 7, embed = pages[i], components = first_page_buttons)
-            elif i == 4:
+            elif i == 7:
                 await interaction.respond(type = 7, embed = pages[i], components = last_page_buttons)
             else:
                 await interaction.respond(type = 7, embed = pages[i], components = middle_page_buttons)
