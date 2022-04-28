@@ -1,4 +1,4 @@
-import json, jwt, aiohttp
+import json, jwt, aiohttp, asyncio
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
 class BaseHQApi:
@@ -396,7 +396,7 @@ class HQApi(BaseHQApi):
         self.headers = {
             "x-hq-client": "Android/" + self.hq_version}
         if logintoken:
-            self.token = self.get_tokens(logintoken)["accessToken"]
+            self.token = asyncio.run(self.get_tokens(logintoken))["accessToken"]
         if self.token:
             self.headers["Authorization"] = "Bearer " + self.token
 
