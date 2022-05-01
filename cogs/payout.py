@@ -115,7 +115,7 @@ class Cashout(commands.Cog):
                 embed=discord.Embed(title="⚠️ Insufficient Balance", description=f"You don't have sufficient balance for cashout. You need more **${need_money}** for cashout.", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                return await ctx.send(embed=embed)
+                #return await ctx.send(embed=embed)
             try:
                 data = api.make_payout(email)
             except Exception as e:
