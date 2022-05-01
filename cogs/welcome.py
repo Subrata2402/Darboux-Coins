@@ -78,6 +78,7 @@ class Welcome(commands.Cog):
             embed.set_thumbnail(url=message.author.avatar_url)
             embed.set_author(name=message.author, icon_url=message.author.avatar_url)
             embed.set_footer(text=f"Name: {message.author} | ID: {message.author.id}", icon_url=message.author.avatar_url)
+            if message.attachments: embed.set_image(url = message.attachments[0].url)
             return await channel.send(embed=embed)
             
 
