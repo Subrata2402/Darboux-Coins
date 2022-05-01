@@ -44,7 +44,7 @@ class Cashout(commands.Cog):
                 tm = aniso8601.parse_datetime(tim).timestamp()
                 modify_at = f"<t:{int(tm)}>"
                 description_info += f"• Amount :** {amount}**\n• Email :** {email}**\n• Payment Created :** {create_at}**\n• Payment Completed :** {modify_at}**\n\n"
-            await ctx.send("Details send in DM. Please check your DM!")
+            #await ctx.send("Details send in DM. Please check your DM!")
             embed=discord.Embed(title=f"**__Payout Summary of {username} !__**", description=description_info, color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
