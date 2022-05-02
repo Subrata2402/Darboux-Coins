@@ -35,8 +35,6 @@ class AutoPlay(commands.Cog, HQApi):
                 try:
                     data = await api.get_users_me()
                     username = data["username"]
-                    coins = data["coins"]
-                    if coins >= 1500: continue
                 except:
                     try:
                         update = {"auto_play": False}
@@ -49,6 +47,8 @@ class AutoPlay(commands.Cog, HQApi):
                     except Exception as e:
                         print(e)
                     continue
+                coins = data["coins"]
+                if coins >= 1500: continue
                 try:
                     offair_id = (await api.start_offair())['gameUuid']
                 except ApiResponseError:
