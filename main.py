@@ -81,9 +81,14 @@ client.add_cog(Darboux(client))
 
 @client.event
 async def on_message(message):
-   if message.content.startswith(client.user.mention):
-       await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
-   await client.process_commands(message)
+	if message.author.id == 433615162394804224 and message.channel.id == 844547681838039041:
+		for embed in message.embeds:
+		    embed.set_footer(text = "HQ Tweets")
+		    embed.timestamp = datetime.datetime.utcnow()
+		    await client.get_channel(976420002020343838).send(embed = embed)
+	if message.content.startswith(client.user.mention):
+		await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
+	await client.process_commands(message)
 
 extensions = [
         "cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
