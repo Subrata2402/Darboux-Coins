@@ -86,7 +86,7 @@ async def on_message(message):
 			to_dict = embed.to_dict()
 			embed.description = to_dict["description"] + f"\n**__Source :__** [Click Here]({to_dict["url"]})"
 			embed.color = discord.Colour.random()
-			embed.set_footer(text = "HQ Tweets", icon_url = "")
+			embed.set_footer(text = "HQ Tweets", icon_url = "https://media.discordapp.net/attachments/827262575439380542/976439492644843610/625974899051069460.png")
 			embed.set_thumbnail(url = "")
 			embed.set_author.icon_url = to_dict["thumbnail"]["url"]
 			embed.timestamp = datetime.datetime.utcnow()
