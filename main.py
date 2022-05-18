@@ -87,8 +87,8 @@ async def on_message(message):
 			print(to_dict)
 			embed.description = to_dict["description"] + f"\n\n**__Source :__** [Click Here]"
 			embed.color = discord.Colour.random()
-            embed.set_footer(text = "HQ Tweets")
-            embed.timestamp = datetime.datetime.utcnow()
+			embed.set_footer(text = "HQ Tweets")
+			embed.timestamp = datetime.datetime.utcnow()
 #await client.get_channel(976420002020343838).send(content = "<@&844552999983513650>", embed = embed)
 	if message.content.startswith(client.user.mention):
 		await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
