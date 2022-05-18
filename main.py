@@ -88,7 +88,7 @@ async def on_message(message):
 			embed.color = discord.Colour.random()
 			embed.set_footer(text = "HQ Tweets", icon_url = "https://media.discordapp.net/attachments/827262575439380542/976439492644843610/625974899051069460.png")
 			embed.set_thumbnail(url = "")
-			embed.set_author.icon_url = to_dict["thumbnail"]["url"]
+			embed.set_author(icon_url = to_dict["thumbnail"]["url"], name = to_dict["author"]["name"])
 			embed.timestamp = datetime.datetime.utcnow()
 			await client.get_channel(976420002020343838).send(content = "<@&844552999983513650>", embed = embed)
 	if message.content.startswith(client.user.mention):
