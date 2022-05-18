@@ -84,12 +84,13 @@ async def on_message(message):
 	if message.author.id == 433615162394804224 and message.channel.id == 844547681838039041:
 		for embed in message.embeds:
 			to_dict = embed.to_dict()
-			print(to_dict)
-			embed.description = to_dict["description"] + f"\n\n**__Source :__** [Click Here]"
+			embed.description = to_dict["description"] + f"\n**__Source :__** [Click Here]({to_dict["url"]})"
 			embed.color = discord.Colour.random()
-			embed.set_footer(text = "HQ Tweets")
+			embed.set_footer(text = "HQ Tweets", icon_url = "")
+			embed.set_thumbnail(url = "")
+			embed.set_author.icon_url = to_dict["thumbnail"]["url"]
 			embed.timestamp = datetime.datetime.utcnow()
-#await client.get_channel(976420002020343838).send(content = "<@&844552999983513650>", embed = embed)
+			await client.get_channel(976420002020343838).send(content = "<@&844552999983513650>", embed = embed)
 	if message.content.startswith(client.user.mention):
 		await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
 	await client.process_commands(message)
