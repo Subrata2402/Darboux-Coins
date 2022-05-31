@@ -2,9 +2,9 @@ import json, jwt, aiohttp, asyncio
 from HQApi.exceptions import ApiResponseError, BannedIPError
 
 class BaseHQApi:
-    def __init__(self, token: str = None, logintoken: str = None):
+    def __init__(self, token: str = None, login_token: str = None):
         self.token = token
-        self.logintoken = logintoken
+        self.login_token = login_token
 
     async def api(self):
         return self
@@ -382,21 +382,21 @@ class BaseHQApi:
 
 
 class HQApi(BaseHQApi):
-    def __init__(self, token: str = None, logintoken: str = None,
+    def __init__(self, token: str = None, login_token: str = None,
                  version: str = "1.39.0", host: str = "https://api-quiz.hype.space/",
                  proxy: str = None, verify: bool = True):
-        super().__init__(token, logintoken)
+        super().__init__(token, login_token)
         self.version = "2.4.3"
         self.token = token
-        self.logintoken = logintoken
+        self.login_token = login_token
         self.hq_version = version
         self.host = host
         self.v = verify
         self.p = dict(http=proxy, https=proxy)
         self.headers = {
             "x-hq-client": "Android/" + self.hq_version}
-        if logintoken:
-            self.token = asyncio.run(self.get_tokens(logintoken))["accessToken"]
+        if login_token:
+            self.token = asyncio.run(self.get_tokens(login_token))["accessToken"]
         if self.token:
             self.headers["Authorization"] = "Bearer " + self.token
 
