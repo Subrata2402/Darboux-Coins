@@ -59,7 +59,7 @@ class DcPlay(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        coins = data["coins"]
+        coins = data.get("coins") if data.get("coins") else 0
         embed=discord.Embed(title="Starting HQ Offair Trivia...", color=0x00ffff)
         x = await ctx.send(embed=embed)
         if ctx.guild: username = "||Private Account||"
@@ -72,7 +72,13 @@ class DcPlay(commands.Cog):
         try:
             offair_id = (await api.start_offair())['gameUuid']
         except ApiResponseError:
-            offair_id = (await api.get_schedule())['offairTrivia']["waitTimeMs"]
+            try:
+                offair_id = (await api.get_schedule())['offairTrivia']["waitTimeMs"]
+            except:
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"Daily Challenge is not available right now.", color=discord.Colour.random())
+                #embed.set_thumbnail(url=self.client.user.avatar_url)
+                #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                return await ctx.send(embed=embed)
             time=int(offair_id)/int(1000)
             if time == 0:
                 offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
