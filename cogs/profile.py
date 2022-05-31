@@ -77,7 +77,7 @@ class Profile(commands.Cog):
             lives = data["items"]["lives"]
             superSpins = data["items"]["superSpins"]
             erasers = data["items"]["erase1s"]
-            coins = data["coins"]
+            coins = data.get("coins") if data.get("coins") else 0
             data = await api.get_payouts_me()
             bal = data["balance"]
             total = bal["prizeTotal"]
@@ -137,7 +137,7 @@ class Profile(commands.Cog):
                 lives = data["items"]["lives"]
                 superSpins = data["items"]["superSpins"]
                 erasers = data["items"]["erase1s"]
-                coins = data["coins"]
+                coins = data.get("coins") if data.get("coins") else 0
                 data = await api.get_payouts_me()
                 bal = data["balance"]
                 total = bal["prizeTotal"]
