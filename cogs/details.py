@@ -24,7 +24,7 @@ class Details(commands.Cog):
             message = await ctx.author.send(embed = embed)
             if ctx.guild: await ctx.send("Check your DM! Details send in DM's.")
             try:
-                api = HQApi(login_token = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("login_token"))
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("login_token"))
                 data = await api.get_users_me()
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
