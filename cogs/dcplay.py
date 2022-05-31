@@ -78,7 +78,7 @@ class DcPlay(commands.Cog):
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"Daily Challenge is not available right now.", color=discord.Colour.random())
                 #embed.set_thumbnail(url=self.client.user.avatar_url)
                 #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                return await ctx.send(embed=embed)
+                return await x.edit(embed=embed)
             time=int(offair_id)/int(1000)
             if time == 0:
                 offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
