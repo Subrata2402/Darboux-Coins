@@ -45,18 +45,6 @@ class Errors(commands.Cog):
             return await ctx.send(embed=embed)
 
 
-        if isinstance(error, commands.MaxConcurrencyReached):
-            if error.per == commands.BucketType.guild:
-                if error.number == 1:
-                    embed=discord.Embed(description=f"⚠️ | This command is already running in this server. Please wait for it to finish.", color=discord.Colour.random())
-                    return await ctx.send(embed=embed)
-                embed=discord.Embed(description=f"⚠️ | {error.number} commands is already running in this server. Please wait for it to finish.", color=discord.Colour.random())
-                return await ctx.send(embed=embed)
-            else:
-                embed=discord.Embed(description=f"⚠️ | You've already started a game, finish it first and then try another.", color=discord.Colour.random())
-                return await ctx.send(embed=embed)
-                
-
         if isinstance(error, commands.NotOwner):
             embed = discord.Embed()
             embed.description = f"⚠️ | This command only for bot developers. You can't use it."
@@ -87,7 +75,7 @@ class Errors(commands.Cog):
         embed=discord.Embed(title="⚠️ Api Response Error", description=f"Something went wrong, please try again after some time.", color=discord.Colour.random())
         #embed.set_thumbnail(url=self.client.user.avatar_url)
         #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        return await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
         channel = await self.client.fetch_channel(958059379041640448)
         embed=discord.Embed(title=f"⚠️ | Found an error", description=f"Ignoring exception in command : `{ctx.command}`", color=discord.Colour.random())
         embed.add_field(name = "Error Detected :", value=f"```\n{error}\n```")
