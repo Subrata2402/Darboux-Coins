@@ -84,8 +84,10 @@ class Errors(commands.Cog):
 
         if isinstance(error, commands.CommandNotFound):
             return
-
-        await ctx.reply("Something went wrong, please try again after some time.")
+        embed=discord.Embed(title="⚠️ Api Response Error", description=f"Something went wrong, please try again after some time.", color=discord.Colour.random())
+        #embed.set_thumbnail(url=self.client.user.avatar_url)
+        #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        return await ctx.send(embed=embed)
         channel = await self.client.fetch_channel(958059379041640448)
         embed=discord.Embed(title=f"⚠️ | Found an error", description=f"Ignoring exception in command : `{ctx.command}`", color=discord.Colour.random())
         embed.add_field(name = "Error Detected :", value=f"```\n{error}\n```")
