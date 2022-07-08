@@ -22,14 +22,14 @@ class Help(commands.Cog):
         
         embed = discord.Embed(
             description = "" \
-            f"● **Bot Latency        ::**  {round(self.client.latency * 1000)}ms\n" \
-            f"● **Coding Language    ::**  Python[{pythonVersion}]\n" \
-            f"● **Library Version    ::**  {dpyVerstion}\n" \
-            f"● **Bot Version        ::**  1.6\n" \
-            f"● **Total Guilds       ::**  {serverCount}\n" \
-            f"● **Total Users        ::**  {memberCount}\n" \
-            f"● **Total Commands     ::**  {total_commands}\n" \
-            f"● **Bot Developer      ::**  Subrata#3250",
+                f"● **Bot Latency        ::**  {round(self.client.latency * 1000)}ms\n" \
+                f"● **Coding Language    ::**  Python[{pythonVersion}]\n" \
+                f"● **Library Version    ::**  {dpyVersion}\n" \
+                f"● **Bot Version        ::**  1.6\n" \
+                f"● **Total Guilds       ::**  {serverCount}\n" \
+                f"● **Total Users        ::**  {memberCount}\n" \
+                f"● **Total Commands     ::**  {total_commands}\n" \
+                f"● **Bot Developer      ::**  Subrata#3250",
             color=discord.Colour.random())
         """embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
         embed.add_field(name="Discord.py Version", value=f"[{dpyVersion}](https://discord.py/version)")
