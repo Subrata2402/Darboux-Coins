@@ -20,7 +20,17 @@ class Help(commands.Cog):
         date = self.client.user.created_at.__format__("%b %d, %Y %I:%M %p")
         total_commands = len(self.client.commands)
         
-        embed = discord.Embed(description=f"● **Bot Latency :** {round(self.client.latency * 1000)}ms\n● **Coding Language :** Python[{pythonVersion}]\n● **Discord.py Version :** {dpyVersion}\n● **Bot Version :** 1.5\n● **Total Guilds :** {serverCount}\n● **Total Users :** {memberCount}\n● **Total Commands :** {total_commands}\n● **Developer :** Subrata#3250", color=discord.Colour.random())
+        embed = discord.Embed(
+            description = "" \
+            f"● **Bot Latency        ::**  {round(self.client.latency * 1000)}ms\n" \
+            f"● **Coding Language    ::**  Python[{pythonVersion}]\n" \
+            f"● **Library Version    ::**  {dpyVerstion}\n" \
+            f"● **Bot Version        ::**  1.6\n" \
+            f"● **Total Guilds       ::**  {serverCount}\n" \
+            f"● **Total Users        ::**  {memberCount}\n" \
+            f"● **Total Commands     ::**  {total_commands}\n" \
+            f"● **Bot Developer      ::**  Subrata#3250",
+            color=discord.Colour.random())
         """embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
         embed.add_field(name="Discord.py Version", value=f"[{dpyVersion}](https://discord.py/version)")
         embed.add_field(name="Total Connected Guilds", value=f"[{serverCount}](https://discord.server/count)")
