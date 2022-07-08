@@ -22,15 +22,15 @@ class Help(commands.Cog):
         
         embed = discord.Embed(
             description = "```\n" \
-                f"● **Bot Latency        ::**  {round(self.client.latency * 1000)}ms\n" \
-                f"● **Coding Language    ::**  Python[{pythonVersion}]\n" \
-                f"● **Library Version    ::**  {dpyVersion}\n" \
-                f"● **Bot Version        ::**  1.6\n" \
-                f"● **Total Guilds       ::**  {serverCount}\n" \
-                f"● **Total Users        ::**  {memberCount}\n" \
-                f"● **Total Commands     ::**  {total_commands}\n" \
-                f"● **Bot Developer      ::**  Subrata#4099\n" \
-                f"                             (660337342032248832)\n```",
+                f"● Bot Latency        ::  {round(self.client.latency * 1000)}ms\n" \
+                f"● Coding Language    ::  Python[{pythonVersion}]\n" \
+                f"● Library Version    ::  {dpyVersion}\n" \
+                f"● Bot Version        ::  1.6\n" \
+                f"● Total Guilds       ::  {serverCount}\n" \
+                f"● Total Users        ::  {memberCount}\n" \
+                f"● Total Commands     ::  {total_commands}\n" \
+                f"● Bot Developer      ::  Subrata#4099\n" \
+                f"                         (660337342032248832)\n```",
             color=discord.Colour.random())
         
         # embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
@@ -41,7 +41,7 @@ class Help(commands.Cog):
         # embed.add_field(name="Bot Developer", value="[Schrodinger#8447](https://discord.id/702414646702768152)")
         
         embed.set_footer(text=f"Created At | {date}")
-        embed.set_thumbnail(url=self.client.user.avatar_url)
+        # embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_author(name=f"{self.client.user.name}#{self.client.user.discriminator} | Bot Info !", icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
