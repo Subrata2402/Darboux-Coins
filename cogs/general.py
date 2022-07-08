@@ -29,7 +29,8 @@ class Help(commands.Cog):
                 f"● **Total Guilds       ::**  {serverCount}\n" \
                 f"● **Total Users        ::**  {memberCount}\n" \
                 f"● **Total Commands     ::**  {total_commands}\n" \
-                f"● **Bot Developer      ::**  Subrata#3250\n```",
+                f"● **Bot Developer      ::**  Subrata#4099\n" \
+                f"                             (660337342032248832)\n```",
             color=discord.Colour.random())
         
         # embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
