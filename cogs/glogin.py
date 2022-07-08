@@ -22,12 +22,12 @@ class Google(commands.Cog, HQApi):
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         code = unquote(access_token)
         data = {
-            "audience": '668326540387-84isqp5u1s4dubes1tns5i7p2kgqefja.apps.googleusercontent.com',
-            "client_id": '668326540387-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com',
+            "audience": '137603896957-05igbd6ktod5h41kscji39jpgbsi3lk8.apps.googleusercontent.com',
+            "client_id": '137603896957-80gmmo4fdcm9u5d68p6885r189lurufk.apps.googleusercontent.com',
             "code": code,
             "grant_type": "authorization_code",
-            "redirect_uri": "http://localhost:8080",
-            "verifier": '56778634'
+            "redirect_uri": "http://com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk/oauth2callback",
+            "verifier": '47328508'
         }
         async with aiohttp.ClientSession() as session:
             async with session.post(url = url, headers = headers, data = data) as response:
