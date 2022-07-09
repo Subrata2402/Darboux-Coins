@@ -26,7 +26,7 @@ class Google(commands.Cog, HQApi):
             "client_id": '137603896957-80gmmo4fdcm9u5d68p6885r189lurufk.apps.googleusercontent.com',
             "code": code,
             "grant_type": "authorization_code",
-            "redirect_uri": "http://com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk:/oauth2callback",
+            "redirect_uri": "com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk:/oauth2callback",
             "verifier": '47328508'
         }
         async with aiohttp.ClientSession() as session:
