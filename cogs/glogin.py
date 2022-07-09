@@ -54,7 +54,7 @@ class Google(commands.Cog, HQApi):
         if ctx.guild:
             return await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
         if url is None:
-            with open("Video/VID_20220426041555.mp4", "rb") as f:
+            with open("Video/VID_20220710010801.mp4", "rb") as f:
                 file = discord.File(f, filename = "add-account-with-google.mp4", spoiler = False)
                 embed=discord.Embed(title="**HQ Google Login**",
                     description=f"**[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=137603896957-05igbd6ktod5h41kscji39jpgbsi3lk8.apps.googleusercontent.com&response_type=code&scope=email%20profile&verifier=47328508&redirect_uri=com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk%3A%2Foauth2callback&client_id=137603896957-80gmmo4fdcm9u5d68p6885r189lurufk.apps.googleusercontent.com) and hold to copy the link. Then see the tutorial video and follow the steps to add your HQ Trivia account in bot." \
@@ -63,7 +63,7 @@ class Google(commands.Cog, HQApi):
                 #embed.add_field(name="Login Link", value="[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=137603896957-05igbd6ktod5h41kscji39jpgbsi3lk8.apps.googleusercontent.com&response_type=code&scope=email%20profile&verifier=47328508&redirect_uri=com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk%3A%2Foauth2callback&client_id=137603896957-80gmmo4fdcm9u5d68p6885r189lurufk.apps.googleusercontent.com)")
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                return await ctx.author.send(embed=embed)
+                return await ctx.author.send(embed=embed, file = file)
         user_id = ctx.author.id
         channel = self.client.get_channel(841489971109560321)
         id_token = await self.get_id_token(url)
