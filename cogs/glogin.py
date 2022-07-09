@@ -6,7 +6,6 @@ from database import db
 import urllib
 from urllib.parse import unquote
 
-
 class Google(commands.Cog, HQApi):
 
     def __init__(self, client):
@@ -37,7 +36,7 @@ class Google(commands.Cog, HQApi):
                 return id_token
         
 
-    @commands.command(aliases=["googlelink"])
+    #@commands.command(aliases=["googlelink"])
     async def glink(self, ctx):
         if ctx.guild:
             await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
@@ -50,16 +49,18 @@ class Google(commands.Cog, HQApi):
             await ctx.author.send(embed=embed, file = file)
 
 
-    @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify", "google"])
-    async def gverify(self, ctx, url=None):
+    @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify", "google", "glink"])
+    async def gverify(self, ctx, url: str = None):
         if ctx.guild:
             return await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
         if url is None:
             with open("Video/VID_20220426041555.mp4", "rb") as f:
                 file = discord.File(f, filename = "add-account-with-google.mp4", spoiler = False)
-                embed=discord.Embed(title="**HQ Google Login**", description=f"**[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=137603896957-05igbd6ktod5h41kscji39jpgbsi3lk8.apps.googleusercontent.com&response_type=code&scope=email%20profile&verifier=47328508&redirect_uri=com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk%3A%2Foauth2callback&client_id=137603896957-80gmmo4fdcm9u5d68p6885r189lurufk.apps.googleusercontent.com) and hold to copy the link. Then see the tutorial video and follow the steps to add your HQ Trivia account in bot." \
-                    f"\n\n[Click Here](https://play.google.com/store/apps/details?id=com.prodevutils.inspecto) to download [Inspecto - The Dev Browser (Beta)](https://play.google.com/store/apps/details?id=com.prodevutils.inspecto)**", color=discord.Colour.random())
-                #embed.add_field(name="Login Link", value="[Click Here](87-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com&response_type=code&scope=email%20profile&&redirect_uri=https://localhost:8000&verifier=56778634)")
+                embed=discord.Embed(title="**HQ Google Login**",
+                    #description=f"**[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=137603896957-05igbd6ktod5h41kscji39jpgbsi3lk8.apps.googleusercontent.com&response_type=code&scope=email%20profile&verifier=47328508&redirect_uri=com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk%3A%2Foauth2callback&client_id=137603896957-80gmmo4fdcm9u5d68p6885r189lurufk.apps.googleusercontent.com) and hold to copy the link. Then see the tutorial video and follow the steps to add your HQ Trivia account in bot." \
+                    #f"\n\n[Click Here](https://play.google.com/store/apps/details?id=com.prodevutils.inspecto) to download [Inspecto - The Dev Browser (Beta)](https://play.google.com/store/apps/details?id=com.prodevutils.inspecto)**",
+                    color=discord.Colour.random())
+                embed.add_field(name="Login Link", value="[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=137603896957-05igbd6ktod5h41kscji39jpgbsi3lk8.apps.googleusercontent.com&response_type=code&scope=email%20profile&verifier=47328508&redirect_uri=com.googleusercontent.apps.137603896957-80gmmo4fdcm9u5d68p6885r189lurufk%3A%2Foauth2callback&client_id=137603896957-80gmmo4fdcm9u5d68p6885r189lurufk.apps.googleusercontent.com)")
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.author.send(embed=embed)
