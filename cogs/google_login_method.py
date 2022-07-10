@@ -7,7 +7,7 @@ class GoogleLoginMethod(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    #@commands.command()
     async def gmethod(self, ctx):
         if ctx.guild:
             return await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
