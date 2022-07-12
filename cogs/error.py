@@ -38,6 +38,10 @@ class Errors(commands.Cog):
             description = ctx.author.mention + ", This command is on cooldown, please retry after " + wait_time + "."
             return await ctx.send(description)
             
+        if isinstance(error, commands.MaxConcurrencyReached):
+            embed=discord.Embed(description=f"⚠️ You've already started a game, finish it first and then start another.", color=discord.Colour.random())
+            return await ctx.send(embed=embed)
+            
         if isinstance(error, commands.TooManyArguments):
             embed = discord.Embed(
                 description=f"⚠️ | You given one or more extra arguments which are not required!"
