@@ -34,6 +34,7 @@ class DcPlay(commands.Cog):
 
     @commands.command(aliases=["play"])
     @commands.cooldown(1, 30, commands.BucketType.user)
+    @commands.max_concurrency(1, commands.BucketType.user, wait = False)
     async def dcplay(self, ctx, username:str=None):
         """Play HQ Daily Challenge."""
         if username is None:
