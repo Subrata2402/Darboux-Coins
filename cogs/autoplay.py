@@ -71,12 +71,13 @@ class AutoPlay(commands.Cog, HQApi):
                     for answer in data["answerCounts"]:
                         if answer["correct"]: correct = unidecode(answer["answer"])
                     await self.add_question(question, correct)
+                    member = self.client.get_user(all_data.get("id"))
                     if data['gameSummary']:
                         tcoins = str(data['gameSummary']['coinsTotal'])
                         coins = str(data['gameSummary']['coinsEarned'])
                         correct = str(data['gameSummary']['questionsCorrect'])
                         embed=discord.Embed(title="Played HQ Offair Trivia ✅", description=f"**• Username : ||Private Account||\n• Games Played : 01\n• Questions Correct : {correct}/12\n• Coins Earned : {coins}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
-                        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                        embed.set_footer(text=member, icon_url=member.avatar_url)
                         embed.set_thumbnail(url=self.client.user.avatar_url)
                         channel = self.client.get_channel(957198388028375050)
                         await channel.send(embed = embed)
