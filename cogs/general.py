@@ -63,13 +63,13 @@ class Help(commands.Cog):
     
     @commands.command()
     @commands.is_owner()
-    async def reply(self, ctx, user_id=None, *, args=None):
+    async def reply(self, ctx, user: discord.User=None, *, args=None):
         if not user_id and not args:
             return await ctx.channel.send("You didn't provide a user's id and/or a message.")
         try:
-            target = await self.client.fetch_user(user_id)
-            #embed=discord.Embed(title="__Reply from Bot Owner :__", description=args, color=discord.Colour.random())
-            await target.send(args)
+            # target = await self.client.fetch_user(user_id)
+            # embed=discord.Embed(title="__Reply from Bot Owner :__", description=args, color=discord.Colour.random())
+            await user.send(args)
             embed=discord.Embed(description=f"DM successfully sent to {target.name}")
             await ctx.channel.send(embed=embed)
         except:
