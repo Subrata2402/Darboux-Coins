@@ -71,6 +71,7 @@ class Help(commands.Cog):
         page5.add_field(name=f"{ctx.prefix}suggest [message]", value="> Suggest your suggestion.")
         page5.add_field(name=f"{ctx.prefix}feedback [message]", value="> Give your feedback.")
         page5.add_field(name=f"{ctx.prefix}botinfo", value="> Get the information about bot.")
+        page5.add_field(name=f"{ctx.prefix}donate", value="> Donate some money.")
         page5.add_field(name=f"{ctx.prefix}invite", value="> Invite bot in your server.")
         page5.add_field(name=f"{ctx.prefix}join", value="> Join our official bot server.")
         page5.set_thumbnail(url=self.client.user.avatar_url)
