@@ -81,6 +81,7 @@ client.add_cog(Darboux(client))
 
 @client.event
 async def on_message(message):
+	if message.channel.id == 831051147472666636: return
 	if message.author.id == 433615162394804224 and message.channel.id == 844547681838039041:
 		for embed in message.embeds:
 			to_dict = embed.to_dict()
