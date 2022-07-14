@@ -45,7 +45,7 @@ class Help(commands.Cog):
         embed.set_author(name=f"{self.client.user.name}#{self.client.user.discriminator} | Bot Info !", icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
         
-    @commands.command()
+    @commands.command(aliases = ["support"])
     async def donate(self, ctx):
         paytm = self.client.get_emoji(997104939807555726)
         paypal = self.client.get_emoji(997105065838002237)
@@ -71,7 +71,7 @@ class Help(commands.Cog):
         await ctx.send(embed = embed, components = components)
 
     @commands.command(aliases=["join"])
-    async def support(self, ctx):
+    async def _join(self, ctx):
         emoji = self.client.get_emoji(957904862631297085)
         embed=discord.Embed(description="**Click the below interaction button to join our official server for any support.**", color=discord.Colour.random())
         #embed.set_thumbnail(url=self.client.user.avatar_url)
