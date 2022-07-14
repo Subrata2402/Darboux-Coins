@@ -71,7 +71,7 @@ class Darboux(commands.Cog):
         ping = (time.monotonic() - before) * 1000
         await message.edit(content=f"**__Pong!__** :ping_pong:  **{int(ping)}ms**")
 
-bot_prefix = "-", "+"
+bot_prefix = "-", "+", "."
 intents = discord.Intents.all()
 ids = [790190926630486016, 660337342032248832]
 client = commands.Bot(command_prefix = bot_prefix, intents=intents, strip_after_prefix=True, owner_ids = ids, case_insensitive = True)
