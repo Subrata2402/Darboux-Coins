@@ -23,65 +23,65 @@ class AutoPlay(commands.Cog, HQApi):
             db.questions_base.insert_one({"question": question.lower(), "answer": answer.lower()})
 
     async def auto_play(self):
-        for all_data in list(db.profile_base.find()):
+        for all_data in list(db.profile_base.find({"auto_play": True})):
             await asyncio.sleep(30)
             active = (await self.get_show())["active"]
             if active:
                 await asyncio.sleep(600)
                 continue
-            auto_play_mode = all_data.get('auto_play')
-            if auto_play_mode:
-                api = HQApi(all_data.get("access_token"))
+            # auto_play_mode = all_data.get('auto_play')
+            # if auto_play_mode:
+            api = HQApi(all_data.get("access_token"))
+            try:
+                data = await api.get_users_me()
+                username = data["username"]
+            except:
                 try:
-                    data = await api.get_users_me()
-                    username = data["username"]
-                except:
-                    try:
-                        update = {"auto_play": False}
-                        db.profile_base.update_one({"id": all_data.get("id"), "user_id": all_data.get("user_id")}, {"$set": update})
-                        embed = discord.Embed(title = "⚠️ Token Expired",
-                            description = f"{all_data.get('username')}'s token has expired! For that I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
-                            color = discord.Colour.random())
-                        user = self.client.get_user(all_data.get("id"))
-                        await user.send(content = user.mention, embed = embed)
-                    except Exception as e:
-                        print(e)
+                    update = {"auto_play": False}
+                    db.profile_base.update_one({"id": all_data.get("id"), "user_id": all_data.get("user_id")}, {"$set": update})
+                    embed = discord.Embed(title = "⚠️ Token Expired",
+                        description = f"{all_data.get('username')}'s token has expired! For that I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
+                        color = discord.Colour.random())
+                    user = self.client.get_user(all_data.get("id"))
+                    await user.send(content = user.mention, embed = embed)
+                except Exception as e:
+                    print(e)
+                continue
+            coins = data["coins"]
+            if coins >= 1500: continue
+            try:
+                offair_id = (await api.start_offair())['gameUuid']
+            except ApiResponseError:
+                offair_id = (await api.get_schedule())['offairTrivia']["waitTimeMs"]
+                time=int(offair_id)/int(1000)
+                if time == 0:
+                    offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
+                else:
                     continue
-                coins = data["coins"]
-                if coins >= 1500: continue
-                try:
-                    offair_id = (await api.start_offair())['gameUuid']
-                except ApiResponseError:
-                    offair_id = (await api.get_schedule())['offairTrivia']["waitTimeMs"]
-                    time=int(offair_id)/int(1000)
-                    if time == 0:
-                        offair_id = (await api.get_schedule())['offairTrivia']['games'][0]['gameUuid']
-                    else:
-                        continue
-                while True:
-                    offair = await api.offair_trivia(offair_id)
-                    question = offair['question']['question']
-                    db_answer = await self.get_answer(question)
-                    select = 1
-                    if db_answer:
-                        for index, answer in enumerate(offair['question']['answers']):
-                            if answer["text"].lower() == db_answer.lower():
-                                select = index
-                    data = await api.send_offair_answer(offair_id, offair['question']['answers'][select]['offairAnswerId'])
-                    for answer in data["answerCounts"]:
-                        if answer["correct"]: correct = unidecode(answer["answer"])
-                    await self.add_question(question, correct)
-                    member = self.client.get_user(all_data.get("id"))
-                    if data['gameSummary']:
-                        tcoins = str(data['gameSummary']['coinsTotal'])
-                        coins = str(data['gameSummary']['coinsEarned'])
-                        correct = str(data['gameSummary']['questionsCorrect'])
-                        embed=discord.Embed(title="Played HQ Offair Trivia ✅", description=f"**• Username : ||Private Account||\n• Games Played : 01\n• Questions Correct : {correct}/12\n• Coins Earned : {coins}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
-                        embed.set_footer(text=member, icon_url=member.avatar_url)
-                        embed.set_thumbnail(url=self.client.user.avatar_url)
-                        channel = self.client.get_channel(957198388028375050)
-                        await channel.send(embed = embed)
-                        break
+            while True:
+                offair = await api.offair_trivia(offair_id)
+                question = offair['question']['question']
+                db_answer = await self.get_answer(question)
+                select = 1
+                if db_answer:
+                    for index, answer in enumerate(offair['question']['answers']):
+                        if answer["text"].lower() == db_answer.lower():
+                            select = index
+                data = await api.send_offair_answer(offair_id, offair['question']['answers'][select]['offairAnswerId'])
+                for answer in data["answerCounts"]:
+                    if answer["correct"]: correct = unidecode(answer["answer"])
+                await self.add_question(question, correct)
+                member = self.client.get_user(all_data.get("id"))
+                if data['gameSummary']:
+                    tcoins = str(data['gameSummary']['coinsTotal'])
+                    coins = str(data['gameSummary']['coinsEarned'])
+                    correct = str(data['gameSummary']['questionsCorrect'])
+                    embed=discord.Embed(title="Played HQ Offair Trivia ✅", description=f"**• Username : ||Private Account||\n• Games Played : 01\n• Questions Correct : {correct}/12\n• Coins Earned : {coins}\n• Total Coins : {tcoins}**", color=discord.Colour.random())
+                    embed.set_footer(text=member, icon_url=member.avatar_url)
+                    embed.set_thumbnail(url=self.client.user.avatar_url)
+                    channel = self.client.get_channel(957198388028375050)
+                    await channel.send(embed = embed)
+                    break
 
         await asyncio.sleep(60)
         await self.auto_play()
