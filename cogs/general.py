@@ -49,7 +49,7 @@ class Help(commands.Cog):
     async def donate(self, ctx):
         paytm = self.client.get_emoji(997104939807555726)
         paypal = self.client.get_emoji(997105065838002237)
-        description = f"Maintaining a bot requires a huge amount of time and resources. Your donation always keep me motivated and will help in the maintenance of the {self.client.user.mention}! " \
+        description = f"Maintaining a bot requires a huge amount of time and resources. Your donation will help in the maintenance of the {self.client.user.mention} and always keep me motivated. " \
             f"If you think {self.client.user.mention} helped you in any way, your donation would be a great help.\n\n" \
             # "For Paytm : [Click Here](https://paytm.me/x-WGerG) (For QR Code : [Click Here](https://cdn.discordapp.com/attachments/799861610654728212/978009606716555375/Screenshot_2022-05-23-00-29-55-83.jpg))" \
             # "For Paypal : [Click Here](https://paypal.me/sakhman)"
