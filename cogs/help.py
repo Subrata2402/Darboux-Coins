@@ -76,7 +76,7 @@ class Help(commands.Cog):
         page5.add_field(name=f"{ctx.prefix}join", value="> Join our official bot server.")
         page5.set_thumbnail(url=self.client.user.avatar_url)
         page5.set_author(name="| Darboux Coins Help Menu !", icon_url=self.client.user.avatar_url)
-        page5.set_footer(text=f"Page : 05/05 | Total Commands : 06", icon_url=ctx.author.avatar_url)
+        page5.set_footer(text=f"Page : 05/05 | Total Commands : 07", icon_url=ctx.author.avatar_url)
 
         pages = [page1, page2, page3, page4, page5]
 
