@@ -56,8 +56,8 @@ class Help(commands.Cog):
         embed = discord.Embed(title = "Donation!", description = description, color = discord.Colour.random())
         embed.set_thumbnail(url = self.client.user.avatar_url)
         components = [
-            [Button(style = ButtonStyle.URL, emoji = paytm, url = f"https://paytm.me/x-WGerG", label = "Paytm")],
-            [Button(style = ButtonStyle.URL, emoji = paypal, url = f"https://paypal.me/sakhman", label = "Paypal")],
+            Button(style = ButtonStyle.URL, emoji = paytm, url = f"https://paytm.me/x-WGerG", label = "Paytm"),
+            Button(style = ButtonStyle.URL, emoji = paypal, url = f"https://paypal.me/sakhman", label = "Paypal"),
             ]
         await ctx.send(embed = embed, components = components)
     
