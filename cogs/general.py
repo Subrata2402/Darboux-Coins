@@ -46,7 +46,7 @@ class Help(commands.Cog):
         await ctx.send(embed=embed)
         
     @commands.command()
-    async def invite(self, ctx):
+    async def donate(self, ctx):
         description = f"Maintaining a bot requires a huge amount of time and resources. Your donation always keep me motivated and will help in the maintenance of the {self.client.user.mention}!" \
             f"If you think {self.client.user.mention} helped you in any way, your donation would be a great help.\n\n" \
             "For Paytm : [Click Here](https://paytm.me/x-WGerG) (For QR Code : [Click Here](https://cdn.discordapp.com/attachments/799861610654728212/978009606716555375/Screenshot_2022-05-23-00-29-55-83.jpg))" \
