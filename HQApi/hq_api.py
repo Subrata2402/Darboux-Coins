@@ -394,7 +394,9 @@ class HQApi(BaseHQApi):
         self.v = verify
         self.p = dict(http=proxy, https=proxy)
         self.headers = {
-            "x-hq-client": "Android/" + self.hq_version}
+            # "x-hq-client": "Android/" + self.hq_version
+            "x-hq-client": "iPhone8,2"
+        }
         if login_token:
             self.token = asyncio.run(self.get_tokens(login_token))["accessToken"]
         if self.token:
