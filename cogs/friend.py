@@ -125,15 +125,6 @@ class Friends(commands.Cog):
             pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
-            try:
-                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
-                data = await api.search(name)
-                id = data["data"][0]["userId"]
-            except ApiResponseError:
-                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
-                embed.set_thumbnail(url=self.client.user.avatar_url)
-                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                return await ctx.send(embed=embed)
             if name.lower() == "weekly":
                 mode = 1
             elif name.lower() == "alltime":
@@ -156,6 +147,15 @@ class Friends(commands.Cog):
                         break
                 embed = discord.Embed(title = "Usernames of the Successfully sent request account !", description = "```\n{}\n```".format(description), color = discord.Colour.random())
                 return await ctx.send(embed = embed)
+            try:
+                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
+                data = await api.search(name)
+                id = data["data"][0]["userId"]
+            except ApiResponseError:
+                embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
+                embed.set_thumbnail(url=self.client.user.avatar_url)
+                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                return await ctx.send(embed=embed)
             try:
                 data = await api.add_friend(id)
                 embed=discord.Embed(title="**Request Send Done ✅**", description=f"**Successfully sent friend request to `{name}`**", color=discord.Colour.random())
