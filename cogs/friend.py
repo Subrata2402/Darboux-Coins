@@ -125,6 +125,7 @@ class Friends(commands.Cog):
             pass
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
+            api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
             if name.lower() == "weekly":
                 mode = 1
             elif name.lower() == "alltime":
@@ -152,7 +153,6 @@ class Friends(commands.Cog):
                 embed = discord.Embed(title = "Usernames of the Successfully sent request account !", description = "```\n{}\n```".format(description), color = discord.Colour.random())
                 return await msg.edit(embed = embed)
             try:
-                api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
                 data = await api.search(name)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
