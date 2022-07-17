@@ -148,11 +148,8 @@ class Friends(commands.Cog):
                         await msg.edit(embed = embed)
                     except Exception as e:
                         pass
-                    if index == 50:
-                        break
-                    await asyncio.sleep(1)
-                embed = discord.Embed(title = "Usernames of the Successfully sent request account !", description = "```\n{}\n```".format(description), color = discord.Colour.random())
-                return await msg.edit(embed = embed)
+                   await asyncio.sleep(1)
+                return await ctx.send("Successfully sent friend request to {} users.".format(index))
             try:
                 data = await api.search(name)
                 id = data["data"][0]["userId"]
