@@ -148,7 +148,7 @@ class Friends(commands.Cog):
                         await msg.edit(embed = embed)
                     except Exception as e:
                         pass
-                   await asyncio.sleep(1)
+                    await asyncio.sleep(1)
                 return await ctx.send("Successfully sent friend request to {} users.".format(index))
             try:
                 data = await api.search(name)
