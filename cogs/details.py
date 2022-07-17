@@ -39,7 +39,8 @@ class Details(commands.Cog):
             embed = discord.Embed(title = f"**__Statistics of HQ Account !__**",
                 description = f"**• Username :** {data['username']}\n" \
                     f"**• Mobile Number :** {data['phoneNumber']}\n" \
-                    f"**• Auto-play Mode :** {'Enable' if auto_play_mode else 'Disable'}",
+                    f"**• Auto-play Mode :** {'Enable' if auto_play_mode else 'Disable'}\n"
+                    f"**• Blocked :** {data['blocksMe']}",
                 color = discord.Colour.random())
             embed.add_field(name = f"🔥 __PowerUps Details :__-", inline = False,
                 value = f"**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n" \
