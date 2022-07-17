@@ -49,11 +49,11 @@ class Details(commands.Cog):
                     f"**• Total Erasers :** {data['erase1s']} <:eraser:844448550498205736>"
                 )
             embed.add_field(name = "💸 __Balance & Cashout Details :__-", inline = False,
-                value = f"**• Total Balance :** {balance_data['prizeTotal']} 💰\n" \
-                    f"**• Claimed Ammount :** {balance_data['paid']} 💸\n" \
-                    f"**• Pending Ammount :** {balance_data['pending']} 💰\n" \
-                    f"**• Unclaimed Ammount :** {balance_data['unpaid']} 💸\n" \
-                    f"**• Available for Cashout :** {balance_data['available']} 💰"
+                value = f"**• Total Balance :** {balance_data['prizeTotal']}\n" \
+                    f"**• Claimed Ammount :** {balance_data['paid']}\n" \
+                    f"**• Pending Ammount :** {balance_data['pending']}\n" \
+                    f"**• Unclaimed Ammount :** {balance_data['unpaid']}\n" \
+                    f"**• Available for Cashout :** {balance_data['available']}"
                 )
             embed.add_field(name = "🔴 __Live Games Details :__-", inline = False,
                 value = f"**• Games Won :** {data['leaderboard']['alltime']['wins']}/{data['gamesPlayed']}\n" \
