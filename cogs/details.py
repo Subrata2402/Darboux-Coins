@@ -56,7 +56,7 @@ class Details(commands.Cog):
                     f"**• Available for Cashout :** {balance_data['available']}"
                 )
             embed.add_field(name = "🔴 __Live Games Details :__-", inline = False,
-                value = f"**• Games Won :** {data['leaderboard']['alltime']['wins']}/{data['gamesPlayed']}\n" \
+                value = f"**• Games Won :** {data['leaderboard']['wins']}/{data['gamesPlayed']}\n" \
                     f"**• High Score :** {data['highScore']}\n" \
                     f"**• Rank :** {'None' if data['leaderboard']['rank'] == 101 else data['leaderboard']['rank']}\n"
                 )
