@@ -57,7 +57,7 @@ class Details(commands.Cog):
             embed.add_field(name = "🔴 __Live Games Details :__-", inline = False,
                 value = f"**• Games Won :** {data['leaderboard']['alltime']['wins']}/{data['gamesPlayed']}\n" \
                     f"**• High Score :** {data['highScore']}\n" \
-                    f"**Rank :** {'User haven\'t ranked yet.' if data['leaderboard']['rank'] == 101 else data['leaderboard']['rank']}\n"
+                    f"**Rank :** {'None' if data['leaderboard']['rank'] == 101 else data['leaderboard']['rank']}\n"
                 )
             embed.set_footer(text = f"ID: {data['userId']} | Created At")
             embed.timestamp = aniso8601.parse_datetime(data['created'])
