@@ -132,6 +132,8 @@ class Friends(commands.Cog):
             else:
                 mode = 2
             if mode != 2:
+                embed = discord.Embed(description = "Command in processing...")
+                msg = await ctx.send(embed = embed)
                 lb_data = (await api.leaderboard(mode))["data"]
                 index = 0
                 description = ""
@@ -146,7 +148,7 @@ class Friends(commands.Cog):
                     if index == 50:
                         break
                 embed = discord.Embed(title = "Usernames of the Successfully sent request account !", description = "```\n{}\n```".format(description), color = discord.Colour.random())
-                return await ctx.send(embed = embed)
+                return await msg.edit(embed = embed)
             try:
                 api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
                 data = await api.search(name)
