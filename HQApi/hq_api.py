@@ -372,14 +372,14 @@ class BaseHQApi:
     async def friend_status(self, id: str):
         """
         Check status of your friend.
-        response_data = {"status": None} # OUTBOUND_REQUEST, INBOUND_REQUEST, FRIENDS
+        response_data = {'status': None} # OUTBOUND_REQUEST, INBOUND_REQUEST, FRIENDS
         """
         return await self.fetch("GET", "friends/{}/status".format(id))
 
     async def remove_friend(self, id: str):
         """
         Remove a friend from your account.
-        response_data = {"result": True}
+        response_data = {'result': True}
         """
         return await self.fetch("DELETE", "friends/{}".format(id))
 
@@ -597,6 +597,10 @@ class BaseHQApi:
         return await self.fetch("POST", "users/provider-auth", {"type":"GOOGLE","token": jwt_token})
 
     async def swipe(self):
+        """
+        Swipe HQ account and earn an extra life.
+        response_data = {'data': True}
+        """
         return await self.fetch("POST", "easter-eggs/makeItRain")
 
     async def purchase_life(self, amount: int):
