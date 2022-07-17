@@ -295,6 +295,19 @@ class BaseHQApi:
     async def make_payout(self, email: str):
         """
         Withdraw your winnings to paypal email.
+        response_data = {'data': {'amount': '$0.85',
+                                  'created': '2020-11-25T06:40:01.726Z',
+                                  'currency': 'USD',
+                                  'metadata': {'client': 'Android/1.39.0',
+                                               'ipAddress': '18.220.124.243',
+                                               'payoutsConnected': True},
+                                  'modified': '2020-11-25T06:40:01.726Z',
+                                  'payoutId': 4651233,
+                                  'status': 2,
+                                  'targetEmail': 'sksakilahammed646@gmail.com',
+                                  'targetPhone': None,
+                                  'targetUserId': None,
+                                  'userId': 26968460}}
         """
         return await self.fetch("POST", "users/me/payouts", {"email": email})
 
