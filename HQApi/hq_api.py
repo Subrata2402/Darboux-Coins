@@ -296,12 +296,25 @@ class BaseHQApi:
     async def add_friend(self, id: str):
         """
         Add a friend to your account.
+        response_data = {
+                'requestedUser': {
+                    'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/gold.png',
+                    'created': '2020-12-23T16:22:00.000Z',
+                    'userId': 27196172,
+                    'username': 'ntzamos'},
+                'requestingUser': {
+                    'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/purple.png',
+                    'created': '2020-12-23T16:22:47.000Z',
+                    'userId': 27196173,
+                    'username': 'bernita44'},
+                'status': 'PENDING'}
         """
         return await self.fetch("POST", "friends/{}/requests".format(id))
 
     async def friend_status(self, id: str):
         """
         Check status of your friend.
+        response_data = {"status": None} # OUTBOUND_REQUEST, INBOUND_REQUEST, FRIENDS
         """
         return await self.fetch("GET", "friends/{}/status".format(id))
 
@@ -326,24 +339,47 @@ class BaseHQApi:
     async def check_username(self, name: str):
         """
         Check a username is available or not.
+        response_data = {}
         """
         return await self.fetch("POST", "usernames/available", {"username": name})
 
     async def get_tokens(self, login_token: str):
         """
         Get access token of your HQ account.
+        response_data = {
+                'accessToken': 'eyJhbGciOiJI...',
+                'admin': False,
+                'authToken': 'eyJhbGciOiJIU...', # access token and auth token are totally different.
+                'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/purple.png',
+                'canEnterReferral': True,
+                'guest': False,
+                'loginToken': 'KwmTCpQzIqiLL...dEXRcSeGk',
+                'tester': False,
+                'userId': 27196173,
+                'username': 'bernita44',
+                'wasReferralDenied': False
+            }
         """
         return await self.fetch("POST", "tokens", {'token': login_token})
 
     async def edit_username(self, username: str):
         """
         Edit your username in HQ Trivia.
+        response_data = {
+                    'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/purple.png',
+                    'created': '2020-12-23T16:22:47.000Z',
+                    'userId': 27196173,
+                    'username': 'bernita44'
+                }
         """
         return await self.fetch("PATCH", "users/me", {"username": username})
 
     async def get_login_token(self):
         """
         Get your HQ Trivia account login token.
+        response_data = {
+                'loginToken': 'KwmTCX.....XRcSeGk'
+            }
         """
         return await self.fetch("GET", "users/me/token")
 
