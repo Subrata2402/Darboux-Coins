@@ -64,6 +64,33 @@ class BaseHQApi:
         return await self.fetch("GET", "users/me")
 
     async def get_user(self, id: str):
+        """
+        Get a HQ user details.
+        response_data = {
+                'achievementCount': 0,
+                'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/gold.png',
+                'blocked': False,
+                'blocksMe': False,
+                'broadcasts': {'data': []},
+                'created': '2020-12-23T16:22:00.000Z',
+                'featured': False,
+                'gamesPlayed': 0,
+                'highScore': 0,
+                'leaderboard': {
+                    'alltime': {'rank': 101, 'total': '$0', 'wins': 0},
+                    'rank': 101,
+                    'total': '$0',
+                    'totalCents': 0,
+                    'unclaimed': '$0',
+                    'weekly': {'rank': 101, 'total': '$0', 'wins': 0},
+                    'wins': 0
+                },
+                'referralUrl': 'https://hqtrivia.com/i/ntzamos',
+                'userId': 27196172,
+                'username': 'ntzamos',
+                'winCount': 0
+        }
+        """
         return await self.fetch("GET", "users/{}".format(id))
 
     async def search(self, name):
@@ -261,7 +288,14 @@ class BaseHQApi:
 
     async def send_code(self, phone: str, method: str = "sms"):
         """
-        After registration send a sms verification code.
+        For registration send a sms verification code.
+        response_data = {
+                'callsEnabled': True,
+                'expires': '2022-07-17T17:16:52.862Z',
+                'phone': '+13152893528',
+                'retrySeconds': 20,
+                'verificationId': '39f36254-7d4e-43db-a92d-c9442fa88b5d'
+            }
         """
         return await self.fetch("POST", "verifications", {"phone": phone, "method": method})
 
@@ -284,12 +318,24 @@ class BaseHQApi:
     async def delete_avatar(self):
         """
         Delete your HQ avatar.
+        response_data = {
+                'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/purple.png',
+                'created': '2020-12-23T16:22:47.000Z',
+                'userId': 27196173,
+                'username': 'bernita44'
+            }
         """
         return await self.fetch("DELETE", "users/me/avatarUrl")
 
     async def add_referral(self, referral: str):
         """
         Add a referral to your account.
+        response_data = {
+                'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/purple.png',
+                'created': '2020-12-23T16:22:47.000Z',
+                'userId': 27196173,
+                'username': 'bernita44'
+            }
         """
         return await self.fetch("PATCH", "users/me", {"referringUsername": referral})
 
