@@ -114,7 +114,7 @@ class Friends(commands.Cog):
             embed.clear_fields()
 
     @commands.command()
-    async def addfriend(self, ctx, username: str = None, name: str = None, mode: str = None):
+    async def addfriend(self, ctx, username: str = None, name: str = None):
         """Send friend request."""
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}addfriend [username] [friend's username]` to send a friend request.", color=discord.Colour.random())
@@ -134,13 +134,13 @@ class Friends(commands.Cog):
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-            if mode:
-                if mode.lower() == "weekly":
-                    mode = 1
-                elif mode.lower() == "alltime":
-                    mode = 0
-                else:
-                    return await ctx.send("Please choose mode between `weekly` or `alltime`")
+            if name.lower() == "weekly":
+                mode = 1
+            elif name.lower() == "alltime":
+                mode = 0
+            else:
+                mode = 2
+            if mode != 2:
                 lb_data = (await api.leaderboard(mode))["data"]
                 index = 0
                 description = ""
