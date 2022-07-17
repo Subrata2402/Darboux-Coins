@@ -49,18 +49,33 @@ class Details(commands.Cog):
             available = bal["available"]
             unclaimed = bal["frozen"]
             auto_play_mode = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("auto_play")
-            embed=discord.Embed(title=f"**__Statistics of HQ Account !__**", description=f"**Username :** {username}\n**Mobile Number :** {ph_no}\n**Auto-play Mode :** {'Enable' if auto_play_mode else 'Disable'}", color=discord.Colour.random())
-            embed.add_field(name=f"🔥 __Items(Lives, Spin, Erasers, Coins)__", value=f"**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {lives} <:extra_life:844448511264948225>\n**• Super Spins :** {superSpins} <:super_spin:844448472908300299>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>")
-            embed.add_field(name="💸 __Balance & Cashout Details :__-", value=f"**• Total Balance :** {total} 💰\n**• Claimed Ammount :** {paid} 💸\n**• Pending Ammount :** {pending} 💰\n**• Unclaimed Ammount :** {unpaid} 💸\n**• Available for Cashout :** {available} 💰")
-            embed.set_footer(text=f"ID: {id} | Created At")
+            embed = discord.Embed(title = f"**__Statistics of HQ Account !__**",
+                description = f"**Username :** {username}\n" \
+                    f"**Mobile Number :** {ph_no}\n" \
+                    f"**Auto-play Mode :** {'Enable' if auto_play_mode else 'Disable'}",
+                color = discord.Colour.random())
+            embed.add_field(name = f"🔥 __Items(Lives, Spin, Erasers, Coins)__", inline = False,
+                value = f"**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n" \
+                    f"**• Total Lives :** {lives} <:extra_life:844448511264948225>\n" \
+                    f"**• Super Spins :** {superSpins} <:super_spin:844448472908300299>\n" \
+                    f"**• Total Erasers :** {erasers} <:eraser:844448550498205736>"
+                )
+            embed.add_field(name = "💸 __Balance & Cashout Details :__-", inline = False,
+                value = f"**• Total Balance :** {total} 💰\n" \
+                    f"**• Claimed Ammount :** {paid} 💸\n" \
+                    f"**• Pending Ammount :** {pending} 💰\n" \
+                    f"**• Unclaimed Ammount :** {unpaid} 💸\n" \
+                    f"**• Available for Cashout :** {available} 💰"
+                )
+            embed.set_footer(text = f"ID: {id} | Created At")
             embed.timestamp = created_at
-            embed.set_thumbnail(url=avatar_url)
-            await message.edit(embed=embed)
+            embed.set_thumbnail(url = avatar_url)
+            await message.edit(embed = embed)
         else:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color=0x00ffff)
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.send(embed=embed)
+            embed = discord.Embed(title = ":negative_squared_cross_mark: Not Found", description = f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all accounts.", color = discord.Colour.random())
+            embed.set_thumbnail(url = self.client.user.avatar_url)
+            embed.set_footer(text = self.client.user, icon_url = self.client.user.avatar_url)
+            await ctx.send(embed = embed)
 
     
 def setup(client):
