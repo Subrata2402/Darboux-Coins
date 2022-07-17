@@ -10,7 +10,9 @@ class BaseHQApi:
         return self
 
     async def get_users_me(self):
-        """response_data = {
+        """
+        Get details of a user.
+        response_data = {
                     'achievementCount': 0,
                     'avatarUrl': 'https://cdn.prod.hype.space/da/gold.png',
                     'blocked': False,
@@ -57,7 +59,8 @@ class BaseHQApi:
                     'username': 'HelmaKai95',
                     'voip': False,
                     'winCount': 0
-                }"""
+                }
+        """
         return await self.fetch("GET", "users/me")
 
     async def get_user(self, id: str):
@@ -244,18 +247,34 @@ class BaseHQApi:
         return await self.fetch("GET", 'shows/schedule')
 
     async def easter_egg(self, type: str = "makeItRain"):
+        """
+        Get an extra life instant. Only one life in a month.
+        response_data = {'data': True}
+        """
         return await self.fetch("POST", "easter-eggs/{}".format(type))
 
     async def make_payout(self, email: str):
+        """
+        Withdraw your winnings to paypal email.
+        """
         return await self.fetch("POST", "users/me/payouts", {"email": email})
 
     async def send_code(self, phone: str, method: str = "sms"):
+        """
+        After registration send a sms verification code.
+        """
         return await self.fetch("POST", "verifications", {"phone": phone, "method": method})
 
     async def confirm_code(self, verificationid: str, code: int):
+        """
+        Confirm the verification code from HQ.
+        """
         return await self.fetch("POST", "verifications/{}".format(verificationid), {"code": code})
 
     async def register(self, verificationid: str, name: str, referral: str = None):
+        """
+        Registered an account.
+        """
         return await self.fetch("POST", "users", {
             "country": "MQ==", "language": "eu",
             "referringUsername": referral,
@@ -263,36 +282,69 @@ class BaseHQApi:
             "verificationId": verificationid})
 
     async def delete_avatar(self):
+        """
+        Delete your HQ avatar.
+        """
         return await self.fetch("DELETE", "users/me/avatarUrl")
 
     async def add_referral(self, referral: str):
+        """
+        Add a referral to your account.
+        """
         return await self.fetch("PATCH", "users/me", {"referringUsername": referral})
 
     async def add_friend(self, id: str):
+        """
+        Add a friend to your account.
+        """
         return await self.fetch("POST", "friends/{}/requests".format(id))
 
     async def friend_status(self, id: str):
+        """
+        Check status of your friend.
+        """
         return await self.fetch("GET", "friends/{}/status".format(id))
 
     async def remove_friend(self, id: str):
+        """
+        Remove a friend from your account.
+        """
         return await self.fetch("DELETE", "friends/{}".format(id))
 
     async def accept_friend(self, id: str):
+        """
+        Accept a incoming friend request.
+        """
         return await self.fetch("PUT", "friends/{}/status".format(id), {"status": "ACCEPTED"})
 
     async def friend_list(self):
+        """
+        Get your HQ friends list.
+        """
         return await self.fetch("GET", "friends")
 
     async def check_username(self, name: str):
+        """
+        Check a username is available or not.
+        """
         return await self.fetch("POST", "usernames/available", {"username": name})
 
     async def get_tokens(self, login_token: str):
+        """
+        Get access token of your HQ account.
+        """
         return await self.fetch("POST", "tokens", {'token': login_token})
 
     async def edit_username(self, username: str):
+        """
+        Edit your username in HQ Trivia.
+        """
         return await self.fetch("PATCH", "users/me", {"username": username})
 
     async def get_login_token(self):
+        """
+        Get your HQ Trivia account login token.
+        """
         return await self.fetch("GET", "users/me/token")
 
     async def send_documents(self, id, email, paypal_email, country):
@@ -360,6 +412,28 @@ class BaseHQApi:
         return await self.fetch("POST", "store/com.intermedia.hq.item.superspin.{}x/purchase".format(amount))
 
     async def leaderboard(self, mode: str):
+        """
+        Get weekly and alltime leaderboard.
+        response_data = {
+                    'data': [
+                        {
+                            'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/a/07/45653-5HZUxw.jpg',
+                            'total': '$100,096',
+                            'totalCents': 10009639,
+                            'userId': 45653,
+                            'username': 'brillipz',
+                            'wins': 27
+                        },
+                        {
+                            'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/gold.png',
+                            'total': '$100,003',
+                            'totalCents': 10000256,
+                            'userId': 5433625,
+                            'username': 'magdaddy17',
+                            'wins': 2
+                        }
+                    ]}
+        """
         return await self.fetch("GET", "users/leaderboard?mode={}".format(mode))
 
     async def set_avatar(self, file: str):
