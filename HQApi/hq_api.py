@@ -94,7 +94,9 @@ class BaseHQApi:
         return await self.fetch("GET", "users/{}".format(id))
 
     async def search(self, name):
-        """response_data = {
+        """
+        Search a HQ user.
+        response_data = {
             'data': [{
                 'avatarUrl': 'https://cdn.prod.hype.space/da/purple.png',
                 'created': '2020-06-02T02:41:50.000Z',
@@ -120,11 +122,14 @@ class BaseHQApi:
                 'prev': '/users?q=Josephine3250&before=1',
                 'self': '/users?q=Josephine3250'
                 }
-            }"""
+            }
+        """
         return await self.fetch("GET", 'users?q={}'.format(name))
 
     async def get_payouts_me(self):
-        """response_data = {
+        """
+        Get payout details.
+        response_data = {
                     'balance': {
                         'appealStatus': 'none',
                         'available': '$0',
@@ -190,11 +195,14 @@ class BaseHQApi:
                         'targetUserId': None,
                         'userId': 27232225
                     },
-                ]}"""
+                ]}
+        """
         return await self.fetch("GET", "users/me/payouts")
 
     async def get_show(self):
-        """response_data = {
+        """
+        Get HQ show details.
+        response_data = {
                     'active': False,
                     'atCapacity': False,
                     'broadcast': None,
@@ -219,11 +227,14 @@ class BaseHQApi:
                             'showType': 'hq',
                             'time': '2022-04-01T01:00:00.000Z',
                             'vertical': 'general'}
-                        ]}"""
+                        ]}
+        """
         return await self.fetch("GET", "shows/now")
 
     async def get_schedule(self):
-        """response_data = {
+        """
+        Get HQ schedule.
+        response_data = {
                     'announcements': [],
                     'offairTrivia': {
                                 'games': [{
@@ -270,7 +281,8 @@ class BaseHQApi:
                         'showId': 15077,
                         'showType': 'hq',
                         'startTime': '2022-04-01T01:00:00.000Z',
-                        'vertical': 'general'}]}"""
+                        'vertical': 'general'}]}
+        """
         return await self.fetch("GET", 'shows/schedule')
 
     async def easter_egg(self, type: str = "makeItRain"):
@@ -367,12 +379,25 @@ class BaseHQApi:
     async def remove_friend(self, id: str):
         """
         Remove a friend from your account.
+        response_data = {"result": True}
         """
         return await self.fetch("DELETE", "friends/{}".format(id))
 
     async def accept_friend(self, id: str):
         """
         Accept a incoming friend request.
+        response_data = {
+                'requestedUser': {
+                    'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/gold.png',
+                    'created': '2020-12-23T16:22:00.000Z',
+                    'userId': 27196172,
+                    'username': 'ntzamos'},
+                'requestingUser': {
+                    'avatarUrl': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/da/purple.png',
+                    'created': '2020-12-23T16:22:47.000Z',
+                    'userId': 27196173,
+                    'username': 'bernita44'},
+                'status': 'ACCEPTED'}
         """
         return await self.fetch("PUT", "friends/{}/status".format(id), {"status": "ACCEPTED"})
 
@@ -437,6 +462,120 @@ class BaseHQApi:
         return await self.fetch("POST", "users/me/devices", {"token": token})
 
     async def config(self):
+        """
+        Get extra details of your HQ account.
+        response_data = {
+                'achievements': {'lobbyEnabled': True},
+                'bandwidthCheck': 'https://prd-bucket-hqtrivia-01012022.nyc3.cdn.digitaloceanspaces.com/static/bird.jpg',
+                'batchSize': 50,
+                'betaUnlockEnabled': True,
+                'blueMercuryEnabled': False,
+                'buyBackInOverlay': {'noAnswerDurationMs': 10000,
+                                     'wrongAnswerDurationMs': 10000},
+                'captchaUrl': 'https://www.hqtrivia.com/verify',
+                'cashReferrals': False,
+                'changeAnswer': True,
+                'ddStatsEnabled': False,
+                'dynamicPotClient': False,
+                'easterEggs': {'makeItRain': {'enabled': True, 'interval': 2592000}},
+                'elPromptMs': 5000,
+                'erase1Cost': 2,
+                'erase1Enabled': True,
+                'friends': {
+                         'answerSharingEnabled': True,
+                         'incomingRequestPollIntervalMs': 60000,
+                         'maxAnswerSharingQuestions': 1000,
+                         'maxFriendAnswersPerQuestion': 5,
+                         'maxFriendsAnswersPerChoice': 1000,
+                         'minAndroidVersion': 'Android/1.6.1',
+                         'minIOsBetaVersion': 'iOS-Beta/1.0.0 b1',
+                         'minIOsDevVersion': 'iOS-Dev/1.0.0 b1',
+                         'minIOsVersion': 'iOS/1.2.9 b1',
+                         'nearbyEnabled': True,
+                         'resultSharingEnabled': True,
+                         'statusSharingEnabled': True
+                     },
+                'hqUniversityAction': '',
+                'iapFlags': {
+                      'ingameBuyBack': True,
+                      'ingameBuyBackWords': True,
+                      'ingameNextGame': False,
+                      'prerollTooltip': False
+                    },
+                'inGameBlueMercury': False,
+                'inGameIapToolTip': {'durationMs': 10000, 'times': 1000},
+                'keepPlaying': False,
+                'maxErase1s': 8,
+                'minVersion': {'android': '1.41.0', 'ios': '1.5.12'},
+                'mpt': 4,
+                'multimedia': {
+                        'duckSecs': 4,
+                        'enabled': True,
+                        'sfxVolumes': {'audio': 0, 'image': 1, 'video': 0.25}
+                    },
+                'multipeerEnabled': False,
+                'newLobby': False,
+                'newPushFlow': False,
+                'newUserSportsOptIn': False,
+                'nonce': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI3MTk2MTczLCJpYXQiOjE2NTgwNzg4NDQsImV4cCI6MTY1ODA3OTE0NCwiaXNzIjoiaHlwZXF1aXovMSJ9.r8j2kHix_OS9QwhVppy-JeQX8ZiSK97x1lC6WVQugbE',
+                'offairTriviaApplovinNetworkEnabled': False,
+                'offairTriviaTelemetryLogsEnabled': False,
+                'oneSignalEnabled': True,
+                'payouts': {'active': True, 'mode': 'live', 'threshold': '$5'},
+                'popularChoice': False,
+                'productPlacements': {'adminCalloutModal': [{'productId': 'com.intermedia.hq.iap.extralife.1',
+                                                             'quantity': 1},
+                                                            {'productId': 'com.intermedia.hq.iap.extralife.3',
+                                                             'quantity': 3}],
+                                      'adminMultiplierCalloutModal': [{'productId': 'com.intermedia.hq.iap.pointmultiplier.5X',
+                                                                      'quantity': 1},
+                                                                     {'productId': 'com.intermedia.hq.iap.pointmultiplier.10X',
+                                                                      'quantity': 1},
+                                                                     {'productId': 'com.intermedia.hq.iap.pointmultiplier.15X',
+                                                                      'quantity': 1}],
+                                      'extraLivesInfo': [{'productId': 'com.intermedia.hq.iap.extralife.1',
+                                                          'quantity': 1},
+                                                         {'productId': 'com.intermedia.hq.iap.extralife.3',
+                                                          'quantity': 3}],
+                                      'extraLivesModal': [{'productId': 'com.intermedia.hq.iap.extralife.1',
+                                                           'quantity': 1},
+                                                          {'productId': 'com.intermedia.hq.iap.extralife.3',
+                                                           'quantity': 3}],
+                                      'hqProModal': [],
+                                      'ingameBuyBack': [{'productId': 'com.intermedia.hq.iap.extralife.1',
+                                                         'quantity': 1}],
+                                      'ingameNextGame': [{'productId': 'com.intermedia.hq.iap.extralife.1',
+                                                          'quantity': 1}],
+                                      'prerollTooltip': [{'productId': 'com.intermedia.hq.iap.extralife.1',
+                                                          'quantity': 1}]}, 'recommendedVersion': {'android': '1.41.0', 'ios': '1.5.3'},
+                'redEnigma': True,
+                'sampleRate': 1,
+                'settings': True,
+                'showReferrals': False,
+                'storeEnabled': True,
+                'storeIAPEnabled': False,
+                'streamConfiguration': {'allowsMultipleStreams': False,
+                                        'allowsReconnect': True,
+                                        'android': {'maxDeviation': 80,
+                                                    'maxStepUps': 5,
+                                                    'minimumMillisecondsBufferToStart': 1000,
+                                                    'optimalMillisecondsFromLiveEdge': 1000},
+                                        'downStepFloor': 1,
+                                        'downStepSampleSize': 10,
+                                        'hlsEnabled': True,
+                                        'ios': {'hlsEnabled': True},
+                                        'isDownStepEnabled': True,
+                                        'isUpStepEnabled': True,
+                                        'upStepCeil': 25,
+                                        'upStepSampleSize': 60},
+                'superWheelEnabled': True,
+                'tags': {'cdnCanary': 'false'},
+                'telemetry': {'batchSize': 50,
+                              'enabled': False,
+                              'host': 'https://telemetry.prod.hype.space'}, 'watchdogEnabled': True,
+                'wave': {'outOfGameEnabled': True},
+                'webStoreUrl': 'https://store.prod.hype.space/products'}
+        """
         return await self.fetch("GET", "config")
 
     async def get_optins(self):
