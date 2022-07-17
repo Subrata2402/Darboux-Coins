@@ -143,6 +143,8 @@ class Friends(commands.Cog):
                         username = user_data["username"]
                         index += 1
                         description = f"{0 if index < 10 else ''}{index} - {username}\n"
+                        embed = discord.Embed(title = "Usernames of the Successfully sent request account !", description = "```\n{}\n```".format(description), color = discord.Colour.random())
+                        await msg.edit(embed = embed)
                     except Exception as e:
                         pass
                     if index == 50:
