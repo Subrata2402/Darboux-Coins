@@ -42,10 +42,12 @@ class Friends(commands.Cog):
             return await ctx.author.send(embed=embed)
         username = data["username"]
         response = await api.friend_list()
+        friends_data = response["data"]
+        if not friends_data:
+            return await ctx.send("You didn't make any friends yet.")
         embed=discord.Embed(title=f"Loading {username}'s friends list...", color=discord.Colour.random())
         message = await ctx.author.send(embed=embed)
         embed=discord.Embed(title=f"**__{username}'s Friends List !__**", color=discord.Colour.random())
-        friends_data = response["data"]
         page = 1
         items_per_page = 10
         pages = math.ceil(len(friends_data) / items_per_page)
