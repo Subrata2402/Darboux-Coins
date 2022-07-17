@@ -46,7 +46,7 @@ class Details(commands.Cog):
                 value = f"**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n" \
                     f"**• Total Lives :** {data['items']['lives']} <:extra_life:844448511264948225>\n" \
                     f"**• Super Spins :** {data['items']['superSpins']} <:super_spin:844448472908300299>\n" \
-                    f"**• Total Erasers :** {data['items']['erase1s']} <:eraser:844448550498205736>"
+                    f"**• Total Erasers :** {data['erase1s']} <:eraser:844448550498205736>"
                 )
             embed.add_field(name = "💸 __Balance & Cashout Details :__-", inline = False,
                 value = f"**• Total Balance :** {balance_data['prizeTotal']} 💰\n" \
