@@ -114,7 +114,7 @@ class Friends(commands.Cog):
             embed.clear_fields()
 
     @commands.command()
-    async def addfriend(self, ctx, username=None, name=None):
+    async def addfriend(self, ctx, username: str = None, name: str = None, mode: str = None):
         """Send friend request."""
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}addfriend [username] [friend's username]` to send a friend request.", color=discord.Colour.random())
@@ -134,14 +134,36 @@ class Friends(commands.Cog):
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
+            if mode:
+                if mode.lower() == "weekly":
+                    mode = 1
+                elif mode.lower() == "alltime":
+                    mode = 0
+                else:
+                    return await ctx.send("Please choose mode between `weekly` or `alltime`")
+                lb_data = (await api.leaderboard(mode))["data"]
+                index = 0
+                description = ""
+                for user_data in lb_data:
+                    try:
+                        data = await api.add_friend(user_data["userId"])
+                        username = user_data["username"]
+                        index += 1
+                        description = f"{0 if index < 10 else ''}{index} - {username}\n"
+                    except Exception as e:
+                        pass
+                    if index == 50:
+                        break
+                embed = discord.Embed(title = "Usernames of the Successfully sent request account !", description = "```\n{}\n```".format(description), color = discord.Colour.random())
+                return await ctx.send(embed = embed)
             try:
                 data = await api.add_friend(id)
                 embed=discord.Embed(title="**Request Send Done ✅**", description=f"**Successfully sent friend request to `{name}`**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
-            except:
-                embed=discord.Embed(title="**Request Send Failed ⚠️**", description=f"**Couldn't sent Friend Request to `{name}`.**", color=discord.Colour.random())
+            except Exception as e:
+                embed=discord.Embed(title="**Request Send Failed ⚠️**", description = e, color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
