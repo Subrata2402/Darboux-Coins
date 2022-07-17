@@ -37,11 +37,11 @@ class Details(commands.Cog):
             unclaimed = balance_data['frozen']
             auto_play_mode = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("auto_play")
             embed = discord.Embed(title = f"**__Statistics of HQ Account !__**",
-                description = f"**Username :** {data['username']}\n" \
-                    f"**Mobile Number :** {data['phoneNumber']}\n" \
-                    f"**Auto-play Mode :** {'Enable' if auto_play_mode else 'Disable'}",
+                description = f"**• Username :** {data['username']}\n" \
+                    f"**• Mobile Number :** {data['phoneNumber']}\n" \
+                    f"**• Auto-play Mode :** {'Enable' if auto_play_mode else 'Disable'}",
                 color = discord.Colour.random())
-            embed.add_field(name = f"🔥 __Items(Lives, Spin, Erasers, Coins)__", inline = False,
+            embed.add_field(name = f"🔥 __PowerUps Details :__-", inline = False,
                 value = f"**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n" \
                     f"**• Total Lives :** {data['items']['lives']} <:extra_life:844448511264948225>\n" \
                     f"**• Super Spins :** {data['items']['superSpins']} <:super_spin:844448472908300299>\n" \
@@ -53,6 +53,11 @@ class Details(commands.Cog):
                     f"**• Pending Ammount :** {balance_data['pending']} 💰\n" \
                     f"**• Unclaimed Ammount :** {balance_data['unpaid']} 💸\n" \
                     f"**• Available for Cashout :** {balance_data['available']} 💰"
+                )
+            embed.add_field(name = "🔴 __Live Games Details :__-", inline = False,
+                value = f"**• Games Won :** {data['leaderboard']['alltime']['wins']}/{data['gamesPlayed']}\n" \
+                    f"**• High Score :** {data['highScore']}\n" \
+                    f"**Rank :** {data['leaderboard']['rank']}\n"
                 )
             embed.set_footer(text = f"ID: {data['userId']} | Created At")
             embed.timestamp = aniso8601.parse_datetime(data['created'])
