@@ -71,7 +71,7 @@ class Token(commands.Cog):
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put username after `{ctx.prefix}token`. Please use correct : `{ctx.prefix}token [username]`", color=discord.Colour.random())
             return await ctx.send(embed=embed)
-        return await ctx.send("This command is temporary disabled!")
+        return await ctx.send(ctx.author.mention + ", This command is temporarily disabled!")
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             spec_user_token = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token")
