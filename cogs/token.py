@@ -75,9 +75,9 @@ class Token(commands.Cog):
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             spec_user_token = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token")
-            #embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=discord.Colour.random())
-            #embed.set_thumbnail(url=self.client.user.avatar_url)
-            #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            # embed=discord.Embed(title=f"{username} | Access Token", description=f"`{spec_user_token}`", color=discord.Colour.random())
+            # embed.set_thumbnail(url=self.client.user.avatar_url)
+            # embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.author.send(f"**{username} | Access Token**\n```\n{spec_user_token}\n```")
             if ctx.guild: await ctx.send(f"{ctx.author.mention}, Check your DM!")
         else:
