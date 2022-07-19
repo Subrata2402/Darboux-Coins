@@ -61,6 +61,9 @@ class Help(commands.Cog):
             ]
         await ctx.send(embed = embed, components = components)
     
+    @commands.command()
+    async def tst(self, ctx):
+        await ctx.send("/bump")
 
     @commands.command()
     async def invite(self, ctx):
