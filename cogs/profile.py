@@ -13,12 +13,8 @@ class Profile(commands.Cog):
         self.client = client
 
 
-    @commands.command()
+    @commands.command(aliases = ["account"])
     async def accounts(self, ctx):
-        try:
-            await ctx.message.delete()
-        except:
-            pass
         check_id = db.profile_base.find_one({"id": ctx.author.id})
         if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
