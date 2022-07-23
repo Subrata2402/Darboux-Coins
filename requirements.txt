@@ -1,5 +1,4 @@
-discord
-asyncio
+discord.py
 pymongo
 requests
 lomond
@@ -10,5 +9,3 @@ aniso8601
 unidecode
 bs4
 jwt
-DiscordUtils
-discord_components
