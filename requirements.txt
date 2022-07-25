@@ -9,3 +9,4 @@ aniso8601
 unidecode
 bs4
 jwt
+websockets
