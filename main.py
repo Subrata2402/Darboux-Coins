@@ -115,8 +115,8 @@ if __name__ == "__main__":
 
     targets = [
         client.run(os.getenv("darboux_token")),
-        client_one.run(os.getenv("bot_token_1")),
-        client_two.run(os.getenv("bot_token_2"))
+        client_one(os.getenv("bot_token_1")),
+        client_two(os.getenv("bot_token_2"))
     ]
     for target in targets:
         thread = threading.Thread(target = target)
