@@ -4,7 +4,7 @@ import asyncio, threading
 import time, datetime
 import sys, traceback, os
 from discord_components import *
-from Trivia.trivia import client_one, client_two
+from Trivia.swagbucks import client_one, client_two
 
 class Darboux(commands.Cog):
     
