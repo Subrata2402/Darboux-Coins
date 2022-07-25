@@ -20,6 +20,10 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		await ws.send_hook("Websocket Connecting...")
 		await ws.connect_websocket(ctx.channel.id, ctx.author.id)
 
+	@commands.Cog.listener()
+	async def on_ready(self):
+		print("Swagbucks Bot is Ready!")
+	
 	@commands.command()
 	@commands.is_owner()
 	async def sbstart(self, ctx, username: str = None):
