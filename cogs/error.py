@@ -52,7 +52,7 @@ class Errors(commands.Cog):
         if isinstance(error, commands.NotOwner):
             embed = discord.Embed()
             embed.description = f"⚠️ | This command only for bot developers. You can't use it."
-            return await ctx.send(embed=embed)
+            return # await ctx.send(embed=embed)
 
 
         if isinstance(error, discord.errors.Forbidden):
