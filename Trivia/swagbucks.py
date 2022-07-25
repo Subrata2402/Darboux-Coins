@@ -1,4 +1,5 @@
 import discord
+from discord.ext import commands
 from Websocket.swagbucks_ws import SbWebSocket, SwagbucksLive
 from discord.ext import commands
 from database import db
@@ -132,5 +133,16 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 	# 	token = await self.login(email_id, password, "GET")
 	# 	await ctx.send("```\n{}\n```".format(token))
 		
-def setup(client):
-	client.add_cog(SwagbucksTrivia(client))
+
+intents = discord.Intents.all()
+def client_one():
+	client_one = commands.Bot(command_prefix = ">", intents = intents, strip_after_prefix = True, owner_ids = ids, case_insensitive = True)
+	client_one.remove_command('help')
+	client_one.add_cog(SwagbucksTrivia(client_one))
+	return client_one
+
+def client_two():
+	client_two = commands.Bot(command_prefix = "-", intents = intents, strip_after_prefix = True, owner_ids = ids, case_insensitive = True)
+	client_two.remove_command('help')
+	client_two.add_cog(SwagbucksTrivia(client_two))
+	return client_two
