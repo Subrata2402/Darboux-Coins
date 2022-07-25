@@ -20,6 +20,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		await ws.connect_websocket(ctx.channel.id, ctx.author.id)
 
 	@commands.command()
+	@commands.is_owner()
 	async def sbstart(self, ctx, username: str = None):
 		"""
 		Check and open a websocket by username.
@@ -37,6 +38,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		
 		
 	@commands.command()
+	@commands.is_owner()
 	async def sbclose(self, ctx, username: str = None):
 		"""
 		Close a websocket by username.
@@ -45,6 +47,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		await ws.close_ws()
 	
 	@commands.command()
+	@commands.is_owner()
 	async def sblogin(self, ctx, email_id: str = None, password: str = None):
 		"""
 		Login a Swagbucks account and stored some required details in the database.
@@ -54,6 +57,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		await self.login(email_id, password)
 		
 	@commands.command()
+	@commands.is_owner()
 	async def sbupdate(self, ctx, username: str = None):
 		"""
 		If account is expire then this command will delete the stored account details
@@ -69,6 +73,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		await self.login(email_id, password)
 		
 	@commands.command()
+	@commands.is_owner()
 	async def sbdetails(self, ctx, username: str = None):
 		"""
 		Get stats details of a Swagbucks account.
@@ -79,6 +84,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		
 	
 	@commands.command()
+	@commands.is_owner()
 	async def sbaccounts(self, ctx):
 		"""
 		Get all accounts username, stored in the database.
@@ -92,6 +98,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		await ctx.send("```\n{}\n```".format(description))
 		
 	@commands.command()
+	@commands.is_owner()
 	async def sbbal(self, ctx):
 		"""
 		Get all accounts Swagbucks details, stored in the database.
@@ -107,6 +114,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
     
 		
 	@commands.command()
+	@commands.is_owner()
 	async def nextsb(self, ctx):
 		"""
 		Get Swagbucks Live next show details.
