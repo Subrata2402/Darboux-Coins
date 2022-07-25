@@ -1,9 +1,10 @@
 import discord
 from discord.ext import commands
-import asyncio
+import asyncio, threading
 import time, datetime
-import sys, traceback
+import sys, traceback, os
 from discord_components import *
+from Trivia.trivia import client_one, client_two
 
 class Darboux(commands.Cog):
     
@@ -112,5 +113,11 @@ if __name__ == "__main__":
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()
 
-token = "ODI1OTU1OTEzMDcyNTA4OTY5.YGFdYw.qGXROAOU_QQUh0UN3WwDZGsPBGE"
-client.run(token)
+    targets = [
+        client.run(os.getenv("darboux_token")),
+        client_one.run(os.getenv("bot_token_1")),
+        client_two.run(os.getenv("bot_token_2"))
+    ]
+    for target in targets:
+        thread = threading.Thread(target = target)
+        thread.start()
