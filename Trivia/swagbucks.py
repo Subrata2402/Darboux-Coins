@@ -93,7 +93,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		accounts = list(db.sb_details.find())
 		description = ""
 		for index, data in enumerate(accounts):
-			description += "{} - {}\n".format(index+1, data["username"])
+			description += "{}{} - {}\n".format(0 if index+1 < 10 else "", index+1, data["username"])
 		if not accounts:
 			return await ctx.send("No accounts found.")
 		await ctx.send("```\n{}\n```".format(description))
@@ -108,7 +108,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		description = ""
 		for index, data in enumerate(accounts):
 			sb = await self.account_details(data["username"].lower(), True)
-			description += "{} - {} - {} SB\n".format(index+1, data["username"], sb)
+			description += "{}{} - {} - {} SB\n".format(0 if index+1 < 10 else "", index+1, data["username"], sb)
 		if not accounts:
 			return await ctx.send("No accounts found.")
 		await ctx.send("```\n{}\n```".format(description))
