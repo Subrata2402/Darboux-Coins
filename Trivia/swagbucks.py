@@ -135,14 +135,14 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		
 
 intents = discord.Intents.all()
-def client_one(token: str):
+def client_one():
 	client_one = commands.Bot(command_prefix = ">", intents = intents, strip_after_prefix = True, case_insensitive = True)
 	client_one.remove_command('help')
 	client_one.add_cog(SwagbucksTrivia(client_one))
-	client_one.run(token)
+	return client_one
 
-def client_two(token: str):
+def client_two():
 	client_two = commands.Bot(command_prefix = "-", intents = intents, strip_after_prefix = True, case_insensitive = True)
 	client_two.remove_command('help')
 	client_two.add_cog(SwagbucksTrivia(client_two))
-	client_two.run(token)
+	return client_two
