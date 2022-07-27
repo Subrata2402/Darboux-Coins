@@ -4,6 +4,7 @@ import asyncio, threading
 import time, datetime
 import sys, traceback, os
 from discord_components import *
+from Trivia.swagbucks import client_one, client_two
 
 class DarbouxCoins(commands.Cog):
     
@@ -112,4 +113,15 @@ if __name__ == "__main__":
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()
 
-client.run(os.getenv("darboux_token"))
+# client.run(os.getenv("darboux_token"))
+darboux_thread = threading.Thread(target = client.run, args = os.getenv("darboux_token"))
+client_one_thread = threading.Thread(target = client_one().run, args = os.getenv("bot_token_1"))
+client_two_thread = threading.Thread(target = client_two().run, args = os.getenv("bot_token_2"))
+
+darboux_thread.start()
+client_one_thread.start()
+client_two_thread.start()
+
+darboux_thread.join()
+client_one_thread.join()
+client_two_thread.join()
