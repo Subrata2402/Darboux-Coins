@@ -12,8 +12,7 @@ class UserStats(commands.Cog):
     @commands.command(aliases=["user", "hqstats", "hqstat"])
     async def hquser(self, ctx, name:str):
         """Get any user's stats."""
-        login_token = db.profile_base.find_one({"username": "bernita44"}).get("login_token")
-        api = HQApi()
+        login_token = "KwmTCpQzIqiLLlxDsK7cf8mIvETtYdyofrBr4R7x6py1aH57pokb6XHdEXRcSeGk"
         try:
             api = HQApi((await api.get_tokens(login_token))["accessToken"])
             data = await api.search(name)
