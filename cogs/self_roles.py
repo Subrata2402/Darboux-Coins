@@ -40,6 +40,7 @@ class SelfRoles(commands.Cog):
                             ],
                         custom_id = "self_roles",
                     ),
+                ]
         await ctx.send(embed = embed, components = components)
         
 def setup(client):
