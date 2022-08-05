@@ -24,25 +24,29 @@ class SelfRoles(commands.Cog):
         await interaction.author.add_roles(discord.utils.get(interaction.guild.roles, name = component_label))
         await interaction.send(f"You've been added to the ```{component_label}``` role.")
     
-    @commands.command(name = "selfrole")
-    async def _self_role(self, ctx):
+    # @commands.Cog.listener()
+    async def on_ready(self):
         """
         self role command for creating the embed message 
         """
+        tweets_emoji = self.client.get_emoji(976773442705702972)
+        message = await self.client.get_channel(1004946360463786065).fetch_message(1004967749191221349)
         embed = discord.Embed(title = "Notification Roles", color=discord.Colour.random())
         embed.description = "Select from the following notification roles to be alerted when certain things happen in our community!"
-        embed.set_image(url = "https://im.ge/i/FbW2A9")
+        embed.set_image(url = "https://media.discordapp.net/attachments/827262575439380542/1004956569559126146/IMG_20220518_083953.jpg")
         components = [
                 Select(
-                        placeholder = "Select a role...",
+                        placeholder = "Select a notification role !",
                         options = [
                                 SelectOption(label = "Bot Updates", description = "DarbouxCoins bot updates", emoji = "🤖", value = "bot_updates"),
                                 SelectOption(label = "Cashout Updates", description = "HQ Trivia cashout & payouts Updates", emoji = "💰", value = "cashout_updates"),
+                                SelectOption(label = "HQTweets", description = "HQ Trivia tweets updates", emoji = tweets_emoji, value = "hq_tweets"),
+                                SelectOption(label = "Live Shows", description = "HQ Trivia live show pinged role", emoji = "🔴", value = "live_shows"),
                             ],
                         custom_id = "self_roles",
                     ),
                 ]
-        await ctx.send(embed = embed, components = components)
+        await message.edit(embed = embed, components = components)
         
 def setup(client):
     client.add_cog(SelfRoles(client))
