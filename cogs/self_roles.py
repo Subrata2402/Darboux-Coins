@@ -17,11 +17,11 @@ class SelfRoles(commands.Cog):
         if interaction.responded: return
         # if interaction.custom_id not in self.custom_ids: return
         embed = discord.Embed(color=discord.Colour.random())
-        if interaction.component.label in [role.name for role in interaction.author.roles]:
-            await interaction.author.remove_roles(interaction.component.label)
-            return await interaction.send(f"You've been removed from the ```{interaction.component.label}``` role.")
-        await interaction.author.remove_roles(interaction.component.label)
-        await interaction.send(f"You've been added to the ```{interaction.component.label}``` role.")
+        if interaction.component.options[0].label in [role.name for role in interaction.author.roles]:
+            await interaction.author.remove_roles(interaction.component.options[0].label)
+            return await interaction.send(f"You've been removed from the ```{interaction.component.options[0].label}``` role.")
+        await interaction.author.remove_roles(interaction.component.options[0].label)
+        await interaction.send(f"You've been added to the ```{interaction.component.options[0].label}``` role.")
     
     @commands.command(name = "selfrole")
     async def _self_role(self, ctx):
