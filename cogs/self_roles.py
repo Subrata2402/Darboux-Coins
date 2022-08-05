@@ -12,13 +12,13 @@ class SelfRoles(commands.Cog):
     @commands.Cog.listener()
     async def on_select_option(self, interaction: Interaction):
         if interaction.responded: return
-        if interaction.custom_id not in self.custom_ids: return
+        # if interaction.custom_id not in self.custom_ids: return
         embed = discord.Embed(color=discord.Colour.random())
         if interaction.component.label in [role.name for role in interaction.author.roles]:
             await interaction.author.remove_roles(interaction.component.label)
-            return await interaction.respond(f"You've been removed from the ```{interaction.component.label}``` role.")
+            return await interaction.send(f"You've been removed from the ```{interaction.component.label}``` role.")
         await interaction.author.remove_roles(interaction.component.label)
-        await interaction.respond(f"You've been added to the ```{interaction.component.label}``` role.")
+        await interaction.send(f"You've been added to the ```{interaction.component.label}``` role.")
     
     @commands.command(name = "selfrole")
     async def _self_role(self, ctx):
