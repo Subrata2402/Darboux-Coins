@@ -24,7 +24,7 @@ class SelfRoles(commands.Cog):
         await interaction.author.add_roles(discord.utils.get(interaction.guild.roles, name = component_label))
         await interaction.send(f"You've been added to the ```{component_label}``` role.")
     
-    # @commands.Cog.listener()
+    @commands.Cog.listener()
     async def on_ready(self):
         """
         self role command for creating the embed message 
