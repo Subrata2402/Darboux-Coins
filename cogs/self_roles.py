@@ -19,9 +19,9 @@ class SelfRoles(commands.Cog):
         component_label = interaction.component.options[0].label
         embed = discord.Embed(color=discord.Colour.random())
         if component_label in [role.name for role in interaction.author.roles]:
-            await interaction.author.remove_roles(discord.utils.get(interaction.author.roles, name = component_label)
+            await interaction.author.remove_roles(discord.utils.get(interaction.author.roles, name = component_label))
             return await interaction.send(f"You've been removed from the ```{component_label}``` role.")
-        await interaction.author.remove_roles(discord.utils.get(interaction.author.roles, name = component_label)
+        await interaction.author.remove_roles(discord.utils.get(interaction.author.roles, name = component_label))
         await interaction.send(f"You've been added to the ```{component_label}``` role.")
     
     @commands.command(name = "selfrole")
