@@ -7,10 +7,13 @@ class SelfRoles(commands.Cog):
     
     def __init__(self, client):
         self.client = client
-        self.custom_ids = ["cashout_updates", "hq_tweets", "announcement", "bot_updates"]
+        # self.custom_ids = []
 
     @commands.Cog.listener()
     async def on_select_option(self, interaction: Interaction):
+        """
+        Raised this event when someone click the option.
+        """
         if interaction.responded: return
         # if interaction.custom_id not in self.custom_ids: return
         embed = discord.Embed(color=discord.Colour.random())
@@ -22,6 +25,9 @@ class SelfRoles(commands.Cog):
     
     @commands.command(name = "selfrole")
     async def _self_role(self, ctx):
+        """
+        self role command for creating the embed message 
+        """
         embed = discord.Embed(title = "Notification Roles", color=discord.Colour.random())
         embed.description = "Select from the following notification roles to be alerted when certain things happen in our community!"
         embed.set_image(url = "https://im.ge/i/FbW2A9")
@@ -35,3 +41,6 @@ class SelfRoles(commands.Cog):
                         custom_id = "self_roles",
                     ),
         await ctx.send(embed = embed, components = components)
+        
+def setup(client):
+    client.add_cog(SelfRoles(client))
