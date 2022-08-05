@@ -98,17 +98,17 @@ async def on_message(message):
 	await client.process_commands(message)
 
 extensions = [
-        "cogs.login", "cogs.show", "cogs.hqname", "cogs.welcome", "cogs.swipe", "cogs.google_login_method",
-        "cogs.logintoken", "cogs.token", "cogs.payout", "cogs.dcplay", "cogs.balance",
-        "cogs.editname", "cogs.userinfo", "cogs.details", "cogs.help", "cogs.general",
-        "cogs.rwin", "cogs.refresh", "cogs.friend", "cogs.sdcplay", "cogs.items", "cogs.error",
-        "cogs.fblogin", "cogs.glogin", "cogs.profile", "cogs.fb_login_method", "cogs.autoplay"
+        "login", "show", "hqname", "welcome", "swipe", "google_login_method",
+        "logintoken", "token", "payout", "dcplay", "balance", "self_roles",
+        "editname", "userinfo", "details", "help", "general",
+        "rwin", "refresh", "friend", "sdcplay", "items", "error",
+        "fblogin", "glogin", "profile", "fb_login_method", "autoplay"
     ]
 
 if __name__ == "__main__":
     for extension in extensions:
         try:
-            client.load_extension(extension)
+            client.load_extension("cogs." + extension)
         except Exception as e:
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()
