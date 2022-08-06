@@ -36,7 +36,7 @@ class SelfRoles(commands.Cog):
         message = await self.client.get_channel(1004946360463786065).fetch_message(1004967749191221349)
         embed = discord.Embed(title = "Notification Roles", color=discord.Colour.random())
         embed.description = "Select from the following notification roles to be alerted when certain things happen in our community!"
-        embed.set_image(url = "https://media.discordapp.net/attachments/827262575439380542/1004956569559126146/IMG_20220518_083953.jpg")
+        embed.set_image(url = "https://media.discordapp.net/attachments/827262575439380542/1005507555944058880/IMG_20220806_213755.png")
         components = [
                 Select(
                         placeholder = "Select a notification role !",
