@@ -16,7 +16,14 @@ class SelfRoles(commands.Cog):
         """
         if interaction.responded: return
         # if interaction.custom_id not in self.custom_ids: return
-        component_label = interaction.component.options[0].label
+        if interaction.values[0] == "bot_updates":
+            component_label = interaction.component.options[0].label
+        elif interaction.values[0] == "cashout_updates":
+            component_label = interaction.component.options[1].label
+        elif interaction.values[0] == "hq_tweets":
+            component_label = interaction.component.options[2].label
+        else:
+            component_label = interaction.component.options[3].label
         embed = discord.Embed(color=discord.Colour.random())
         if component_label in [role.name for role in interaction.author.roles]:
             await interaction.author.remove_roles(discord.utils.get(interaction.guild.roles, name = component_label))
