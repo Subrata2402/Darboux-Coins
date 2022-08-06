@@ -7,7 +7,7 @@ class SelfRoles(commands.Cog):
     
     def __init__(self, client):
         self.client = client
-        # self.custom_ids = []
+        self.values = ["announcement", "bot_updates", "cashout_updates", "hq_tweets", "live_shows"]
 
     @commands.Cog.listener()
     async def on_select_option(self, interaction: Interaction):
@@ -16,14 +16,10 @@ class SelfRoles(commands.Cog):
         """
         if interaction.responded: return
         # if interaction.custom_id not in self.custom_ids: return
-        if interaction.values[0] == "bot_updates":
-            component_label = interaction.component.options[0].label
-        elif interaction.values[0] == "cashout_updates":
-            component_label = interaction.component.options[1].label
-        elif interaction.values[0] == "hq_tweets":
-            component_label = interaction.component.options[2].label
-        else:
-            component_label = interaction.component.options[3].label
+        for index, value in enumerate(self.values):
+            if interaction.values[0] == value:
+                component_label = interaction.component.options[index].label
+        
         embed = discord.Embed(color=discord.Colour.random())
         if component_label in [role.name for role in interaction.author.roles]:
             await interaction.author.remove_roles(discord.utils.get(interaction.guild.roles, name = component_label))
@@ -45,10 +41,11 @@ class SelfRoles(commands.Cog):
                 Select(
                         placeholder = "Select a notification role !",
                         options = [
-                                SelectOption(label = "Bot Updates", description = "DarbouxCoins bot updates", emoji = "🤖", value = "bot_updates"),
-                                SelectOption(label = "Cashout Updates", description = "HQ Trivia cashout & payouts Updates", emoji = "💰", value = "cashout_updates"),
-                                SelectOption(label = "HQTweets", description = "HQ Trivia tweets updates", emoji = tweets_emoji, value = "hq_tweets"),
-                                SelectOption(label = "Live Shows", description = "HQ Trivia live show pinged role", emoji = "🔴", value = "live_shows"),
+                                SelectOption(label = "Announcement", description = "For announcement ping", emoji = "📢", value = "announcement"),
+                                SelectOption(label = "Bot Updates", description = "For DarbouxCoins bot updates ping", emoji = "🤖", value = "bot_updates"),
+                                SelectOption(label = "Cashout Updates", description = "For HQ Trivia cashout & payouts Updates ping", emoji = "💰", value = "cashout_updates"),
+                                SelectOption(label = "HQ Tweets", description = "For HQ Trivia tweets updates ping", emoji = tweets_emoji, value = "hq_tweets"),
+                                SelectOption(label = "Live Shows", description = "For HQ Trivia live shows ping", emoji = "🔴", value = "live_shows"),
                             ],
                         custom_id = "self_roles",
                     ),
