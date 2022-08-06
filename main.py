@@ -92,7 +92,7 @@ async def on_message(message):
 			embed.set_thumbnail(url = "")
 			embed.set_author(icon_url = to_dict["thumbnail"]["url"], name = to_dict["author"]["name"])
 			embed.timestamp = datetime.datetime.utcnow()
-			await client.get_channel(976420002020343838).send(embed = embed)
+			await client.get_channel(976420002020343838).send(embed = embed, content = "<@&1005187248284778567>")
 	if message.content.startswith(client.user.mention):
 		await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
 	await client.process_commands(message)
