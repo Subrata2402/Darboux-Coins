@@ -1005,6 +1005,7 @@ class HQApi(BaseHQApi):
             try:
                 content = json.loads(await response.text())
             except:
+                print(await response.text())
                 raise ApiResponseError("Can't decode to json!")
             error = content.get("error")
             error_code = content.get("errorCode")
