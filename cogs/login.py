@@ -75,6 +75,10 @@ class Login(commands.Cog, HQApi):
             return await x.edit(embed=em)
         try:
             code = int(response.clean_content)
+            try:
+                await response.delete()
+            except:
+                pass
             sub_code_res = await self.confirm_code(verification["verificationId"], code)
             name = await self.rand()
             while True:
