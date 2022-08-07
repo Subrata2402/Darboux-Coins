@@ -1001,19 +1001,15 @@ class HQApi(BaseHQApi):
     async def fetch(self, method = "GET", func = "", data = None, files = None):
         if data is None: data = {}
         async with aiohttp.ClientSession() as session:
-            response = await session.request(method, self.host + "{}".format(func), headers = self.headers, data = data)
             try:
-                content = json.loads(await response.text())
-            except:
-                print(await response.text())
-                raise ApiResponseError("Can't decode to json!")
-            error = content.get("error")
-            error_code = content.get("errorCode")
-            if error_code == 105:
-                raise ApiResponseError("The Token has Expired!")
-            elif error_code == 102:
+                response = await session.request(method, self.host + "{}".format(func), headers = self.headers, data = data)
+                content = await response.json()
+                error = content.get("error")
+                if error:
+                    raise ApiResponseError(error)
+                return content
+            except json.decoder.JSONDecodeError:
                 raise BannedIPError("Your IP is banned")
-            return content
 
     async def decode_jwt(self, jwt_text: str):
         return jwt.decode(jwt_text.encode(), verify=False)
