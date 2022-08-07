@@ -1002,7 +1002,10 @@ class HQApi(BaseHQApi):
         if data is None: data = {}
         async with aiohttp.ClientSession() as session:
             response = await session.request(method, self.host + "{}".format(func), headers = self.headers, data = data)
-            content = await response.json()
+            try:
+                content = json.loads(await response.text())
+            except:
+                raise ApiResponseError("Can't decode to json!")
             error = content.get("error")
             error_code = content.get("errorCode")
             if error_code == 105:
