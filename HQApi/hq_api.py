@@ -1003,7 +1003,7 @@ class HQApi(BaseHQApi):
         async with aiohttp.ClientSession() as session:
             try:
                 response = await session.request(method, self.host + "{}".format(func), headers = self.headers, data = data)
-                print(await response.text())
+                # print(await response.text())
                 content = await response.json()
                 error = content.get("error")
                 if error:
