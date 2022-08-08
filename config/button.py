@@ -23,3 +23,22 @@ async def peginator_button(client,
         ]
     ]
     return button
+
+async def hqshop_button(client, disabled_1 = None,
+                                disabled_2 = None,
+                                disabled_3 = None,
+                                disabled_5 = None,
+                                disabled_4 = None,
+                                disabled_6 = None,
+                                disabled_7 = None,
+                                disabled_8 = None,
+                                disabled_9 = None):
+    life_emoji_1 = client.get_emoji()
+    life_emoji_3 = client.get_emoji()
+    life_emoji_5 = client.get_emoji()
+    eraser_emoji_1 = client.get_emoji()
+    eraser_emoji_3 = client.get_emoji()
+    eraser_emoji_5 = client.get_emoji()
+    spin_emoji_1 = client.get_emoji()
+    spin_emoji_3 = client.get_emoji()
+    spin_emoji_5 = client.get_emoji()
