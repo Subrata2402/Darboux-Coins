@@ -36,31 +36,33 @@ class Swipe(commands.Cog):
         embed=discord.Embed(title=f"Swiping...", color=discord.Colour.random())
         x = await ctx.send(embed=embed)
         await asyncio.sleep(2)
-        response = await api.config()
-        enabled = response["easterEggs"]["makeItRain"]["enabled"]
-        if enabled:
-            interval = response["easterEggs"]["makeItRain"]["interval"]
-            hours, remainder = divmod(interval, 3600)
-            minutes, seconds = divmod(remainder, 60)
-            days, hours = divmod(hours, 24)
-            if days + hours + minutes == 0:
-                wait_time = f"**{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
-            elif days + hours == 0:
-                wait_time = f"**{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
-            elif days == 0:
-                wait_time = f"**{'0' if hours < 10 else ''}{hours}** hour{'s' if hours != 1 else ''} **{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} and **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
-            else:
-                wait_time = f"**{'0' if days < 10 else ''}{days}** day{'s' if days != 1 else ''} **{'0' if hours < 10 else ''}{hours}** hour{'s' if hours != 1 else ''} **{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} and **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
-            embed=discord.Embed(title="⚠️ Swiped Failed", description=f"You have already swiped your account, so you must wait {wait_time} to swipe once again.", color=discord.Colour.random())
+        # response = await api.config()
+        # enabled = response["easterEggs"]["makeItRain"]["enabled"]
+        # if enabled:
+        #     interval = response["easterEggs"]["makeItRain"]["interval"]
+        #     hours, remainder = divmod(interval, 3600)
+        #     minutes, seconds = divmod(remainder, 60)
+        #     days, hours = divmod(hours, 24)
+        #     if days + hours + minutes == 0:
+        #         wait_time = f"**{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
+        #     elif days + hours == 0:
+        #         wait_time = f"**{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
+        #     elif days == 0:
+        #         wait_time = f"**{'0' if hours < 10 else ''}{hours}** hour{'s' if hours != 1 else ''} **{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} and **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
+        #     else:
+        #         wait_time = f"**{'0' if days < 10 else ''}{days}** day{'s' if days != 1 else ''} **{'0' if hours < 10 else ''}{hours}** hour{'s' if hours != 1 else ''} **{'0' if minutes < 10 else ''}{minutes}** minute{'s' if minutes != 1 else ''} and **{'0' if seconds < 10 else ''}{seconds}** second{'s' if seconds != 1 else ''}"
+        try:
+            r = await api.swipe()
+            data = r["data"]
+            embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an Extra <:extra_life:844448511264948225> Life.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await x.edit(embed=embed)
-        r = await api.swipe()
-        data = r["data"]
-        embed=discord.Embed(title="Swiped Done ✅", description=f"You have successfully swiped your account and earn an Extra <:extra_life:844448511264948225> Life.", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await x.edit(embed=embed)
+            await x.edit(embed=embed)
+        except:
+            embed=discord.Embed(title="⚠️ Swiped Failed", description=f"You have already swiped your account in this month.", color=discord.Colour.random())
+            embed.set_thumbnail(url=self.client.user.avatar_url)
+            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+            await x.edit(embed=embed)
 
 
 def setup(client):
