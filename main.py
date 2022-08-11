@@ -91,20 +91,20 @@ async def on_message(message):
             embed.set_thumbnail(url = self.client.user.avatar_url)
             embed.set_footer(text = message.author, icon_url = message.author.avatar_url)
             return await ctx.send(embed = embed)
-	if message.channel.id == 831051147472666636: return
-	if message.author.id == 433615162394804224 and message.channel.id == 844547681838039041:
-		for embed in message.embeds:
-			to_dict = embed.to_dict()
-			embed.description = to_dict["description"] + f"\n**Source :** [Click Here]({to_dict['url']})"
-			embed.color = discord.Colour.random()
-			embed.set_footer(text = "HQ Tweets", icon_url = "https://media.discordapp.net/attachments/827262575439380542/976439492644843610/625974899051069460.png")
-			embed.set_thumbnail(url = "")
-			embed.set_author(icon_url = to_dict["thumbnail"]["url"], name = to_dict["author"]["name"])
-			embed.timestamp = datetime.datetime.utcnow()
-			await client.get_channel(976420002020343838).send(embed = embed, content = "<@&1005187248284778567>")
-	if message.content.startswith(client.user.mention):
-		await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
-	await client.process_commands(message)
+    if message.channel.id == 831051147472666636: return
+    if message.author.id == 433615162394804224 and message.channel.id == 844547681838039041:
+        for embed in message.embeds:
+            to_dict = embed.to_dict()
+            embed.description = to_dict["description"] + f"\n**Source :** [Click Here]({to_dict['url']})"
+            embed.color = discord.Colour.random()
+            embed.set_footer(text = "HQ Tweets", icon_url = "https://media.discordapp.net/attachments/827262575439380542/976439492644843610/625974899051069460.png")
+            embed.set_thumbnail(url = "")
+            embed.set_author(icon_url = to_dict["thumbnail"]["url"], name = to_dict["author"]["name"])
+            embed.timestamp = datetime.datetime.utcnow()
+            await client.get_channel(976420002020343838).send(embed = embed, content = "<@&1005187248284778567>")
+    if message.content.startswith(client.user.mention):
+        await message.channel.send(f"Hey {message.author.mention}, My prefix is `-` For more information use `-help`")
+    await client.process_commands(message)
 
 extensions = [
         "login", "show", "hqname", "welcome", "swipe", "google_login_method",
