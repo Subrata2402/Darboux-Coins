@@ -82,6 +82,15 @@ client.add_cog(DarbouxCoins(client))
 
 @client.event
 async def on_message(message):
+    cmd = client.get_command(message.content[1:].strip().lower().partition(' ')[0])
+    if cmd:
+        guild = self.client.get_guild(831051146880614431)
+        if guild not in message.author.mutual_guilds:
+            embed = discord.Embed(title = "❎ Not Found", color = discord.Colour.random(),
+                description = "You need to join our official discord server to use the bot. [Click Here](https://discord.gg/TAcEnfS8Rs) to join the server.")
+            embed.set_thumbnail(url = self.client.user.avatar_url)
+            embed.set_footer(text = message.author, icon_url = message.author.avatar_url)
+            return await ctx.send(embed = embed)
 	if message.channel.id == 831051147472666636: return
 	if message.author.id == 433615162394804224 and message.channel.id == 844547681838039041:
 		for embed in message.embeds:
