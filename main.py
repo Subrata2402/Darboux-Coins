@@ -88,7 +88,7 @@ async def on_message(message):
         if guild not in message.author.mutual_guilds:
             embed = discord.Embed(title = "❎ Not Found", color = discord.Colour.random(),
                 description = "You need to join our official discord server to use the bot. [Click Here](https://discord.gg/TAcEnfS8Rs) to join the server.")
-            embed.set_thumbnail(url = self.client.user.avatar_url)
+            embed.set_thumbnail(url = client.user.avatar_url)
             embed.set_footer(text = message.author, icon_url = message.author.avatar_url)
             return await ctx.send(embed = embed)
     if message.channel.id == 831051147472666636: return
