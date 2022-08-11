@@ -13,10 +13,10 @@ class Errors(commands.Cog):
     async def on_command(self, ctx):
         guild = self.client.get_guild(831051146880614431)
         if guild not in ctx.author.mutual_guilds:
-            embed = discord.Embed(title = "Not Found", color = discord.Colour.random(),
+            embed = discord.Embed(title = "❎ Not Found", color = discord.Colour.random(),
                 description = "You need to join our official discord server to use the bot. [Click Here](https://discord.gg/TAcEnfS8Rs) to join the server.")
             embed.set_thumbnail(url = self.client.user.avatar_url)
-            embed.set_author(name = ctx.author, icon_url = ctx.author.avatar_url)
+            embed.set_footer(text = ctx.author, icon_url = ctx.author.avatar_url)
             await ctx.send(embed = embed)
             raise Exception("User not in the official server ")
         channel = self.client.get_channel(958059478538936400)
