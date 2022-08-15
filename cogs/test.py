@@ -18,14 +18,13 @@ from pytz import timezone
 from unidecode import unidecode
 from bs4 import BeautifulSoup
 
-data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb.net/Darboux?retryWrites=true&w=majority')#Your Database Url
-db = data.get_database("Darboux")#Your db name
-token_base = db.token
-q_base = db.questions
+data = MongoClient('mongodb+srv://Subrata2001:Subrata2001@cluster0.ywnwn.mongodb.net/MimirQuiz?retryWrites=true&w=majority')#Your Database Url
+db = data.get_database("MimirQuiz")#Your db name
+sb_details = db.sb_details
 
-client = MongoClient("mongodb+srv://Subrata3250:subrata3250@cluster0.gqwt8.mongodb.net/DarbouxCoinsBackup?retryWrites=true&w=majority")
-db = client.get_database("DarbouxCoinsBackup")
-qt_base = db.questions
+client = MongoClient("mongodb+srv://Subrata3250:subrata3250@cluster0.gqwt8.mongodb.net/Swagbucks?retryWrites=true&w=majority")
+db = client.get_database("Swagbucks")
+qt_base = db.sb_details
 
 class DcPlay(commands.Cog):
 
@@ -35,7 +34,7 @@ class DcPlay(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def qbackup(self, ctx):
-        all_data = list(q_base.find())
+        all_data = list(sb_details.find())
         for question in all_data:
             qt_base.insert_one(question)
         await ctx.send("success")
