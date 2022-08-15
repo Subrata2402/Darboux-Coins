@@ -17,7 +17,7 @@ class Profile(commands.Cog):
     async def accounts(self, ctx):
         check_id = db.profile_base.find_one({"id": ctx.author.id})
         if not check_id:
-            embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database.", color=discord.Colour.random())
+            embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database. To add your HQ account use Google method. Type `-google` to see the details.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
