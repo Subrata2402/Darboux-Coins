@@ -1,10 +1,8 @@
-import discord, multiprocessing
+import discord, asyncio
 from discord.ext import commands
-import asyncio, threading
 import time, datetime
 import sys, traceback, os
 from discord_components import *
-from Trivia.swagbucks import client_one, client_two
 
 class DarbouxCoins(commands.Cog):
     
