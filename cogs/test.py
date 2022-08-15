@@ -5,7 +5,7 @@ import asyncio
 from pymongo import MongoClient
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
-from HQApi import HQApi, HQWebSocket
+from HQApi import HQApi
 import asyncio
 from datetime import datetime
 import requests
