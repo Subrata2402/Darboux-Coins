@@ -109,7 +109,7 @@ async def on_message(message):
 extensions = [
         "login", "show", "hqname", "welcome", "swipe", "google_login_method",
         "logintoken", "token", "payout", "dcplay", "balance", "self_roles",
-        "editname", "userinfo", "details", "help", "general",
+        "editname", "userinfo", "details", "help", "general", "test",
         "rwin", "refresh", "friend", "sdcplay", "items", "error",
         "fblogin", "glogin", "profile", "fb_login_method", "autoplay"
     ]
