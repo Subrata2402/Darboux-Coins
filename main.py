@@ -120,6 +120,7 @@ if __name__ == "__main__":
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()
 
+client.load_extension("Trivia.swagbucks")
 client.run(os.getenv("darboux_token"))
 # darboux_thread = multiprocessing.Process(target = client.run, args = (os.getenv("darboux_token"), ))
 # client_one_thread = multiprocessing.Process(target = client_one().run, args = (os.getenv("bot_token_1"), ))
