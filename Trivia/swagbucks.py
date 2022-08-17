@@ -110,7 +110,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		
 	@commands.command()
 	@commands.is_owner()
-	async def nextshow(self, ctx):
+	async def sbnextshow(self, ctx):
 		"""
 		Get Swagbucks Live next show details.
 		"""
