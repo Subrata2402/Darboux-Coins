@@ -198,7 +198,7 @@ class SbWebSocket(object):
 		"""
 		Send message with Discord channel Webhook.
 		"""
-		web_url = "https://discord.com/api/webhooks/988392404853874748/CGtvuLqXpX4kTuWJrV6KsTkPjXowVJRrcFk_rWKVLlJuZFQpNU7lIPWOm4UpKupKqU7T"
+		web_url = "https://discord.com/api/webhooks/1009531446358188224/d6Ci6RO__ev00Gj4jmElQKL1S9imgiUY9dQ2GHFZbiXb0YYK29bZ7BwkyCx3TcRQ3JtA"
 		async with aiohttp.ClientSession() as session:
 			webhook = discord.Webhook.from_url(web_url, adapter=discord.AsyncWebhookAdapter(session))
 			await webhook.send(content = content, embed = embed, username = self.client.user.name, avatar_url = self.client.user.avatar_url)
