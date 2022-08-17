@@ -1,5 +1,4 @@
 import discord
-from discord.ext import commands
 from Websocket.swagbucks_ws import SbWebSocket, SwagbucksLive
 from discord.ext import commands
 from database import db
@@ -19,7 +18,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 				return await ws.send_hook("Websocket Already Opened!")
 		await ws.send_hook("Websocket Connecting...")
 		await ws.connect_websocket(ctx.channel.id, ctx.author.id)
-	
+
 	@commands.command()
 	@commands.is_owner()
 	async def sbstart(self, ctx, username: str = None):
@@ -66,12 +65,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		if not username:
 			return await ctx.send("Required username to update of Swagbucks account.")
-		details = db.sb_details.find_one({"username": username.lower()})
-		if not details:
-			return await ctx.send("No account found.")
-		email_id, password = details["email_id"], details["password"]
-		db.sb_details.delete_one({"username": username.lower()})
-		await self.login(email_id, password)
+		await self.update_account(username)
 		
 	@commands.command()
 	@commands.is_owner()
@@ -116,7 +110,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		
 	@commands.command()
 	@commands.is_owner()
-	async def nextsb(self, ctx):
+	async def nextshow(self, ctx):
 		"""
 		Get Swagbucks Live next show details.
 		"""
@@ -133,16 +127,5 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 	# 	token = await self.login(email_id, password, "GET")
 	# 	await ctx.send("```\n{}\n```".format(token))
 		
-
-intents = discord.Intents.all()
-def client_one():
-	client_one = commands.Bot(command_prefix = ">", intents = intents, strip_after_prefix = True, case_insensitive = True)
-	client_one.remove_command('help')
-	client_one.add_cog(SwagbucksTrivia(client_one))
-	return client_one
-
-def client_two():
-	client_two = commands.Bot(command_prefix = "-", intents = intents, strip_after_prefix = True, case_insensitive = True)
-	client_two.remove_command('help')
-	client_two.add_cog(SwagbucksTrivia(client_two))
-	return client_two
+def setup(client):
+	client.add_cog(SwagbucksTrivia(client))
