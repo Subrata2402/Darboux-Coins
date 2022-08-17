@@ -228,7 +228,7 @@ class SbWebSocket(object):
 				embed = discord.Embed(title = f"Question {question_number} out of {total_question}", url = "https://google.com")
 				await self.send_hook(embed = embed)
 				def check(message):
-					return message.channel.id == channel_id and message.author.id == author_id
+					return message.author.id == author_id
 				try:
 					user_input = await self.client.wait_for("message", timeout = 11.0, check = check)
 					self.answer = int(user_input.content.strip())
@@ -246,8 +246,8 @@ class SbWebSocket(object):
 				embed = discord.Embed(title = f"Correct Answer : {ans_num}")
 				await self.send_hook(embed = embed)
 				
-				if self.answer != ans_num:
-					await self.confirm_rebuy(str(question_number))
+				# if self.answer != ans_num:
+				# 	await self.confirm_rebuy(str(question_number))
 					
 			if message_data["code"] == 49:
 				await self.complete_game()
@@ -312,6 +312,30 @@ class SwagbucksLive(SbWebSocket):
 			"email_id": email_id, "password": password
 		})
 		await self.send_hook("Successfully login to Swagbucks. Username : `{}`".format(username))
+	
+	async def update_account(self, username: str) -> None:
+		"""
+		If the bearer token is expired then refresh the token and update account.
+		"""
+		details = db.sb_details.find_one({"username": username})
+		if not details:
+			return await self.send_hook("Not found with this username.")
+		user_id = details["user_id"]
+		sig = details["sig"]
+		headers = {
+			"content-type": "application/x-www-form-urlencoded",
+			"Host": "app.swagbucks.com",
+			"user-agent": "SwagIQ-Android/34 (okhttp/3.10.0);Realme RMX1911",
+			"accept-encoding": "gzip",
+			# "authorization": self.get_token()
+		}
+		data = f"_device=f6acc085-c395-4688-913f-ea2b36d4205f&partnerMemberId={user_id}&partnerUserName={username}&verify=false&partnerApim=1&partnerHash={sig}"
+		data = await self.fetch("POST", "auth/token", headers = headers, data = data)
+		access_token = data["accessToken"]
+		refresh_token = data["refreshToken"]
+		update = {"access_token": access_token, "refresh_token": refresh_token}
+		db.sb_details.update_one({"user_id": user_id}, {"$set": update})
+		await self.send_hook("Account successfully updated!")
 	
 	async def account_details(self, username: str, sb: bool = False):
 		"""
