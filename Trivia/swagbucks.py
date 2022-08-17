@@ -25,6 +25,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		Check and open a websocket by username.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
 		# if not username:
 		#	return await ctx.send("username is required!")
 		# if username == "all":
@@ -43,6 +44,7 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		Close a websocket by username.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
 		ws = SbWebSocket(self.client, username.lower())
 		await ws.close_ws()
 	
@@ -52,6 +54,8 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		Login a Swagbucks account and stored some required details in the database.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
+
 		if not email_id or not password:
 			return await ctx.send("Username or Password is required to login to Swagbucks.")
 		await self.login(email_id, password)
@@ -63,6 +67,8 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		If account is expire then this command will delete the stored account details
 		and login again to update account.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
+
 		if not username:
 			return await ctx.send("Required username to update of Swagbucks account.")
 		await self.update_account(username)
@@ -73,6 +79,8 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		Get stats details of a Swagbucks account.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
+
 		if not username:
 			return await ctx.send("Required username to get details of Swagbucks account.")
 		await self.account_details(username.lower())
@@ -84,6 +92,8 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		Get all accounts username, stored in the database.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
+
 		accounts = list(db.sb_details.find())
 		description = ""
 		for index, data in enumerate(accounts):
@@ -98,6 +108,8 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		Get all accounts Swagbucks details, stored in the database.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
+
 		accounts = list(db.sb_details.find())
 		description = ""
 		for index, data in enumerate(accounts):
@@ -114,6 +126,8 @@ class SwagbucksTrivia(commands.Cog, SwagbucksLive):
 		"""
 		Get Swagbucks Live next show details.
 		"""
+		if ctx.channel.id != 1009531267739557939: return
+
 		username = list(db.sb_details.find())[0]["username"]
 		ws = SwagbucksLive(self.client, username)
 		await ws.show_details()
