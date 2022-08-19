@@ -4,18 +4,18 @@ from datetime import datetime
 import websockets, asyncio, requests
 from database import db
 
-signed = {
-	"josephine325": "cf737f54a923ae5f300a705332352e3a",
-	"baldric3250schne": "172e4aebc29f853bb8033a987d470837",
-	"subrata3250": "a516124913fb217d2f8b2d3dfe661950",
-	"baldric3250": "fdd68b74901e530ac2306d3ba3d88edb",
-	"sakhman2001sdas": "29e8b38bb30e13f93d09a71ae273a3b6",
-	"bernfried3250": "4fc4ccb673ca83b52d5979d3eb5f130a",
-	"bernfried32": "21a8cfa770c81bd5f9c024a20ee36ac7",
-	"sakhman32": "ecc1a1ee7fa28ab8ee2be273de04ae7c",
-	"kamal3085": "d9a3583b33ccd0f070d9cb343690a3c6",
-	"kmidya1233": "ef8db1cbccfdc6b2b12d2ecb99d0b46f"
-}
+# signed = {
+# 	"josephine325": "cf737f54a923ae5f300a705332352e3a",
+# 	"baldric3250schne": "172e4aebc29f853bb8033a987d470837",
+# 	"subrata3250": "a516124913fb217d2f8b2d3dfe661950",
+# 	"baldric3250": "fdd68b74901e530ac2306d3ba3d88edb",
+# 	"sakhman2001sdas": "29e8b38bb30e13f93d09a71ae273a3b6",
+# 	"bernfried3250": "4fc4ccb673ca83b52d5979d3eb5f130a",
+# 	"bernfried32": "21a8cfa770c81bd5f9c024a20ee36ac7",
+# 	"sakhman32": "ecc1a1ee7fa28ab8ee2be273de04ae7c",
+# 	"kamal3085": "d9a3583b33ccd0f070d9cb343690a3c6",
+# 	"kmidya1233": "ef8db1cbccfdc6b2b12d2ecb99d0b46f"
+# }
 
 class SbWebSocket(object):
 	
