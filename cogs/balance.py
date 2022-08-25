@@ -26,9 +26,9 @@ class Details(commands.Cog, HQApi):
         description = ""
         total = paid = pending = unpaid = available = sl_no = ex_no = 0
         token_list = [data.get("access_token") for data in list(db.profile_base.find({"id": ctx.author.id}))]
-        for token in token_list:
+        for data in list(db.profile_base.find({"id": ctx.author.id})):
             try:
-                api = HQApi(token)
+                api = HQApi(data.get("access_token"))
                 data = await api.get_payouts_me()
                 bal = data["balance"]
                 total = float(total) + float(bal["prizeTotal"][1:])
@@ -48,7 +48,7 @@ class Details(commands.Cog, HQApi):
                 await x.edit(embed=embed)
             except:
                 ex_no = int(ex_no) + 1
-                description += f"{ex_no} - {username}\n"
+                description += f"{ex_no} - {data.get('username')}\n"
         embed=discord.Embed(title=f"**__Balance & Cashout Details of {sl_no} Accounts :__-**", description=f"**• Total Balance :** ${total} 💰\n**• Claimed Ammount :** ${paid} 💸\n**• Pending Ammount :** ${pending} 💰\n**• Unclaimed Ammount :** ${unpaid} 💸\n**• Available for Cashout :** ${available} 💰", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
