@@ -83,7 +83,7 @@ async def on_message(message):
     cmd = client.get_command(message.content[1:].strip().lower().partition(' ')[0])
     if cmd:
         guild = client.get_guild(831051146880614431)
-        if guild not in message.author.mutual_guilds:
+        if not message.author.bot and guild not in message.author.mutual_guilds:
             embed = discord.Embed(title = "❎ Not Found", color = discord.Colour.random(),
                 description = "You need to join our official discord server to use the bot. [Click Here](https://discord.gg/TAcEnfS8Rs) to join the server.")
             embed.set_thumbnail(url = client.user.avatar_url)
