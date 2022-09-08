@@ -62,8 +62,11 @@ class Help(commands.Cog):
         await ctx.send(embed = embed, components = components)
     
     @commands.command()
-    async def tst(self, ctx):
-        await ctx.send("/bump")
+    async def allsb(self, ctx):
+        username_list = ["sakhman3250s1", "sakhman3250s2", "sakhman3250s3",
+                         "sakhman2001s1", "sakhman2001s2", "sakhman2001s3"]
+        for username in username_list:
+            await ctx.send("-sbstart " + username)
 
     @commands.command()
     async def invite(self, ctx):
