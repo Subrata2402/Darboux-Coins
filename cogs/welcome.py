@@ -36,7 +36,7 @@ class Welcome(commands.Cog):
                 embed.set_thumbnail(url=self.bot.user.avatar_url)
                 embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
                 embed.timestamp = datetime.datetime.utcnow()
-                emoji = self.client.get_emoji(957904862631297085)
+                emoji = self.bot.get_emoji(957904862631297085)
                 components = [Button(style = ButtonStyle.URL, emoji = emoji, url = "https://discord.gg/TAcEnfS8Rs", label = "Click Here to Join")]
                 await member.send(content = member.mention + " https://discord.gg/aujQ3Fw9", embed = embed, components = components)
             except Exception as error:
