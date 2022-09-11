@@ -23,8 +23,8 @@ class Welcome(commands.Cog):
                 embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
                 embed.timestamp = datetime.datetime.utcnow()
                 await member.send(embed=embed)
-            except:
-                pass
+            except Exception as error:
+                print(error)
             embed=discord.Embed(description=f"**Hello {member.mention}, Welcome to this server. Now our server has total {member.guild.member_count} members.\nHere you can make unlimited coins for HQ Trivia. Come <#831056646176112691> and type `+help` for all Commands information.**", color=discord.Colour.random())
             embed.set_author(name=member.guild.name, icon_url=member.guild.icon_url)
             embed.set_thumbnail(url=member.avatar_url)
@@ -36,10 +36,11 @@ class Welcome(commands.Cog):
                 embed.set_thumbnail(url=self.bot.user.avatar_url)
                 embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
                 embed.timestamp = datetime.datetime.utcnow()
+                emoji = self.client.get_emoji(957904862631297085)
                 components = [Button(style = ButtonStyle.URL, emoji = emoji, url = "https://discord.gg/TAcEnfS8Rs", label = "Click Here to Join")]
                 await member.send(content = member.mention + " https://discord.gg/aujQ3Fw9", embed = embed, components = components)
-            except:
-                pass
+            except Exception as error:
+                print(error)
         
 
     @commands.Cog.listener()
