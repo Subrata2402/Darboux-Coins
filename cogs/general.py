@@ -3,7 +3,7 @@ from discord.ext import commands
 import datetime
 import platform
 from discord_components import *
-
+from typing import Optional
 
 class Help(commands.Cog):
 
@@ -61,12 +61,13 @@ class Help(commands.Cog):
             ]
         await ctx.send(embed = embed, components = components)
     
-    @commands.command()
-    async def allsb(self, ctx):
-        username_list = ["sakhman3250s1", "sakhman3250s2", "sakhman3250s3",
-                         "sakhman2001s1", "sakhman2001s2", "sakhman2001s3"]
-        for username in username_list:
-            await ctx.send("-sbstart " + username)
+    @commands.command(name = "sendmsg")
+    @commands.is_owner()
+    async def _send_dm_to_user(self, ctx, user: Optional[discord.User]) -> None:
+        if not user:
+            return await ctx.message.channel.send(f"User `{user}` not found!")
+        await user.send(user.mention + "  https://discord.gg/TAcEnfS8Rs")
+        await ctx.message.channel.send("DM Successfully send to `{}`!".format(user))
 
     @commands.command()
     async def invite(self, ctx):
