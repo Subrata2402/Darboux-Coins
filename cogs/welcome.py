@@ -32,13 +32,13 @@ class Welcome(commands.Cog):
             await channel.send(embed=embed)
         else:
             try:
-                embed=discord.Embed(title=f"**Welcome to {member.guild.name}**", description=f"**Hey {member.mention}, Have a great time in {member.guild.name}. Make unlimited <:extra_coins:844448578881847326> Coins for HQ Trivia Game. Get started with `-help` for more details!\n\nJoin our Official server for any help. Type `-join` or Click the below button to join.**", color=discord.Colour.random())
+                embed=discord.Embed(title=f"**Welcome to {member.guild.name}**", description=f"**Hey {member.mention}, Have a great time in {member.guild.name}. Make unlimited <:extra_coins:844448578881847326> Coins for HQ Trivia Game. Get started with `-help` for more details!\n\nJoin our Official server for any help. Type `-join` or click the below button to join.**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.bot.user.avatar_url)
                 embed.set_footer(text=self.bot.user, icon_url=self.bot.user.avatar_url)
                 embed.timestamp = datetime.datetime.utcnow()
                 emoji = self.bot.get_emoji(957904862631297085)
                 components = [Button(style = ButtonStyle.URL, emoji = emoji, url = "https://discord.gg/TAcEnfS8Rs", label = "Click Here to Join")]
-                await member.send(content = member.mention + " https://discord.gg/aujQ3Fw9", embed = embed, components = components)
+                await member.send(embed = embed, components = components)
             except Exception as error:
                 print(error)
         
