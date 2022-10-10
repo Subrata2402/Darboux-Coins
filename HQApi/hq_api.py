@@ -1,5 +1,5 @@
 import json, jwt, aiohttp, asyncio
-from HQApi.exceptions import ApiResponseError, BannedIPError
+from HQApi.exceptions import ApiResponseError, BannedIPError, NotAuthenticatedError
 
 class BaseHQApi:
     def __init__(self, token: str = None, login_token: str = None):
@@ -1003,27 +1003,10 @@ class HQApi(BaseHQApi):
         async with aiohttp.ClientSession() as session:
             try:
                 response = await session.request(method, self.host + "{}".format(func), headers = self.headers, data = data)
-                # print(await response.text())
                 content = await response.json()
-                error = content.get("error")
-                if error:
-                    raise ApiResponseError(error)
                 return content
             except json.decoder.JSONDecodeError:
                 raise BannedIPError("Your IP is banned")
-                
-            # response = await session.request(method, self.host + "{}".format(func), headers = self.headers, data = data)
-            # text = await response.text()
-            # try:
-            #     content = json.loads(text)
-            # except json.decoder.JSONDecodeError:
-            #     print(text)
-            #     raise ApiResponseError("Can't decode to json format ")
-            # error = content.get("error")
-            # error_code = content.get("errorCode")
-            # if error:
-            #     raise ApiResponseError(error)
-            # return content
 
     async def decode_jwt(self, jwt_text: str):
         return jwt.decode(jwt_text.encode(), verify=False)

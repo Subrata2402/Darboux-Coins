@@ -10,6 +10,17 @@ discord.utils.setup_logging()
 initial_extensions = [
         "cogs.general",
         "cogs.glogin",
+        "cogs.fblogin",
+        "cogs.details",
+        "cogs.editname",
+        "cogs.autoplay",
+        "cogs.balance",
+        "cogs.items",
+        "cogs.payout",
+        "cogs.token",
+        "cogs.swipe",
+        "cogs.show",
+        "cogs.userinfo",
     ]
 
 class DarbouxCoins(commands.Bot):
@@ -17,7 +28,7 @@ class DarbouxCoins(commands.Bot):
     def __init__(self):
         super().__init__(
             command_prefix = bot_config.BOT_PREFIX,
-            intents = discord.Intents(guilds = True, members = True),
+            intents = discord.Intents(guilds = True, members = True, messages = True),#, message_content = True),
             case_insensitive = True,
             strip_after_prefix = True,
         )
@@ -55,9 +66,8 @@ class DarbouxCoins(commands.Bot):
         # else:
         #     print("Failed to load some extensions : {}".format(initial_extensions))
         await self.tree.sync() # guild = discord.Object(id = bot_config.GUILD_ID))
+        print("Commands synced successful!")
         
-
-    
     async def start_client(self):
         await self.start(bot_config.BOT_TOKEN)
 
@@ -91,21 +101,6 @@ asyncio.run(DarbouxCoins().start_client())
 #         embed = discord.Embed(description=message,
 #                               color=discord.Colour.random())
 #         await ctx.send(embed=embed)
-
-#     @commands.command(
-#         name="ping",
-#         description="Get bot latency.",
-#         aliases=["pong"],
-#         usage="",
-#         brief=""
-#     )
-#     async def ping(self, ctx):
-#         """ Pong! """
-#         before = time.monotonic()
-#         message = await ctx.send("**__Pong!__**")
-#         ping = (time.monotonic() - before) * 1000
-#         await message.edit(content=f"**__Pong!__** :ping_pong:  **{int(ping)}ms**")
-
 
 # bot_prefix = "-", "+", "."
 # intents = discord.Intents.all()

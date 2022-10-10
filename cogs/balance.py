@@ -1,63 +1,61 @@
+import sys
+import traceback
 import discord
 from discord.ext import commands
+from discord import app_commands
 from HQApi import HQApi
-from HQApi.exceptions import ApiResponseError
 from database import db
+import bot_config
 
-class Details(commands.Cog, HQApi):
+class Balance(commands.Cog, HQApi):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         super().__init__()
         self.client = client
 
-    @commands.command(aliases=["bal"])
-    @commands.cooldown(1, 10, commands.BucketType.user)
-    async def balance(self, ctx):
-        """Get account details."""
-        check_id = db.profile_base.find_one({"id": ctx.author.id})
+    @app_commands.command(name="balance", description="Check your balance.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    @app_commands.describe(username="Username of the account.")
+    async def _balance(self, interaction: discord.Interaction, username: str):
+        """Check your balance."""
+        await interaction.response.defer()
+        if interaction.guild:
+            return await interaction.followup.send(bot_config.dm_message(interaction))
+        check_id = await db.profile_base.find_one({"id": interaction.user.id})
         if not check_id:
-            embed=discord.Embed(title="❎ Not Found", description=f"You have not added any of your accounts in bot database.", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
-        if ctx.guild: await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
-        embed=discord.Embed(title="Fetching your account balance and Cashout details...", color=0x00ffff)
-        x = await ctx.author.send(embed=embed)
-        description = ""
-        total = paid = pending = unpaid = available = sl_no = ex_no = 0
-        token_list = [data.get("access_token") for data in list(db.profile_base.find({"id": ctx.author.id}))]
-        for data in list(db.profile_base.find({"id": ctx.author.id})):
-            try:
-                api = HQApi(data.get("access_token"))
-                data = await api.get_payouts_me()
-                bal = data["balance"]
-                total = float(total) + float(bal["prizeTotal"][1:])
-                paid = float(paid) + float(bal["paid"][1:])
-                pending = float(pending) + float(bal["pending"][1:])
-                unpaid = float(unpaid) + float(bal["unpaid"][1:])
-                available = float(available) + float(bal["available"][1:])
-                total = "{:.2f}".format(total)
-                paid = "{:.2f}".format(paid)
-                pending = "{:.2f}".format(pending)
-                unpaid = "{:.2f}".format(unpaid)
-                available = "{:.2f}".format(available)
-                sl_no = int(sl_no) + 1
-                embed=discord.Embed(title=f"**__Balance & Cashout Details of {sl_no} Accounts :__-**", description=f"**• Total Balance :** ${total} 💰\n**• Claimed Ammount :** ${paid} 💸\n**• Pending Ammount :** ${pending} 💰\n**• Unclaimed Ammount :** ${unpaid} 💸\n**• Available for Cashout :** ${available} 💰", color=discord.Colour.random())
-                embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/844442503976583178.gif")
-                embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-                await x.edit(embed=embed)
-            except:
-                ex_no = int(ex_no) + 1
-                description += f"{ex_no} - {data.get('username')}\n"
-        embed=discord.Embed(title=f"**__Balance & Cashout Details of {sl_no} Accounts :__-**", description=f"**• Total Balance :** ${total} 💰\n**• Claimed Ammount :** ${paid} 💸\n**• Pending Ammount :** ${pending} 💰\n**• Unclaimed Ammount :** ${unpaid} 💸\n**• Available for Cashout :** ${available} 💰", color=discord.Colour.random())
-        embed.set_thumbnail(url=self.client.user.avatar_url)
-        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-        await x.edit(embed=embed)
-        if ex_no > 0:
-            embed=discord.Embed(title="⚠️ Token Expired", description=f"{description}\nThis account's tokens are expired. Please refresh your accounts to use this command `{ctx.prefix}refresh <username>`", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.author.send(embed=embed)
+            return await interaction.followup.send(bot_config.account_not_found_message(username))
+        api = HQApi(check_id.get("access_token"))
+        data = await api.get_payouts_me()
+        if data.get("error"):
+            if data["errorCode"] == 102:
+                return await interaction.followup.send(bot_config.token_expired_message(username))
+            else:
+                return await interaction.followup.send(f"```\n{data['error']}\n```")
+        bal = data["balance"]
+        total = float(bal["prizeTotal"][1:])
+        paid = float(bal["paid"][1:])
+        pending = float(bal["pending"][1:])
+        unpaid = float(bal["unpaid"][1:])
+        available = float(bal["available"][1:])
+        embed=discord.Embed(title=f"__Balance & Cashout Details of {username} :__-", description=f"**• Total Balance :** ${total} 💰\n**• Claimed Ammount :** ${paid} 💸\n**• Pending Ammount :** ${pending} 💰\n**• Unclaimed Ammount :** ${unpaid} 💸\n**• Available for Cashout :** ${available} 💰", color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar.url)
+        embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
+        await interaction.followup.send(embed=embed)
 
-def setup(client):
-    client.add_cog(Details(client))
+
+    @_balance.error
+    async def _app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        """Error handler for app commands"""
+        if isinstance(error, app_commands.CommandOnCooldown):
+            await interaction.response.send_message(f"This command is on cooldown. Try again in **{round(error.retry_after, 2)}** seconds.", ephemeral=True)
+        elif isinstance(error, app_commands.CheckFailure):
+            await interaction.response.send_message("The command execution is failed for some conditions are not satisfied. ", ephemeral=True)
+        else:
+            print(f"Error loading {interaction.command} command!", file=sys.stderr)
+            traceback.print_exc()
+
+
+async def setup(client: commands.Bot):
+    await client.add_cog(Balance(client))
+
+

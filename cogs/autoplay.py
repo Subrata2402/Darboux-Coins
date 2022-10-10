@@ -1,51 +1,53 @@
+import sys
+import traceback
+from typing import Literal
 import discord, asyncio
 from discord.ext import commands
+from discord import app_commands
 from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 from unidecode import unidecode
+import bot_config
 
 class AutoPlay(commands.Cog, HQApi):
     
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         super().__init__()
         self.client = client
 
-    async def get_answer(self, question):
-        check_question = db.questions_base.find_one({"question": question.lower()})
+    async def get_answer(self, question) -> str:
+        check_question = await db.questions_base.find_one({"question": question.lower()})
         if not check_question: return None
-        answer = db.questions_base.find_one({"question": question.lower()}).get("answer")
+        answer = check_question.get("answer")
         return answer
 
-    async def add_question(self, question, answer):
-        check_question = db.questions_base.find_one({"question": question.lower()})
+    async def add_question(self, question, answer) -> None:
+        check_question = await db.questions_base.find_one({"question": question.lower()})
         if not check_question:
-            db.questions_base.insert_one({"question": question.lower(), "answer": answer.lower()})
+            await db.questions_base.insert_one({"question": question.lower(), "answer": answer.lower()})
 
-    async def auto_play(self):
-        for all_data in list(db.profile_base.find({"auto_play": True})):
+    async def auto_play(self) -> None:
+        for all_data in [data async for data in db.profile_base.find({"auto_play": True})]:
             await asyncio.sleep(30)
             active = (await self.get_show())["active"]
             if active:
                 await asyncio.sleep(600)
                 continue
-            # auto_play_mode = all_data.get('auto_play')
-            # if auto_play_mode:
             api = HQApi(all_data.get("access_token"))
-            try:
-                data = await api.get_users_me()
-                username = data["username"]
-            except:
-                try:
-                    update = {"auto_play": False}
-                    db.profile_base.update_one({"id": all_data.get("id"), "user_id": all_data.get("user_id")}, {"$set": update})
-                    embed = discord.Embed(title = "⚠️ Token Expired",
-                        description = f"{all_data.get('username')}'s token has expired! For that I can't play your daily challenge, please refresh your account by `-refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
-                        color = discord.Colour.random())
-                    user = self.client.get_user(all_data.get("id"))
-                    await user.send(content = user.mention, embed = embed)
-                except Exception as e:
-                    print(e)
+            data = await api.get_users_me()
+            if data.get("error"):
+                if data["errorCode"] == 102:
+                    try:
+                        update = {"auto_play": False}
+                        await db.profile_base.update_one({"id": all_data.get("id"), "user_id": all_data.get("user_id")}, {"$inc": update})
+                        embed = discord.Embed(title = "⚠️ Token Expired",
+                            description = f"{all_data.get('username')}'s token has expired! For that I can't play your daily challenge, please refresh your account by `/refresh {all_data.get('username')}` and after refresh your account please on auto play mode once again.",
+                            color = discord.Colour.random())
+                        user = self.client.get_user(all_data.get("id"))
+                        await user.send(content = user.mention, embed = embed)
+                    except Exception as e:
+                        print(e)
                 continue
             coins = data["coins"]
             if coins >= 1500: continue
@@ -90,40 +92,45 @@ class AutoPlay(commands.Cog, HQApi):
     async def on_ready(self):
         await self.auto_play()
                 
-    @commands.command()
-    @commands.cooldown(1, 10, commands.BucketType.user)
-    async def autoplay(self, ctx, username = None, mode = None):
-        if not username: return await ctx.send(ctx.author.mention + " You didn't mention username.")
-        if not mode: return await ctx.send(ctx.author.mention + " You didn't mention any mode. Please choose either `on` or `off` to set AutoPlay mode.")
-        try:
-            await ctx.message.delete()
-        except:
-            pass
-        check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
+    @app_commands.command(name="autoplay", description="Enable or disable auto play mode.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    @app_commands.describe(username="Username of your account.", mode="Enable or disable auto play mode.")
+    async def _auto_play(self, interaction: discord.Interaction, username: str, mode: Literal["enable", "disable"]):
+        await interaction.response.defer()
+        check_if_exist = await db.profile_base.find_one({"id": interaction.user.id, "username": username.lower()})
         if not check_if_exist:
-            embed=discord.Embed(title="❎ Not Found", description=f"No account found with name `{username}`. Use Command `{ctx.prefix}accounts` to check your all saved accounts.", color=discord.Colour.random())
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            return await ctx.send(embed=embed)
-        if mode.lower() == "on":
-            mode = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("auto_play")
+            return await interaction.followup.send(bot_config.account_not_found_message(username))
+        if mode.lower() == "enable":
+            mode = (await db.profile_base.find_one({"id": interaction.user.id, "username": username.lower()})).get("auto_play")
             if not mode:
                 update = {"auto_play": True}
-                db.profile_base.update_one({"id": ctx.author.id, "username": username.lower()}, {"$set": update})
+                await db.profile_base.update_one({"id": interaction.user.id, "username": username.lower()}, {"$inc": update})
                 embed = discord.Embed(title = "Enabled Auto Play Mode ✅", description = f"You have successfully enabled auto play mode for `{username}`", color = discord.Colour.random())
-                return await ctx.send(embed = embed)
+                return await interaction.followup.send(embed = embed)
             embed = discord.Embed(title = "⚠️ Already Enabled Auto Play Mode", description = f"Auto play mode already enabled for `{username}`", color = discord.Colour.random())
-            await ctx.send(embed = embed)
-        elif mode.lower() == "off":
-            mode = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("auto_play")
+            await interaction.followup.send(embed = embed)
+        elif mode.lower() == "disable":
+            mode = (await db.profile_base.find_one({"id": interaction.user.id, "username": username.lower()})).get("auto_play")
             if mode:
                 update = {"auto_play": False}
-                db.profile_base.update_one({"id": ctx.author.id, "username": username.lower()}, {"$set": update})
+                await db.profile_base.update_one({"id": interaction.user.id, "username": username.lower()}, {"$inc": update})
                 embed = discord.Embed(title = "Disabled Auto Play Mode ✅", description = f"You have successfully disabled auto play mode for `{username}`", color = discord.Colour.random())
-                return await ctx.send(embed = embed)
+                return await interaction.followup.send(embed = embed)
             embed = discord.Embed(title = "⚠️ Already Disabled Auto Play Mode", description = f"Auto play mode already disabled for `{username}`", color = discord.Colour.random())
-            await ctx.send(embed = embed)
+            await interaction.followup.send(embed = embed)
 
 
-def setup(client):
-    client.add_cog(AutoPlay(client))
+    @_auto_play.error
+    async def _app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        """Error handler for app commands"""
+        if isinstance(error, app_commands.CommandOnCooldown):
+            await interaction.response.send_message(f"This command is on cooldown. Try again in **{round(error.retry_after, 2)}** seconds.", ephemeral=True)
+        elif isinstance(error, app_commands.CheckFailure):
+            await interaction.response.send_message("The command execution is failed for some conditions are not satisfied. ", ephemeral=True)
+        else:
+            print(f"Error loading {interaction.command} command!", file=sys.stderr)
+            traceback.print_exc()
+
+
+async def setup(client: commands.Bot):
+    await client.add_cog(AutoPlay(client))

@@ -1,4 +1,6 @@
+import sys
 import time
+import traceback
 import aiohttp
 import discord
 import bot_config
@@ -211,28 +213,30 @@ class General(commands.Cog):
             async with session.get(url) as response:
                 data = await response.json()
                 name = data["results"][0]["name"]["first"]
-                await interaction.response.send_message(name)
+                surname = data["results"][0]["name"]["last"]
+                await interaction.response.send_message(f"**HQ Name:** `{name} {surname}`")
 
-    # @_eval.error
-    # @_reply.error
-    # @_send_dm_to_user.error
-    # @_check_bot_stats.error
-    # @_feedback.error
-    # @_suggest.error
-    # @_report.error
-    # @_support.error
-    # @_invite.error
-    # @_ping.error
-    # @_uptime.error
-    # @_donate.error
-    # @_hqname.error
-    @commands.Cog.listener()
+    @_eval.error
+    @_reply.error
+    @_send_dm_to_user.error
+    @_check_bot_stats.error
+    @_feedback.error
+    @_suggest.error
+    @_report.error
+    @_support.error
+    @_invite.error
+    @_ping.error
+    @_uptime.error
+    @_donate.error
+    @_hqname.error
     async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             await interaction.response.send_message(f"This command is on cooldown. Try again in **{round(error.retry_after, 2)}** seconds.", ephemeral=True)
         elif isinstance(error, app_commands.CheckFailure):
             await interaction.response.send_message("The command execution is failed for some conditions are not satisfied.", ephemeral=True)
-    
+        else:
+            print(f"Error loading {interaction.command} command!", file=sys.stderr)
+            traceback.print_exc()
 
 async def setup(client: commands.Bot):
     await client.add_cog(General(client))

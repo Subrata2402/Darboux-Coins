@@ -1,11 +1,11 @@
 import discord
 from discord.ext import commands
-import datetime
-from discord_components import *
+from discord import app_commands
+import bot_config
 
 class SelfRoles(commands.Cog):
     
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
         self.values = ["announcement", "bot_updates", "cashout_updates", "hq_tweets", "live_shows"]
 
