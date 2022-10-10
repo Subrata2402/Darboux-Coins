@@ -1,149 +1,239 @@
+import time
+import aiohttp
 import discord
+import bot_config
 from discord.ext import commands
-import datetime
+from discord import app_commands
 import platform
-from discord_components import *
-from typing import Optional
 
-class Help(commands.Cog):
 
-    def __init__(self, client):
+class General(commands.Cog):
+
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command(name='stats', description='Sends some bot stats', aliases=['botstat','botstats','botinfo'])
-    async def stats(self, ctx):
+    @app_commands.command(name="stats", description="Get bot stats.")
+    @app_commands.check(bot_config.is_owner)
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _check_bot_stats(self, interaction: discord.Interaction):
+        """Get Bot Stats."""
+        await interaction.response.defer()
         pythonVersion = platform.python_version()
         dpyVersion = discord.__version__
         serverCount = len(self.client.guilds)
         memberCount = len(set(self.client.get_all_members()))
-        channelCount = len(set(self.client.get_all_channels()))
-        date = self.client.user.created_at.__format__("%b %d, %Y %I:%M %p")
+        # channelCount = len(set(self.client.get_all_channels()))
         total_commands = len(self.client.commands)
-        
+
         embed = discord.Embed(
-            description = "```\n" \
-                f"● Bot Latency        ::  {round(self.client.latency * 1000)}ms\n" \
-                f"● Coding Language    ::  Python[{pythonVersion}]\n" \
-                f"● Library Version    ::  {dpyVersion}\n" \
-                f"● Bot Version        ::  1.6\n" \
-                f"● Total Guilds       ::  {serverCount}\n" \
-                f"● Total Users        ::  {memberCount}\n" \
-                f"● Total Commands     ::  {total_commands}\n" \
-                f"● Bot Developer      ::  Subrata#4099\n" \
-                f"                         (660337342032248832)\n```",
+            description="```\n"
+            f"● Bot Latency        ::  {round(self.client.latency * 100)}ms\n"
+            f"● Coding Language    ::  Python[{pythonVersion}]\n"
+            f"● Library Version    ::  {dpyVersion}\n"
+            f"● Bot Version        ::  2.0\n"
+            f"● Total Guilds       ::  {serverCount}\n"
+            f"● Total Users        ::  {memberCount}\n"
+            f"● Total Commands     ::  {total_commands}\n"
+            f"● Bot Developer      ::  Subrata#4099 (660337342032248832)\n```",
             color=discord.Colour.random())
-        
-        # embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
-        # embed.add_field(name="Discord.py Version", value=f"[{dpyVersion}](https://discord.py/version)")
-        # embed.add_field(name="Total Connected Guilds", value=f"[{serverCount}](https://discord.server/count)")
-        # embed.add_field(name="Total Connected Members", value=f"[{memberCount}](https://discord.member/count)")
-        # embed.add_field(name="Total Connected Channels", value=f"[{channelCount}](https://discord.channel/count)")
-        # embed.add_field(name="Bot Developer", value="[Schrodinger#8447](https://discord.id/702414646702768152)")
-        
-        embed.set_footer(text=f"Created At | {date}")
+
+        embed.set_footer(text=f"Created At")
+        embed.timestamp = self.client.user.created_at
         # embed.set_thumbnail(url=self.client.user.avatar_url)
-        embed.set_author(name=f"{self.client.user.name}#{self.client.user.discriminator} | Bot Info !", icon_url=self.client.user.avatar_url)
-        await ctx.send(embed=embed)
-        
-    @commands.command(aliases = ["support"])
-    async def donate(self, ctx):
-        paytm = self.client.get_emoji(997104939807555726)
-        paypal = self.client.get_emoji(997105065838002237)
+        embed.set_author(
+            name=f"{self.client.user} | Bot Info !", icon_url=self.client.user.avatar.url)
+        await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="say", description="Send message.")
+    @app_commands.check(bot_config.is_owner)
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _say(self, interaction: discord.Interaction, *, message: str):
+        """Send Message."""
+        await interaction.response.defer()
+        await interaction.followup.send(message)
+
+    @app_commands.command(name="ping", description="Get bot latency.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _ping(self, interaction: discord.Interaction):
+        """ Pong! """
+        await interaction.response.send_message(content=f"**__Pong!__** :ping_pong:  **{round(self.client.latency * 100)}ms**")
+
+    @app_commands.command(name="uptime", description="Get bot uptime.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _uptime(self, interaction: discord.Interaction):
+        """ Get bot uptime. """
+        await interaction.response.send_message(content=f"**__Uptime__** :clock1:  **{self.client.uptime}**")
+
+    @app_commands.command(name="sendmsg", description="Send invite link to user.")
+    @app_commands.check(bot_config.is_owner)    
+    @app_commands.describe(user = 'User to send message')
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _send_dm_to_user(self, ctx, user: discord.User) -> None:
+        """ Send message to user """
+        if not user: return await ctx.send(f"User `{user}` not found!")
+        await user.send(user.mention + "  https://discord.gg/TAcEnfS8Rs")
+        await ctx.send("DM Successfully send to `{}`!".format(user))
+
+    @app_commands.command(name = "donate", description = "Donate to the bot developer.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _donate(self, interaction: discord.Interaction):
+        """ Donate to the bot developer. """
+        paytm_emoji = self.client.get_emoji(bot_config.emoji.paytm_id)
+        paypal_emoji = self.client.get_emoji(bot_config.emoji.paypal_id)
         description = f"Maintaining a bot requires a huge amount of time and resources. Your donation will help in the maintenance of the {self.client.user.mention} and always keep me motivated. " \
             f"If you think {self.client.user.mention} helped you in any way, your donation would be a great help.\n\n" \
-            # "For Paytm : [Click Here](https://paytm.me/x-WGerG) (For QR Code : [Click Here](https://cdn.discordapp.com/attachments/799861610654728212/978009606716555375/Screenshot_2022-05-23-00-29-55-83.jpg))" \
-            # "For Paypal : [Click Here](https://paypal.me/sakhman)"
-        embed = discord.Embed(title = "Donation!", description = description, color = discord.Colour.random())
-        embed.set_thumbnail(url = self.client.user.avatar_url)
-        components = [
-            [Button(style = ButtonStyle.URL, emoji = paytm, url = f"https://paytm.me/x-WGerG", label = "Paytm"),
-            Button(style = ButtonStyle.URL, emoji = paypal, url = f"https://paypal.me/sakhman", label = "Paypal")]
-            ]
-        await ctx.send(embed = embed, components = components)
-    
-    @commands.command(name = "sendmsg")
-    @commands.is_owner()
-    async def _send_dm_to_user(self, ctx, user: Optional[discord.User]) -> None:
-        if not user:
-            return await ctx.message.channel.send(f"User `{user}` not found!")
-        await user.send(user.mention + "  https://discord.gg/TAcEnfS8Rs")
-        await ctx.message.channel.send("DM Successfully send to `{}`!".format(user))
+            f"Please use the buttons below to donate. Thank you."
+        embed = discord.Embed(
+            title="Donation!", description=description, color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar.url)
+        view = discord.ui.View()
+        view.add_item(discord.ui.Button(label = "Paytm", style = discord.ButtonStyle.url, url  = "https://paytm.me/x-WGerG", emoji = paytm_emoji))
+        view.add_item(discord.ui.Button(label = "Paypal", style = discord.ButtonStyle.url, url  = "https://paypal.me/sakhman", emoji = paypal_emoji))
+        await interaction.response.send_message(embed=embed, view=view)
 
-    @commands.command()
-    async def invite(self, ctx):
-        emoji = self.client.get_emoji(957904862631297085)
-        embed=discord.Embed(description=f"**Click the below interaction button to invite me in your server.**", color=discord.Colour.random())
-        #embed.set_thumbnail(url=self.client.user.avatar_url)
-        components = [Button(style = ButtonStyle.URL, emoji = emoji, url = f"https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot", label = "Click Here to Invite")]
-        await ctx.send(embed = embed, components = components)
+    @app_commands.command(name="invite", description="Invite the bot to your server.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _invite(self, interaction: discord.Interaction):
+        """ Invite the bot to your server. """
+        await interaction.response.send_message("You can't invite the bot to your server.", ephemeral=True)
 
-    @commands.command(aliases=["join"])
-    async def _join(self, ctx):
-        emoji = self.client.get_emoji(957904862631297085)
-        embed=discord.Embed(description="**Click the below interaction button to join our official server for any support.**", color=discord.Colour.random())
-        #embed.set_thumbnail(url=self.client.user.avatar_url)
-        components = [Button(style = ButtonStyle.URL, emoji = emoji, url = "https://discord.gg/TAcEnfS8Rs", label = "Click Here to Join")]
-        await ctx.send(embed = embed, components = components)
-    
-    @commands.command()
-    @commands.is_owner()
-    async def reply(self, ctx, user: discord.User=None, *, args=None):
-        if not user and not args:
-            return await ctx.channel.send("You didn't provide a user's id and/or a message.")
+    @app_commands.command(name="support", description="Join the support server.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _support(self, interaction: discord.Interaction):
+        """ Join the support server. """
+        emoji = self.client.get_emoji(bot_config.emoji.bot_icon_id)
+        view = discord.ui.View().add_item(discord.ui.Button(label="Click Here to Join", style=discord.ButtonStyle.url, url=bot_config.SERVER_IVITE_URL, emoji=emoji))
+        description = f"Need help with {self.client.user.mention}? Join the support server by clicking the button below. " \
+            f"Please make sure you read the rules first. Thank you."
+        embed = discord.Embed(
+            title="Support Server!", description=description, color=discord.Colour.random())
+        embed.set_thumbnail(url=self.client.user.avatar.url)
+        await interaction.response.send_message(embed=embed, view=view)
+
+    @app_commands.command(name = "report", description = "Report a bug or issue.")
+    @app_commands.describe(message= "Message to report")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _report(self, interaction: discord.Interaction, *, message: str):
+        """ Report a bug or issue. """
+        if not message: return await interaction.response.send_message("Please provide a message to report.", ephemeral=True)
+        await interaction.response.defer(ephemeral=True)
+        channel = self.client.get_channel(bot_config.REPORT_CHANNEL_ID)
+        embed = discord.Embed(
+            title="Report!", description=message, color=discord.Colour.random())
+        embed.set_footer(text=f"User ID: {interaction.user.id}")
+        embed.set_author(
+            name=f"{interaction.user}", icon_url=interaction.user.avatar.url)
+        embed.set_thumbnail(url=interaction.user.avatar.url)
+        embed.timestamp = discord.utils.utcnow()
+        await channel.send(embed=embed)
+        await interaction.followup.send("Your report has been sent to the developer. Thank you.", ephemeral=True)
+
+    @app_commands.command(name="reply", description="Reply to a user.")
+    @app_commands.check(bot_config.is_owner)
+    @app_commands.describe(user = 'User to reply', message = 'Message to reply')
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _reply(self, interaction: discord.Interaction, user: discord.User, *, message: str):
+        """ Reply to a user. """
+        if not user: return await interaction.response.send_message("User not found!", ephemeral=True)
+        if not message: return await interaction.response.send_message("Please provide a message to reply.", ephemeral=True)
+        await interaction.response.defer(ephemeral=True)
         try:
-            # target = await self.client.fetch_user(user_id)
-            # embed=discord.Embed(title="__Reply from Bot Owner :__", description=args, color=discord.Colour.random())
-            await user.send(args)
-            embed=discord.Embed(description=f"DM successfully sent to {user.name}")
-            await ctx.channel.send(embed=embed)
-        except:
-            await ctx.channel.send("Couldn't dm the given user.")
-       
-    @commands.command()
-    async def report(self, ctx, *, msg=None):
-        if msg is None:
-            return await ctx.send("Please specify a message to send.")
-        member = await self.client.fetch_channel(844801172518731796)
-        embed=discord.Embed(title="__Report :__", description=msg, color=discord.Colour.random())
-        embed.set_footer(text=f"User ID: {ctx.author.id}")
-        embed.set_author(name=f"{ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        embed.timestamp = (datetime.datetime.utcnow())
-        await member.send(embed=embed)
-        embed2=discord.Embed(description=f"Report successfully sent ✅\nReport: {msg}")
-        await ctx.send(embed=embed2)
+            await user.send(message)
+            await interaction.followup.send(f"Message successfully send to `{user}`!", ephemeral=True)
+        except discord.Forbidden:
+            await interaction.followup.send("I can't send message to this user.", ephemeral=True)
 
-    @commands.command()
-    async def suggest(self, ctx, *, message=None):
-        if message is None:
-            return await ctx.send("Please specify a message to send.")
-        member = await self.client.fetch_channel(844801103132098580)
-        embed=discord.Embed(title="__Suggestion :__", description=message, color=discord.Colour.random())
-        embed.set_footer(text=f"User ID: {ctx.author.id}")
-        embed.set_author(name=f"{ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        embed.timestamp = (datetime.datetime.utcnow())
-        msg = await member.send(embed=embed)
-        await msg.add_reaction("✅")
-        await msg.add_reaction("❌")
-        embed2=discord.Embed(description=f"Suggestion successfully sent ✅\nSuggestion: {message}")
-        await ctx.send(embed=embed2)
-            
-    @commands.command()
-    async def feedback(self, ctx, *, message=None):
-        if message is None:
-            return await ctx.send("Please specify a message to send.")
-        member = await self.client.fetch_channel(844803633967005737)
-        embed=discord.Embed(title="__Feedback :__", description=message, color=discord.Colour.random())
-        embed.set_footer(text=f"User ID: {ctx.author.id}")
-        embed.set_author(name=f"{ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
-        embed.timestamp = (datetime.datetime.utcnow())
-        await member.send(embed=embed)
-            
-        embed2=discord.Embed(description=f"Feedback successfully sent. Thanks for your feedback.")
-        await ctx.send(embed=embed2)
+    @app_commands.command(name="eval", description="Evaluate python code.")
+    @app_commands.check(bot_config.is_owner)
+    @app_commands.describe(code = 'Code to evaluate')
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _eval(self, interaction: discord.Interaction, *, code: str):
+        """ Evaluate python code. """
+        if not code: return await interaction.response.send_message("Please provide code to evaluate.", ephemeral=True)
+        await interaction.response.defer(ephemeral=True)
+        try:
+            t1 = time.perf_counter()
+            result = eval(code)
+            t2 = time.perf_counter()
+            if result is None:
+                result = "None"
+            else:
+                result = str(result)
+            await interaction.followup.send(f"**Result:**\n```{result}```\n**Time Taken:** `{round(t2 - t1, 4)}` seconds", ephemeral=True)
+        except Exception as e:
+            await interaction.followup.send(f"**Error:**\n```{e}```", ephemeral=True)
 
 
-def setup(client):
-    client.add_cog(Help(client))
+    @app_commands.command(name="suggest", description="Suggest a feature.")
+    @app_commands.describe(message = 'Message to suggest')
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _suggest(self, interaction: discord.Interaction, *, message: str):
+        """ Suggest a feature. """
+        if not message: return await interaction.response.send_message("Please provide a message to suggest.", ephemeral=True)
+        await interaction.response.defer(ephemeral=True)
+        channel = self.client.get_channel(bot_config.SUGGESTION_CHANNEL_ID)
+        embed = discord.Embed(
+            title="Suggestion!", description=message, color=discord.Colour.random())
+        embed.set_footer(text=f"User ID: {interaction.user.id}")
+        embed.set_author(
+            name=f"{interaction.user}", icon_url=interaction.user.avatar.url)
+        embed.set_thumbnail(url=interaction.user.avatar.url)
+        embed.timestamp = discord.utils.utcnow()
+        msg = await channel.send(embed=embed)
+        await msg.add_reaction("👍")
+        await msg.add_reaction("👎")
+        await interaction.followup.send("Your suggestion has been sent to the developer. Thank you.", ephemeral=True)
+
+    @app_commands.command(name="feedback", description="Give feedback.")
+    @app_commands.describe(message = 'Message to give feedback')
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _feedback(self, interaction: discord.Interaction, *, message: str):
+        """ Give feedback. """
+        if not message: return await interaction.response.send_message("Please provide a message to give feedback.", ephemeral=True)
+        await interaction.response.defer(ephemeral=True)
+        channel = self.client.get_channel(bot_config.FEEDBACK_CHANNEL_ID)
+        embed = discord.Embed(
+            title="Feedback!", description=message, color=discord.Colour.random())
+        embed.set_footer(text=f"User ID: {interaction.user.id}")
+        embed.set_author(
+            name=f"{interaction.user}", icon_url=interaction.user.avatar.url)
+        embed.set_thumbnail(url=interaction.user.avatar.url)
+        embed.timestamp = discord.utils.utcnow()
+        await channel.send(embed=embed)
+        await interaction.followup.send("Your feedback has been sent to the developer. Thank you.", ephemeral=True)
+
+    @app_commands.command(name="hqname", description="Get HQ name of a user.")
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    async def _hqname(self, interaction: discord.Interaction):
+        """Get HQ Random US Name."""
+        url = "https://randomuser.me/api/"
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                data = await response.json()
+                name = data["results"][0]["name"]["first"]
+                await interaction.response.send_message(name)
+
+    # @_eval.error
+    # @_reply.error
+    # @_send_dm_to_user.error
+    # @_check_bot_stats.error
+    # @_feedback.error
+    # @_suggest.error
+    # @_report.error
+    # @_support.error
+    # @_invite.error
+    # @_ping.error
+    # @_uptime.error
+    # @_donate.error
+    # @_hqname.error
+    @commands.Cog.listener()
+    async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            await interaction.response.send_message(f"This command is on cooldown. Try again in **{round(error.retry_after, 2)}** seconds.", ephemeral=True)
+        elif isinstance(error, app_commands.CheckFailure):
+            await interaction.response.send_message("The command execution is failed for some conditions are not satisfied.", ephemeral=True)
+    
+
+async def setup(client: commands.Bot):
+    await client.add_cog(General(client))
+                        #  guilds=[discord.Object(id=bot_config.GUILD_ID)])

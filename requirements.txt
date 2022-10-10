@@ -1,4 +1,4 @@
-discord.py=2.0,1
+discord.py=2.0.1
 pymongo=4.2.0
 requests=2.28.1
 lomond=0.3.3
