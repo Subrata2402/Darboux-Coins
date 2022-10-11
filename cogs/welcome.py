@@ -2,13 +2,13 @@ import discord, datetime
 from discord.ext import commands
 from discord_components import *
 
-class Welcome(commands.Cog):
+class Welcome(commands.Cog(description="Welcome commands"), name="Welcome"):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.bot = client
 
     @commands.Cog.listener()
-    async def on_member_join(self, member):
+    async def on_member_join(self, member: discord.Member):
         link = "www.google.com"
         date = member.created_at.__format__('%B %d, %Y %H:%M GMT')
         channel = self.bot.get_channel(831058732757942272)
@@ -44,13 +44,13 @@ class Welcome(commands.Cog):
         
 
     @commands.Cog.listener()
-    async def on_member_remove(self, member):
+    async def on_member_remove(self, member: discord.Member):
         channel = self.bot.get_channel(845131577306120202)
         if member.guild.id == 831051146880614431:
             return await channel.send(f"**{member.name}#{member.discriminator}** just left the server **{member.guild.name}**")
 
     @commands.Cog.listener()
-    async def on_guild_join(self, guild):
+    async def on_guild_join(self, guild: discord.Guild):
         channel = self.bot.get_channel(831058653603168286)
         embed = discord.Embed(title="**Guild Joined Information !**", color=discord.Colour.random())
         embed.add_field(name="Server Name :", value=guild.name)
@@ -61,7 +61,7 @@ class Welcome(commands.Cog):
         await channel.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_guild_remove(self, guild):
+    async def on_guild_remove(self, guild: discord.Guild):
         channel = self.bot.get_channel(831058691939237938)
         embed = discord.Embed(title="**Guild Removed Information !**", color=discord.Colour.random())
         embed.add_field(name="Server Name :", value=guild.name)
@@ -72,7 +72,7 @@ class Welcome(commands.Cog):
         await channel.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_message(self, message):
+    async def on_message(self, message: discord.Message):
         channel = self.bot.get_channel(835130854740459561)
         if message.guild:
             return
@@ -85,5 +85,5 @@ class Welcome(commands.Cog):
             return await channel.send(embed=embed)
             
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Welcome(client))

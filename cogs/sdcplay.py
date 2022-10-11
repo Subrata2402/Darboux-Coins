@@ -6,26 +6,28 @@ from HQApi.exceptions import ApiResponseError
 from database import db
 
 
-class DcPlay(commands.Cog):
+class DcPlay(commands.Cog(description="Play offair trivia with slow mode")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    async def get_answer(self, question):
+    async def get_answer(self, question: str) -> str:
+        """Get answer from database"""
         check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question: return None
         answer = db.questions_base.find_one({"question": question.lower()}).get("answer")
         return answer
 
-    async def add_question(self, question, answer):
+    async def add_question(self, question: str, answer: str) -> None:
+        """Add question to database"""
         check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question:
             db.questions_base.insert_one({"question": question.lower(), "answer": answer.lower()})
 
-    @commands.command(aliases=["splay"])
+    @commands.command(aliases=["splay"], name="sdcplay", description="Play offair trivia with slow mode")
     @commands.max_concurrency(1, commands.BucketType.user, wait = False)
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def sdcplay(self, ctx, username:str=None):
+    async def sdcplay(self, ctx: commands.Context, username: str=None):
         """Play HQ Daily Challenge."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write username after `{ctx.prefix}dcplay`. Please correct use Command to play HQ Trivia Daily Challenge.\n`{ctx.prefix}dcplay <username>`\nExample: `{ctx.prefix}sdcplay josephine`", color=discord.Colour.random())
@@ -67,8 +69,8 @@ class DcPlay(commands.Cog):
                 offair_id = (await api.get_schedule())['offairTrivia']["waitTimeMs"]
             except:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"Daily Challenge is not available right now.", color=discord.Colour.random())
-                #embed.set_thumbnail(url=self.client.user.avatar_url)
-                #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+                # embed.set_thumbnail(url=self.client.user.avatar_url)
+                # embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await x.edit(embed=embed)
             time=int(offair_id)/int(1000)
             if time == 0:
@@ -299,5 +301,5 @@ class DcPlay(commands.Cog):
                 await x.edit(embed=embed)
                 break
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(DcPlay(client))

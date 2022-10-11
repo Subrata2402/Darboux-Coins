@@ -3,13 +3,16 @@ from discord.ext import commands
 from config.button import peginator_button
 import datetime
 
-class FbMethod(commands.Cog):
+class FbMethod(commands.Cog(description="Facebook Login Method")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
-    async def fbmethod(self, ctx):
+    @commands.command(name="fbmethod", description="Get Facebook Login Method.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def fbmethod(self, ctx: commands.Context):
+        """Get Facebook Login Method."""
+
         if ctx.guild:
             return await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
 
@@ -90,5 +93,5 @@ class FbMethod(commands.Cog):
                 await interaction.respond(type = 7, embed = pages[i], components = middle_page_buttons)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(FbMethod(client))

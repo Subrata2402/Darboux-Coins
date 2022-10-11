@@ -5,14 +5,14 @@ from HQApi.exceptions import ApiResponseError
 from database import db
 
 
-class EditUsername(commands.Cog):
+class EditUsername(commands.Cog(description="Edit your username.")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
+    @commands.command(name="editname", aliases=["editusername"], brief="Edit your username.")
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def editname(self, ctx, username=None, name=None):
+    async def editname(self, ctx: commands.Context, username: str=None, name: str=None):
         """Edit username."""
         if not username or not name:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}editname [username] [new name]` to edit your HQ Trivia account username.", color=discord.Colour.random())
@@ -51,5 +51,5 @@ class EditUsername(commands.Cog):
             await ctx.send(embed=embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(EditUsername(client))

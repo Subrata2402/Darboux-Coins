@@ -4,14 +4,15 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Token(commands.Cog):
+class Token(commands.Cog(description="Token Commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
+    @commands.command(name="token", description="Get your token", aliases=["tokencc"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.is_owner()
-    async def getact(self, ctx, username:str):
+    async def getact(self, ctx: commands.Context, username:str = None):
         """Get random access token."""
         token = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("login_token")
         api = HQApi()
@@ -20,8 +21,9 @@ class Token(commands.Cog):
         await ctx.send(f"```\n{access_token}\n```")
 
     
-    @commands.command(pass_context=True, aliases=['addt'])
-    async def addtoken(self, ctx, token=None):
+    @commands.command(pass_context=True, aliases=['addt'], description="Add token to database")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def addtoken(self, ctx: commands.Context, token: str=None):
         """Add token in bot database."""
         if token is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put token after `{ctx.prefix}addtoken`. Please use correct : `{ctx.prefix}addtoken [token]`", color=discord.Colour.random())
@@ -65,8 +67,9 @@ class Token(commands.Cog):
             await ctx.send(embed=embed)
 
 
-    @commands.command(pass_context=True)
-    async def token(self, ctx, username=None):
+    @commands.command(pass_context=True, name="token", description="Get your token", aliases=["gettoken"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def token(self, ctx: commands.Context, username: str=None):
         """Get save access token."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put username after `{ctx.prefix}token`. Please use correct : `{ctx.prefix}token [username]`", color=discord.Colour.random())
@@ -87,5 +90,5 @@ class Token(commands.Cog):
             await ctx.send(embed=embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Token(client))

@@ -1,16 +1,15 @@
-import math
-import os
 import sys
 import traceback
 import discord
 from discord.ext import commands
 
-class Errors(commands.Cog):
-    def __init__(self, client):
+class Errors(commands.Cog(description="Error handler")):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
     @commands.Cog.listener()
-    async def on_command(self, ctx):
+    async def on_command(self, ctx: commands.Context):
+        """Get command usage information."""
         channel = self.client.get_channel(958059478538936400)
         embed = discord.Embed(description = f"Command : `{ctx.command.name}`\nGuild : `{ctx.guild.name if ctx.guild else None}`\nChannel : `{ctx.channel.name if ctx.guild else ctx.channel}`\nCommand Failed : `{ctx.command_failed}`\nMessage :\n```\n{ctx.message.content}\n```",
                 color = discord.Color.random(),
@@ -25,7 +24,9 @@ class Errors(commands.Cog):
         print("Error cog loaded successfully")
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
+    async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+        """Get command error information."""
+
         if hasattr(ctx.command, "on_error"):
             return
 
@@ -77,8 +78,8 @@ class Errors(commands.Cog):
         if isinstance(error, commands.CommandNotFound):
             return
         embed=discord.Embed(title="⚠️ Api Response Error", description=f"Something went wrong, please try again after some time.", color=discord.Colour.random())
-        #embed.set_thumbnail(url=self.client.user.avatar_url)
-        #embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+        # embed.set_thumbnail(url=self.client.user.avatar_url)
+        # embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
         channel = await self.client.fetch_channel(958059379041640448)
         embed=discord.Embed(title=f"⚠️ | Found an error", description=f"Ignoring exception in command : `{ctx.command}`", color=discord.Colour.random())
@@ -94,5 +95,5 @@ class Errors(commands.Cog):
             )
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Errors(client))

@@ -5,18 +5,20 @@ import platform
 from discord_components import *
 from typing import Optional
 
-class Help(commands.Cog):
+class General(commands.Cog(description="General commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
     @commands.command(name='stats', description='Sends some bot stats', aliases=['botstat','botstats','botinfo'])
-    async def stats(self, ctx):
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def stats(self, ctx: commands.Context):
+        """Sends some bot stats"""
         pythonVersion = platform.python_version()
         dpyVersion = discord.__version__
         serverCount = len(self.client.guilds)
         memberCount = len(set(self.client.get_all_members()))
-        channelCount = len(set(self.client.get_all_channels()))
+        # channelCount = len(set(self.client.get_all_channels()))
         date = self.client.user.created_at.__format__("%b %d, %Y %I:%M %p")
         total_commands = len(self.client.commands)
         
@@ -29,8 +31,7 @@ class Help(commands.Cog):
                 f"● Total Guilds       ::  {serverCount}\n" \
                 f"● Total Users        ::  {memberCount}\n" \
                 f"● Total Commands     ::  {total_commands}\n" \
-                f"● Bot Developer      ::  Subrata#4099\n" \
-                f"                         (660337342032248832)\n```",
+                f"● Bot Developer      ::  Subrata#4099 (660337342032248832)\n```",
             color=discord.Colour.random())
         
         # embed.add_field(name="Programing Language", value=f"[Python (Version - {pythonVersion})](https://python.org)")
@@ -45,8 +46,10 @@ class Help(commands.Cog):
         embed.set_author(name=f"{self.client.user.name}#{self.client.user.discriminator} | Bot Info !", icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
         
-    @commands.command(aliases = ["support"])
-    async def donate(self, ctx):
+    @commands.command(aliases = ["support"], description = "Sends the support server link")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def donate(self, ctx: commands.Context):
+        """Donate to the bot developer"""
         paytm = self.client.get_emoji(997104939807555726)
         paypal = self.client.get_emoji(997105065838002237)
         description = f"Maintaining a bot requires a huge amount of time and resources. Your donation will help in the maintenance of the {self.client.user.mention} and always keep me motivated. " \
@@ -61,33 +64,41 @@ class Help(commands.Cog):
             ]
         await ctx.send(embed = embed, components = components)
     
-    @commands.command(name = "sendmsg")
+    @commands.command(name = "sendmsg", description = "Send a message to a channel", aliases = ["sendmessage"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.is_owner()
-    async def _send_dm_to_user(self, ctx, user: Optional[discord.User]) -> None:
+    async def _send_dm_to_user(self, ctx: commands.Context, user: Optional[discord.User]):
+        """Send a invite link to a user"""
         if not user:
             return await ctx.message.channel.send(f"User `{user}` not found!")
         await user.send(user.mention + "  https://discord.gg/TAcEnfS8Rs")
         await ctx.message.channel.send("DM Successfully send to `{}`!".format(user))
 
-    @commands.command()
-    async def invite(self, ctx):
+    @commands.command(name="invite", description="Sends the bot invite link")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def invite(self, ctx: commands.Context):
+        """Invite the bot to your server"""
         emoji = self.client.get_emoji(957904862631297085)
         embed=discord.Embed(description=f"**Click the below interaction button to invite me in your server.**", color=discord.Colour.random())
-        #embed.set_thumbnail(url=self.client.user.avatar_url)
+        # embed.set_thumbnail(url=self.client.user.avatar_url)
         components = [Button(style = ButtonStyle.URL, emoji = emoji, url = f"https://discord.com/api/oauth2/authorize?client_id={self.client.user.id}&permissions=523376&scope=bot", label = "Click Here to Invite")]
         await ctx.send(embed = embed, components = components)
 
-    @commands.command(aliases=["join"])
-    async def _join(self, ctx):
+    @commands.command(name="join", description="Join our support server")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def _join(self, ctx: commands.Context):
+        """Join our support server"""
         emoji = self.client.get_emoji(957904862631297085)
         embed=discord.Embed(description="**Click the below interaction button to join our official server for any support.**", color=discord.Colour.random())
-        #embed.set_thumbnail(url=self.client.user.avatar_url)
+        # embed.set_thumbnail(url=self.client.user.avatar_url)
         components = [Button(style = ButtonStyle.URL, emoji = emoji, url = "https://discord.gg/TAcEnfS8Rs", label = "Click Here to Join")]
         await ctx.send(embed = embed, components = components)
     
-    @commands.command()
+    @commands.command(name="reply", description="Reply to a message")
+    @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.is_owner()
-    async def reply(self, ctx, user: discord.User=None, *, args=None):
+    async def reply(self, ctx: commands.Context, user: discord.User=None, *, args: str=None):
+        """Reply to a user"""
         if not user and not args:
             return await ctx.channel.send("You didn't provide a user's id and/or a message.")
         try:
@@ -99,22 +110,26 @@ class Help(commands.Cog):
         except:
             await ctx.channel.send("Couldn't dm the given user.")
        
-    @commands.command()
-    async def report(self, ctx, *, msg=None):
-        if msg is None:
+    @commands.command(name="report", aliases=["bug"], description="Report a bug to the bot developer")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def report(self, ctx: commands.Context, *, message: str=None):
+        """Report a bug to the bot developer"""
+        if message is None:
             return await ctx.send("Please specify a message to send.")
         member = await self.client.fetch_channel(844801172518731796)
-        embed=discord.Embed(title="__Report :__", description=msg, color=discord.Colour.random())
+        embed=discord.Embed(title="__Report :__", description=message, color=discord.Colour.random())
         embed.set_footer(text=f"User ID: {ctx.author.id}")
         embed.set_author(name=f"{ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url=ctx.author.avatar_url)
         embed.timestamp = (datetime.datetime.utcnow())
         await member.send(embed=embed)
-        embed2=discord.Embed(description=f"Report successfully sent ✅\nReport: {msg}")
+        embed2=discord.Embed(description=f"Report successfully sent ✅\nReport: {message}", color=discord.Colour.random())
         await ctx.send(embed=embed2)
 
-    @commands.command()
-    async def suggest(self, ctx, *, message=None):
+    @commands.command(name="suggest", aliases=["suggestion"], description="Suggest a feature to the bot developer")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def suggest(self, ctx: commands.Context, *, message: str=None):
+        """Suggest a feature to the bot developer"""
         if message is None:
             return await ctx.send("Please specify a message to send.")
         member = await self.client.fetch_channel(844801103132098580)
@@ -129,8 +144,10 @@ class Help(commands.Cog):
         embed2=discord.Embed(description=f"Suggestion successfully sent ✅\nSuggestion: {message}")
         await ctx.send(embed=embed2)
             
-    @commands.command()
-    async def feedback(self, ctx, *, message=None):
+    @commands.command(name="feedback", description="Send feedback to the bot developer")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def feedback(self, ctx: commands.Context, *, message: str=None):
+        """Give feedback to the bot developer"""
         if message is None:
             return await ctx.send("Please specify a message to send.")
         member = await self.client.fetch_channel(844803633967005737)
@@ -145,5 +162,5 @@ class Help(commands.Cog):
         await ctx.send(embed=embed2)
 
 
-def setup(client):
-    client.add_cog(Help(client))
+def setup(client: commands.Bot):
+    client.add_cog(General(client))

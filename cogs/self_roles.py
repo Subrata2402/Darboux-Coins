@@ -1,11 +1,10 @@
 import discord
 from discord.ext import commands
-import datetime
 from discord_components import *
 
-class SelfRoles(commands.Cog):
+class SelfRoles(commands.Cog(description="Self Roles")):
     
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
         self.values = ["announcement", "bot_updates", "cashout_updates", "hq_tweets", "live_shows"]
 
@@ -20,7 +19,6 @@ class SelfRoles(commands.Cog):
             if interaction.values[0] == value:
                 component_label = interaction.component.options[index].label
         
-        embed = discord.Embed(color=discord.Colour.random())
         if component_label in [role.name for role in interaction.author.roles]:
             await interaction.author.remove_roles(discord.utils.get(interaction.guild.roles, name = component_label))
             return await interaction.send(f"You've been removed from the `{component_label}` role.")
@@ -52,5 +50,5 @@ class SelfRoles(commands.Cog):
                 ]
         await message.edit(embed = embed, components = components)
         
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(SelfRoles(client))

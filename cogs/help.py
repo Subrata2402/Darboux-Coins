@@ -2,14 +2,15 @@ import discord
 from discord.ext import commands
 from config.button import peginator_button
 
-class Help(commands.Cog):
+class Help(commands.Cog(description="Help commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
 
-    @commands.command()
-    async def help(self, ctx):
+    @commands.command(name="help", description="Get help commands.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def help(self, ctx: commands.Context):
         first_page_buttons = await peginator_button(self.client, disabled_1 = True, disabled_2 = True)
         last_page_buttons = await peginator_button(self.client, disabled_3 = True, disabled_4 = True)
         middle_page_buttons = await peginator_button(self.client)
@@ -110,5 +111,5 @@ class Help(commands.Cog):
                 await interaction.respond(type = 7, embed = pages[i], components = middle_page_buttons)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Help(client))

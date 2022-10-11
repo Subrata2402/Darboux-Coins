@@ -4,13 +4,14 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Swipe(commands.Cog):
+class Swipe(commands.Cog(description="Swipe commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
-    async def swipe(self, ctx, username=None):
+    @commands.command(name="swipe", description="Swipe your account.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def swipe(self, ctx: commands.Context, username: str=None):
         """Swipe and earn extra life."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}swipe [username]` to swipe your account and earn an Extra Life.", color=discord.Colour.random())
@@ -65,5 +66,5 @@ class Swipe(commands.Cog):
             await x.edit(embed=embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Swipe(client))

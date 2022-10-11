@@ -5,25 +5,28 @@ from HQApi.exceptions import ApiResponseError
 from database import db
 from unidecode import unidecode
 
-class DcPlay(commands.Cog):
+class DcPlay(commands.Cog(description="Play HQ Trivia in Discord")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    async def get_answer(self, question):
+    async def get_answer(self, question: str) -> str:
+        """Get answer from database."""
         check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question: return None
         answer = db.questions_base.find_one({"question": question.lower()}).get("answer")
         return answer
 
-    async def add_question(self, question, answer):
+    async def add_question(self, question: str, answer: str) -> None:
+        """Add question to database."""
         check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question:
             db.questions_base.insert_one({"question": question.lower(), "answer": answer.lower()})
 
-    @commands.command()
+    @commands.command(name="tq", aliases=["totalquestion"], description="Get total question in database.")
     @commands.is_owner()
-    async def tq(self, ctx):
+    async def tq(self, ctx: commands.Context):
+        """Get total number of questions in database."""
         embed=discord.Embed(title=f"**__Total Questions !__**", description=f"**➩ Counting...**", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar_url)
         x = await ctx.send(embed=embed)
@@ -32,10 +35,10 @@ class DcPlay(commands.Cog):
         embed.set_thumbnail(url=self.client.user.avatar_url)
         await x.edit(embed=embed)
 
-    @commands.command(aliases=["play"])
+    @commands.command(name="dcplay", aliases=["play"], description="Play HQ Daily Challenge.")
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.max_concurrency(1, commands.BucketType.user, wait = False)
-    async def dcplay(self, ctx, username:str=None):
+    async def dcplay(self, ctx: commands.Context, username: str=None):
         """Play HQ Daily Challenge."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write username after `{ctx.prefix}dcplay`. Please correct use Command to play HQ Trivia Daily Challenge.\n`{ctx.prefix}dcplay <username>`\nExample: `{ctx.prefix}dcplay josephine`", color=discord.Colour.random())
@@ -308,5 +311,5 @@ class DcPlay(commands.Cog):
                 await x.edit(embed=embed)
                 break
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(DcPlay(client))

@@ -1,21 +1,22 @@
 import discord, aniso8601
 from discord.ext import commands
 from HQApi import HQApi
-from HQApi.exceptions import ApiResponseError
-from database import db
 
-class UserStats(commands.Cog):
+class UserStats(commands.Cog(description="User Stats")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command(aliases=["user", "hqstats", "hqstat"])
-    async def hquser(self, ctx, name:str):
+    @commands.command(aliases=["user", "hqstats", "hqstat"], description="Show user stats")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def hquser(self, ctx: commands.Context, username: str = None):
         """Get any user's stats."""
+        if username is None:
+            return await ctx.send("Please provide username.")
         login_token = "KwmTCpQzIqiLLlxDsK7cf8mIvETtYdyofrBr4R7x6py1aH57pokb6XHdEXRcSeGk"
         try:
             api = HQApi((await api.get_tokens(login_token))["accessToken"])
-            data = await api.search(name)
+            data = await api.search(username)
             id = data["data"][0]["userId"]
             data = await api.get_user(id)
             username = data["username"]
@@ -41,10 +42,10 @@ class UserStats(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
         except:
-            embed=discord.Embed(title="❎ Not Found", description=f"Couldn't find any HQ account account with name `{name}`.", color=discord.Colour.random())
+            embed=discord.Embed(title="❎ Not Found", description=f"Couldn't find any HQ account account with name `{username}`.", color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(UserStats(client))

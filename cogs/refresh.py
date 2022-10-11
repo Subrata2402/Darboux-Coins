@@ -1,16 +1,16 @@
 import discord
 from discord.ext import commands
 from HQApi import HQApi
-from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Refresh(commands.Cog):
+class Refresh(commands.Cog(description="Refresh commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command(aliases = ["recover", "repair"])
-    async def refresh(self, ctx, username=None):
+    @commands.command(aliases = ["recover", "repair"], name="refresh", description="Refresh your accounts")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def refresh(self, ctx: commands.Context, username: str=None):
         """Refresh an account.."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't put username after `{ctx.prefix}refresh`. Please use correct : `{ctx.prefix}refresh [username]`", color=discord.Colour.random())
@@ -44,5 +44,5 @@ class Refresh(commands.Cog):
             await x.edit(embed=embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Refresh(client))

@@ -5,14 +5,15 @@ from HQApi.exceptions import ApiResponseError
 from database import db
 from config.button import peginator_button
 
-class Friends(commands.Cog):
+class Friends(commands.Cog(description="Friend Commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
 
-    @commands.command()
-    async def friends(self, ctx, username=None):
+    @commands.command(name="friends", description="Get your friends list.", aliases=["friendlist"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def friends(self, ctx: commands.Context, username: str=None):
         """Get friend lists."""
         first_page_buttons = await peginator_button(self.client, disabled_1 = True, disabled_2 = True)
         last_page_buttons = await peginator_button(self.client, disabled_3 = True, disabled_4 = True)
@@ -113,10 +114,11 @@ class Friends(commands.Cog):
                 await interaction.respond(type = 7, embed=embed, components=middle_page_buttons)
             embed.clear_fields()
 
-    @commands.command()
-    async def addfriend(self, ctx, username: str = None, name: str = None):
+    @commands.command(name="addfriend", aliases=["add-friend", "add_friend"], description="Add a friend to your account.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def addfriend(self, ctx: commands.Context, username: str = None, friend_username: str = None):
         """Send friend request."""
-        if not username or not name:
+        if not username or not friend_username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}addfriend [username] [friend's username]` to send a friend request.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         try:
@@ -126,9 +128,9 @@ class Friends(commands.Cog):
         check_if_exist = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()})
         if check_if_exist:
             api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
-            if name.lower() == "weekly":
+            if friend_username.lower() == "weekly":
                 mode = 1
-            elif name.lower() == "alltime":
+            elif friend_username.lower() == "alltime":
                 mode = 0
             else:
                 mode = 2
@@ -153,7 +155,7 @@ class Friends(commands.Cog):
                     await asyncio.sleep(1)
                 return await ctx.send("Successfully sent friend request to {} users.".format(index))
             try:
-                data = await api.search(name)
+                data = await api.search(friend_username)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
@@ -162,7 +164,7 @@ class Friends(commands.Cog):
                 return await ctx.send(embed=embed)
             try:
                 data = await api.add_friend(id)
-                embed=discord.Embed(title="**Request Send Done ✅**", description=f"**Successfully sent friend request to `{name}`**", color=discord.Colour.random())
+                embed=discord.Embed(title="**Request Send Done ✅**", description=f"**Successfully sent friend request to `{friend_username}`**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
@@ -178,10 +180,11 @@ class Friends(commands.Cog):
             await ctx.send(embed=embed)
 
 
-    @commands.command()
-    async def acceptfriend(self, ctx, username=None, name=None):
+    @commands.command(name="acceptfriend", aliases=["accept-friend", "accept_friend"], description="Accept a friend request.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def acceptfriend(self, ctx: commands.Context, username: str=None, friend_username: str=None):
         """Accept friend request."""
-        if not username or not name:
+        if not username or not friend_username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}acceptfriend [username] [friend's username]` to accept a friend request.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         try:
@@ -192,7 +195,7 @@ class Friends(commands.Cog):
         if check_if_exist:
             try:
                 api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
-                data = await api.search(name)
+                data = await api.search(friend_username)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
@@ -201,12 +204,12 @@ class Friends(commands.Cog):
                 return await ctx.send(embed=embed)
             try:
                 data = await api.accept_friend(id)
-                embed=discord.Embed(title="**Friend Request Accepted ✅**", description=f"**Successfully accept friend request `{name}`**", color=discord.Colour.random())
+                embed=discord.Embed(title="**Friend Request Accepted ✅**", description=f"**Successfully accept friend request `{friend_username}`**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
             except:
-                embed=discord.Embed(title="**Failed to Request Accept ⚠️**", description=f"**Couldn't find user `{name}`.**", color=discord.Colour.random())
+                embed=discord.Embed(title="**Failed to Request Accept ⚠️**", description=f"**Couldn't find user `{friend_username}`.**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
@@ -217,10 +220,11 @@ class Friends(commands.Cog):
             await ctx.send(embed=embed)
 
 
-    @commands.command()
-    async def removefriend(self, ctx, username=None, name=None):
+    @commands.command(name="removefriend", aliases=["remove-friend", "remove_friend"], description="Remove a friend.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def removefriend(self, ctx: commands.Context, username: str=None, friend_username: str=None):
         """Remove a Friend from your friends list."""
-        if not username or not name:
+        if not username or not friend_username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}removefriend [username] [friend's username]` to remove a friend from your friends list.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         try:
@@ -231,7 +235,7 @@ class Friends(commands.Cog):
         if check_if_exist:
             try:
                 api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
-                data = await api.search(name)
+                data = await api.search(friend_username)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
@@ -240,12 +244,12 @@ class Friends(commands.Cog):
                 return await ctx.send(embed=embed)
             try:
                 data = await api.remove_friend(id)
-                embed=discord.Embed(title="**Friend Removed ✅**", description=f"**Successfully friend removed `{name}`**", color=discord.Colour.random())
+                embed=discord.Embed(title="**Friend Removed ✅**", description=f"**Successfully friend removed `{friend_username}`**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
             except:
-                embed=discord.Embed(title="**Failed to Remove Friend ⚠️**", description=f"**Couldn't find user `{name}`.**", color=discord.Colour.random())
+                embed=discord.Embed(title="**Failed to Remove Friend ⚠️**", description=f"**Couldn't find user `{friend_username}`.**", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 await ctx.send(embed=embed)
@@ -256,10 +260,11 @@ class Friends(commands.Cog):
             await ctx.send(embed=embed)
 
 
-    @commands.command()
-    async def friendstatus(self, ctx, username=None, name=None):
+    @commands.command(name="friendstatus", aliases=["friend-status", "friend_status"], description="Check friend status.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def friendstatus(self, ctx: commands.Context, username: str=None, friend_username: str=None):
         """Get friends stats."""
-        if not username or not name:
+        if not username or not friend_username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}friendstatus [username] [Friend's username]` to check your friend's status.", color=discord.Colour.random())
             return await ctx.send(embed=embed)
         try:
@@ -270,7 +275,7 @@ class Friends(commands.Cog):
         if check_if_exist:
             try:
                 api = HQApi(db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("access_token"))
-                data = await api.search(name)
+                data = await api.search(friend_username)
                 id = data["data"][0]["userId"]
             except ApiResponseError:
                 embed=discord.Embed(title="⚠️ Token Expired", description=f"Your account token is expired. Please refresh your account by this command.\n`{ctx.prefix}refresh {username}`", color=discord.Colour.random())
@@ -280,15 +285,15 @@ class Friends(commands.Cog):
             data = await api.friend_status(id)
             stats = data['status']
             if stats == "None":
-                stats = f"{name} is not your friend."
+                stats = f"{friend_username} is not your friend."
             elif stats == "FRIENDS":
-                stats = f"{name} is your friend."
+                stats = f"{friend_username} is your friend."
             elif stats == "INBOUND_REQUEST":
                 stats = "Incoming friend request. You did not accept his/her friend request."
             elif stats == "OUTBOUND_REQUEST":
                 stats = "Outgoing friend request. He/She did not accept your friend request."
             else:
-                stats = f"{name} is not your friend."
+                stats = f"{friend_username} is not your friend."
             embed=discord.Embed(title=f"__Friend Status of {username}__", description=stats, color=discord.Colour.random())
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
@@ -300,5 +305,5 @@ class Friends(commands.Cog):
             await ctx.send(embed=embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Friends(client))

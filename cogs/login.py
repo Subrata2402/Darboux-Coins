@@ -1,12 +1,11 @@
 import discord, random, re, asyncio
 from discord.ext import commands
 from HQApi import HQApi
-from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Login(commands.Cog, HQApi):
+class Login(commands.Cog(desription="HQ login with number and otp"), HQApi):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         super().__init__()
         self.client = client
 
@@ -18,8 +17,8 @@ class Login(commands.Cog, HQApi):
             first = random.choice(("Aingge", "Alhiz", "tanhis", "jabnis", "Hamgish", "jsvjks", "Dayvid", "sognia", "Amyg", "Andya", "Aryda", "Aydun", "Bfhay", "Cgkia", "laidsre", "Clfjor", "Corfja", "Coruco", "Daruwn", "Flefjur", "Evfha", "Ettgja", "Eryrin", "Rotjbin", "Dagjn","Cafhmil","Rintugo","Cfhayli","Difhgna","Efgmma","Gghalen","Helgjma","Jancgje","Grefhtl","Hazgjel","Gwven","Helgen","Ellha","Ehdie",'Igjvy'))
             second = random.choice(("Jill", "Joss", "Juno", "Kady", "Kai", "Kira", "Klara", "germni", "haba", "janis", "Lana", "Leda", "Liesl", "Lily", "Amaa", "Mae", "Lula", "Lucia", "Mia", "Myra", "Opal", "Paige", "Rain", "Quinn", "Rose", "Sia", "Taya", "Teva", "markus", "Judie", "Zuri", "Zoe", "Vera", "Una", "Reeve",'Ekta'))
         c = random.choice(("1", "2", "3"))
-        if c == "1":uname = first + second
-        elif c == "2":uname = first.title() + second.title()
+        if c == "1": uname = first + second
+        elif c == "2": uname = first.title() + second.title()
         elif c == "3": uname = first + second.title()
         d = random.choice(x)
         e = random.choice(x)
@@ -30,8 +29,9 @@ class Login(commands.Cog, HQApi):
         else:
             return await self.rand()
 
-    @commands.command(pass_context=True)
-    async def add(self, ctx, number:str=None):
+    @commands.command(name="login", description="Login with number and otp", aliases=["add"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def add(self, ctx: commands.Context, number: str=None):
         """Add account using number and OTP."""
         if number is None:
             embed=discord.Embed(title="⚠️ Invalid Argument", description=f"You didn't write number after `{ctx.prefix}add`. Please correct use Command.\n`{ctx.prefix}add +<country code><number>`\nExample: `{ctx.prefix}add +13158686534`", color=discord.Colour.random())
@@ -79,7 +79,7 @@ class Login(commands.Cog, HQApi):
                 await response.delete()
             except:
                 pass
-            sub_code_res = await self.confirm_code(verification["verificationId"], code)
+            await self.confirm_code(verification["verificationId"], code)
             name = await self.rand()
             while True:
                 try:
@@ -99,7 +99,7 @@ class Login(commands.Cog, HQApi):
                 return await x.edit(embed=embed)
             number_dict = {'id': commander_id,
                            'login_token': login_token,
-                           'access_token': a_token,
+                           'access_token': access_token,
                            'username': username.lower(),
                            'user_id': id,
                            'auto_play': False,
@@ -123,9 +123,12 @@ class Login(commands.Cog, HQApi):
             await x.edit(embed=em)
         
 
-    @commands.command()
-    async def remove(self, ctx, username:str):
+    @commands.command(name="remove", description="Remove your HQ Trivia account from bot database.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def remove(self, ctx: commands.Context, username:str = None):
         """Remove account from database."""
+        if not username:
+            return await ctx.send("Please enter a username.")
         commander_id = ctx.author.id
         check_id = db.profile_base.find_one({"id": commander_id, "username": username.lower()})
         if not check_id:
@@ -141,8 +144,9 @@ class Login(commands.Cog, HQApi):
         channel = self.client.get_channel(841490289134796810)
         await channel.send(f"{ctx.author} removed a account from bot database.")
 
-    @commands.command()
-    async def removeall(self, ctx):
+    @commands.command(name="removeall", description="Remove all your HQ Trivia accounts from bot database.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def removeall(self, ctx: commands.Context):
         """Remove all accounts from database."""
         commander_id = ctx.author.id
         check_id = db.profile_base.find_one({"id": commander_id})
@@ -177,5 +181,5 @@ class Login(commands.Cog, HQApi):
             await x.edit(embed=embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Login(client))

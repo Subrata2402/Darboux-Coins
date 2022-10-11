@@ -5,32 +5,33 @@ from HQApi.exceptions import ApiResponseError
 from database import db
 from unidecode import unidecode
 
-class AutoPlay(commands.Cog, HQApi):
+class AutoPlay(commands.Cog(description="Auto Play commands"), HQApi):
     
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         super().__init__()
         self.client = client
 
-    async def get_answer(self, question):
+    async def get_answer(self, question) -> str:
+        """Get answer from database"""
         check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question: return None
         answer = db.questions_base.find_one({"question": question.lower()}).get("answer")
         return answer
 
-    async def add_question(self, question, answer):
+    async def add_question(self, question, answer) -> None:
+        """Add question to database"""
         check_question = db.questions_base.find_one({"question": question.lower()})
         if not check_question:
             db.questions_base.insert_one({"question": question.lower(), "answer": answer.lower()})
 
-    async def auto_play(self):
+    async def auto_play(self) -> None:
+        """Auto play game"""
         for all_data in list(db.profile_base.find({"auto_play": True})):
             await asyncio.sleep(30)
             active = (await self.get_show())["active"]
             if active:
                 await asyncio.sleep(600)
                 continue
-            # auto_play_mode = all_data.get('auto_play')
-            # if auto_play_mode:
             api = HQApi(all_data.get("access_token"))
             try:
                 data = await api.get_users_me()
@@ -88,11 +89,13 @@ class AutoPlay(commands.Cog, HQApi):
                     
     @commands.Cog.listener()
     async def on_ready(self):
+        """Auto play"""
         await self.auto_play()
                 
-    @commands.command()
+    @commands.command(name = "autoplay", aliases = ["ap"], description = "Auto play HQ Offair Trivia")
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def autoplay(self, ctx, username = None, mode = None):
+        """Auto play HQ Offair Trivia"""
         if not username: return await ctx.send(ctx.author.mention + " You didn't mention username.")
         if not mode: return await ctx.send(ctx.author.mention + " You didn't mention any mode. Please choose either `on` or `off` to set AutoPlay mode.")
         try:
@@ -125,5 +128,5 @@ class AutoPlay(commands.Cog, HQApi):
             await ctx.send(embed = embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(AutoPlay(client))

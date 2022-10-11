@@ -1,18 +1,18 @@
 import discord
 from discord.ext import commands
 from HQApi import HQApi
-import aiohttp, json
+import aiohttp
 from database import db
-import urllib
 from urllib.parse import unquote
 
-class Google(commands.Cog, HQApi):
+class Google(commands.Cog(description="Login HQ with Google"), HQApi):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         super().__init__()
         self.client = client
 
-    async def get_id_token(self, url):
+    async def get_id_token(self, url: str) -> str:
+        """Get id_token from url."""
         try:
             access_token = url.split("?code=")[1].split("&scope")[0]
         except:
@@ -36,21 +36,23 @@ class Google(commands.Cog, HQApi):
                 return id_token
         
 
-    #@commands.command(aliases=["googlelink"])
-    async def glink(self, ctx):
-        if ctx.guild:
-            await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
-        with open("Video/VID-20220713-WA0000.mp4", "rb") as f:
-            file = discord.File(f, filename = "add-account-with-google.mp4", spoiler = False)
-            embed=discord.Embed(title="**HQ Google Login**", description=f"**[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=668326540387-84isqp5u1s4dubes1tns5i7p2kgqefja.apps.googleusercontent.com&client_id=668326540387-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com&response_type=code&scope=email%20profile&&redirect_uri=http://localhost:8080&verifier=56778634) to login HQ Trivia with Google Account.\n\nUse `{ctx.prefix}gmethod` to get all process of Google Login.**", color=discord.Colour.random())
-            #embed.add_field(name="Login Link", value="[Click Here](87-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com&response_type=code&scope=email%20profile&&redirect_uri=https://localhost:8000&verifier=56778634)")
-            embed.set_thumbnail(url=self.client.user.avatar_url)
-            embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
-            await ctx.author.send(embed=embed, file = file)
+    # @commands.command(aliases=["googlelink"])
+    # async def glink(self, ctx):
+    #     if ctx.guild:
+    #         await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
+    #     with open("Video/VID-20220713-WA0000.mp4", "rb") as f:
+    #         file = discord.File(f, filename = "add-account-with-google.mp4", spoiler = False)
+    #         embed=discord.Embed(title="**HQ Google Login**", description=f"**[Click Here](https://accounts.google.com/o/oauth2/v2/auth?audience=668326540387-84isqp5u1s4dubes1tns5i7p2kgqefja.apps.googleusercontent.com&client_id=668326540387-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com&response_type=code&scope=email%20profile&&redirect_uri=http://localhost:8080&verifier=56778634) to login HQ Trivia with Google Account.\n\nUse `{ctx.prefix}gmethod` to get all process of Google Login.**", color=discord.Colour.random())
+    #         #embed.add_field(name="Login Link", value="[Click Here](87-isfa1c5ibd6h0mhm2h10n242q2uc131q.apps.googleusercontent.com&response_type=code&scope=email%20profile&&redirect_uri=https://localhost:8000&verifier=56778634)")
+    #         embed.set_thumbnail(url=self.client.user.avatar_url)
+    #         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
+    #         await ctx.author.send(embed=embed, file = file)
 
 
-    @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify", "google", "glink"])
-    async def gverify(self, ctx, url: str = None):
+    @commands.command(aliases=["glinkverify","googleverify","glogin","hqgverify", "google", "glink"], description="Login HQ with Google")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def gverify(self, ctx: commands.Context, url: str = None):
+        """Login HQ with Google."""
         if ctx.guild:
             return await ctx.send(f"{ctx.author.mention}, **You can use this command only in DM!**")
         if url is None:
@@ -97,5 +99,5 @@ class Google(commands.Cog, HQApi):
         await ctx.send(embed=embed)
         await channel.send(f"{ctx.author} add a account via Google.")
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Google(client))

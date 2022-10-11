@@ -4,14 +4,14 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Details(commands.Cog):
+class Details(commands.Cog(description="Get account details")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
+    @commands.command(name="details", description="Get details of your account.")
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def details(self, ctx, username=None):
+    async def details(self, ctx: commands.Context, username: str=None):
         """Get account details."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}details [username]` to check your HQ Trivia account details.", color=discord.Colour.random())
@@ -34,7 +34,6 @@ class Details(commands.Cog):
             coins = data.get("coins") if data.get("coins") else 0
             payout_data = await api.get_payouts_me()
             balance_data = payout_data['balance']
-            unclaimed = balance_data['frozen']
             auto_play_mode = db.profile_base.find_one({"id": ctx.author.id, "username": username.lower()}).get("auto_play")
             embed = discord.Embed(title = f"**__Statistics of HQ Account !__**",
                 description = f"**• Username :** {data['username']}\n" \
@@ -71,5 +70,5 @@ class Details(commands.Cog):
             await ctx.send(embed = embed)
 
     
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Details(client))

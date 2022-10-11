@@ -4,13 +4,14 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-class RecentWins(commands.Cog):
+class RecentWins(commands.Cog(description="Recent Wins")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
-    async def recentwins(self, ctx, username:str):
+    @commands.command(name="recentwins", description="Get your recent wins", aliases=["rwins"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def recentwins(self, ctx: commands.Context, username: str = None):
         """Get recent winnings."""
         if not username: return await ctx.send(f"{ctx.author.mention}, you didn't enter any username.")
         try:
@@ -50,5 +51,5 @@ class RecentWins(commands.Cog):
             await ctx.send(embed=embed)
 
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(RecentWins(client))

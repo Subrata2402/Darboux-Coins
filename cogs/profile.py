@@ -1,20 +1,21 @@
 import discord, math
 from discord.ext import commands
 from HQApi import HQApi
-from HQApi.exceptions import ApiResponseError
 import datetime
 from database import db
 from discord_components import *
 from config.button import peginator_button
 
-class Profile(commands.Cog):
+class Profile(commands.Cog(description="Profile commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
 
-    @commands.command(aliases = ["account"])
-    async def accounts(self, ctx):
+    @commands.command(name="accounts", description="Get your accounts", aliases=['account'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def accounts(self, ctx: commands.Context):
+        """Get your accounts."""
         check_id = db.profile_base.find_one({"id": ctx.author.id})
         if not check_id:
             embed=discord.Embed(title="❎ Not Found", description=f"You have not linked any of your accounts in the bot database. To add your HQ account use Google method. Type `-google` to see the details.", color=discord.Colour.random())
@@ -32,8 +33,10 @@ class Profile(commands.Cog):
         await ctx.author.send(embed=embed)
         if ctx.guild: await ctx.send(f"{ctx.author.mention}, **Check your DM!**")
 
-    @commands.command()
-    async def profile(self, ctx):
+    @commands.command(name="profile", description="Get your profile", aliases=['me'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def profile(self, ctx: commands.Context):
+        """Get your profile"""
         first_page_buttons = await peginator_button(self.client, disabled_1 = True, disabled_2 = True)
         last_page_buttons = await peginator_button(self.client, disabled_3 = True, disabled_4 = True)
         middle_page_buttons = await peginator_button(self.client)
@@ -66,20 +69,15 @@ class Profile(commands.Cog):
             access_token = data["accessToken"]
             update = {'access_token': access_token, "username": name.lower()}
             db.profile_base.update_one({"user_id": user_id}, {"$set": update})
-            
             api = HQApi(access_token)
             data = await api.get_users_me()
             username = data["username"]
             lives = data["items"]["lives"]
-            superSpins = data["items"]["superSpins"]
             erasers = data["items"]["erase1s"]
             coins = data.get("coins") if data.get("coins") else 0
             data = await api.get_payouts_me()
             bal = data["balance"]
             total = bal["prizeTotal"]
-            paid = bal["paid"]
-            pending = bal["pending"]
-            unpaid = bal["unpaid"]
             available = bal["available"]
             unclaimed = bal["frozen"]
             name = f"{'0' if index+1 < 10 else ''}{index+1}. {username}"
@@ -126,20 +124,15 @@ class Profile(commands.Cog):
                 access_token = data["accessToken"]
                 update = {'access_token': access_token, "username": name.lower()}
                 db.profile_base.update_one({"user_id": user_id}, {"$set": update})
-                
                 api = HQApi(access_token)
                 data = await api.get_users_me()
                 username = data["username"]
                 lives = data["items"]["lives"]
-                superSpins = data["items"]["superSpins"]
                 erasers = data["items"]["erase1s"]
                 coins = data.get("coins") if data.get("coins") else 0
                 data = await api.get_payouts_me()
                 bal = data["balance"]
                 total = bal["prizeTotal"]
-                paid = bal["paid"]
-                pending = bal["pending"]
-                unpaid = bal["unpaid"]
                 available = bal["available"]
                 unclaimed = bal["frozen"]
                 name = f"{'0' if index+1 < 10 else ''}{index+1}. {username}"
@@ -155,5 +148,5 @@ class Profile(commands.Cog):
                 await message.edit(embed=embed, components=middle_page_buttons)
             embed.clear_fields()
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Profile(client))

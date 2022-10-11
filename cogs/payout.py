@@ -4,13 +4,14 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Cashout(commands.Cog):
+class Cashout(commands.Cog(description="Cashout commands")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
-    async def payout(self, ctx, username=None):
+    @commands.command(name="payout", description="Get your payout information")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def payout(self, ctx: commands.Context, username: str=None):
         """Get recent payment details."""
         if username is None:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}payout [username]` to check your HQ account cashout details.", color=discord.Colour.random())
@@ -44,7 +45,7 @@ class Cashout(commands.Cog):
                 tm = aniso8601.parse_datetime(tim).timestamp()
                 modify_at = f"<t:{int(tm)}>"
                 description_info += f"• Amount :** {amount}**\n• Email :** {email}**\n• Payment Created :** {create_at}**\n• Payment Completed :** {modify_at}**\n\n"
-            #await ctx.send("Details send in DM. Please check your DM!")
+            # await ctx.send("Details send in DM. Please check your DM!")
             embed=discord.Embed(title=f"**__Payout Summary of {username} !__**", description=description_info, color=discord.Colour.random())
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -57,8 +58,9 @@ class Cashout(commands.Cog):
             await ctx.send(embed=embed)
 
 
-    @commands.command()
-    async def cashout(self, ctx, email=None, username=None):
+    @commands.command(name="cashout", description="Cashout your earnings from HQ account")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def cashout(self, ctx: commands.Context, email: str=None, username: str=None):
         """Make Cashout of an account."""
         if ctx.guild:
             embed=discord.Embed(title="⚠️ Direct Message Only", description="For the security of your HQ account, use that Command in DM only.", color=discord.Colour.random())
@@ -107,5 +109,5 @@ class Cashout(commands.Cog):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.send(embed=embed)
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Cashout(client))

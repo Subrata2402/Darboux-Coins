@@ -4,13 +4,14 @@ from HQApi import HQApi
 from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Items(commands.Cog):
+class Items(commands.Cog(description="Purchase items.")):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
 
-    @commands.command()
-    async def life(self, ctx, username=None, amount=None):
+    @commands.command(name="life", description="Purchase extra life.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def life(self, ctx: commands.Context, username: str=None, amount: int=None):
         """Purchase Extra Life."""
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}life [username] (amount)` to purchase an Extra Life in your HQ Trivia account.", color=discord.Colour.random())
@@ -49,23 +50,19 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        try:
-            amount = int(amount)
-        except:
-            return await ctx.send(f"{amount} is not a valid amount.")
-        if amount == int(1):
+        if amount == 1:
             if coins < 400:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an Extra <:extra_life:844448511264948225> Life. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-        elif amount == int(3):
+        elif amount == 3:
             if coins < 1000:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 3 Extra <:extra_life:844448511264948225> Lifes. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-        elif amount == int(5):
+        elif amount == 5:
             if coins < 1500:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 5 Extra <:extra_life:844448511264948225> Lifes. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -84,8 +81,9 @@ class Items(commands.Cog):
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def eraser(self, ctx, username=None, amount=None):
+    @commands.command(name="purchase-eraser", aliases=["eraser", "erasers", "purchase-erasers"], description="Purchase Erasers from HQ Trivia Shop.")
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def eraser(self, ctx: commands.Context, username: str=None, amount: int=None):
         """Purchase Eraser."""
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}eraser [username] (amount)` to purchase an Extra Eraser in your HQ Trivia account.", color=discord.Colour.random())
@@ -124,23 +122,19 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        try:
-            amount = int(amount)
-        except:
-            return await ctx.send(f"{amount} is not a valid amount.")
-        if amount == int(1):
+        if amount == 1:
             if coins < 100:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an <:eraser:844448550498205736> Extra Eraser. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-        elif amount == int(3):
+        elif amount == 3:
             if coins < 250:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 3 <:eraser:844448550498205736> Extra Erasers. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-        elif amount == int(5):
+        elif amount == 5:
             if coins < 400:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 5 <:eraser:844448550498205736> Extra Erasers. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -159,8 +153,9 @@ class Items(commands.Cog):
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def superspin(self, ctx, username=None, amount=None):
+    @commands.command(name="superspin", description="Purchase a Super Spin", aliases=["sspin", "super-spin", "super_spin"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def superspin(self, ctx: commands.Context, username: str=None, amount: int=None):
         """Purchase superspin."""
         if not username:
             embed=discord.Embed(title="⚠️ Invalid Command", description=f"Use `{ctx.prefix}superspin [username] (amount)` to purchase an Extra Super-spin in your HQ Trivia account.", color=discord.Colour.random())
@@ -200,23 +195,19 @@ class Items(commands.Cog):
             embed.set_thumbnail(url=self.client.user.avatar_url)
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             return await ctx.send(embed=embed)
-        try:
-            amount = int(amount)
-        except:
-            return await ctx.send(f"{amount} is not a valid amount.")
-        if amount == int(1):
+        if amount == 1:
             if coins < 150:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an Extra <:super_spin:844448472908300299> Super-spin. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-        elif amount == int(3):
+        elif amount == 3:
             if coins < 400:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 3 Extra <:super_spin:844448472908300299> Super-spins. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
                 return await ctx.send(embed=embed)
-        elif amount == int(5):
+        elif amount == 5:
             if coins < 600:
                 embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 5 Extra <:super_spin:844448472908300299> Super-spins. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar_url)
@@ -235,5 +226,5 @@ class Items(commands.Cog):
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await ctx.send(embed=embed)
 
-def setup(client):
+def setup(client: commands.Bot):
     client.add_cog(Items(client))

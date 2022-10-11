@@ -1,12 +1,11 @@
 import discord
 from discord.ext import commands
 from HQApi import HQApi
-from HQApi.exceptions import ApiResponseError
 from database import db
 
-class Details(commands.Cog, HQApi):
+class Balance(commands.Cog(description="Get balance of all accounts"), HQApi):
 
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         super().__init__()
         self.client = client
 
@@ -25,7 +24,6 @@ class Details(commands.Cog, HQApi):
         x = await ctx.author.send(embed=embed)
         description = ""
         total = paid = pending = unpaid = available = sl_no = ex_no = 0
-        token_list = [data.get("access_token") for data in list(db.profile_base.find({"id": ctx.author.id}))]
         for data in list(db.profile_base.find({"id": ctx.author.id})):
             try:
                 api = HQApi(data.get("access_token"))
@@ -59,5 +57,5 @@ class Details(commands.Cog, HQApi):
             embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
             await ctx.author.send(embed=embed)
 
-def setup(client):
-    client.add_cog(Details(client))
+def setup(client: commands.Bot):
+    client.add_cog(Balance(client))

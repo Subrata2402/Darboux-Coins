@@ -4,9 +4,9 @@ import time, datetime
 import sys, traceback, os
 from discord_components import *
 
-class DarbouxCoins(commands.Cog):
+class DarbouxCoins(commands.Cog(description="DarbouxCoins commands")):
     
-    def __init__(self, client):
+    def __init__(self, client: commands.Bot):
         self.client = client
         
     @commands.Cog.listener()
@@ -19,16 +19,14 @@ class DarbouxCoins(commands.Cog):
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await channel.send(embed=embed)
         while True:
-            #await self.client.change_presence(activity=discord.Activity(type=3,name="on "+str(len(self.client.guilds))+" servers | -invite"))
-            #await asyncio.sleep(5)
-            await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name="with -dcplay <username>", type=2))
+            await self.client.change_presence(status=discord.Status.idle, activity=discord.Game(name="For play ➜ -dcplay <username>", type=2))
             await asyncio.sleep(5)
-            await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name="with Help ➜ -help", type=2))
+            await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name="For help ➜ -help", type=2))
             await asyncio.sleep(5)
-            await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name="with -google <response_link>", type=2))
+            await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name="For add account ➜ -google <response_link>", type=2))
             await asyncio.sleep(5)
-            await self.client.change_presence(status=discord.Status.idle, activity=discord.Game(name="with -facebook <token>", type=2))
-            await asyncio.sleep(5)
+            # await self.client.change_presence(status=discord.Status.idle, activity=discord.Game(name="with -facebook <token>", type=2))
+            # await asyncio.sleep(5)
 
     @commands.command(
         name = "say",
@@ -38,32 +36,22 @@ class DarbouxCoins(commands.Cog):
         brief = "Hello, what's up!"
         )
     @commands.is_owner()
-    async def say(self, ctx, *, message):
+    async def say(self, ctx: commands.Context, *, message: str):
+        """Send message by bot."""
         await ctx.message.delete()
         await ctx.send(message)
         
-    @commands.command(
-        name = "sayembed",
-        description = "Send message with embed.",
-        aliases = [],
-        usage = "",
-        brief = ""
-        )
+    @commands.command(name = "sayembed", description = "Send message with embed.")
     @commands.is_owner()
-    async def sayem(self, ctx, *, message):
+    async def sayem(self, ctx: commands.Context, *, message: str):
         """Send Message With Embed."""
         await ctx.message.delete()
         embed=discord.Embed(description=message, color=discord.Colour.random())
         await ctx.send(embed=embed)
     
-    @commands.command(
-        name = "ping",
-        description = "Get bot latency.",
-        aliases = ["pong"],
-        usage = "",
-        brief = ""
-        )
-    async def ping(self, ctx):
+    @commands.command(name = "ping", description = "Get bot latency.", aliases = ["pong"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def ping(self, ctx: commands.Context):
         """ Pong! """
         before = time.monotonic()
         message = await ctx.send("**__Pong!__**")
@@ -79,7 +67,7 @@ DiscordComponents(client)
 client.add_cog(DarbouxCoins(client))
 
 @client.event
-async def on_message(message):
+async def on_message(message: discord.Message):
     cmd = client.get_command(message.content[1:].strip().lower().partition(' ')[0])
     if cmd:
         guild = client.get_guild(831051146880614431)
@@ -105,11 +93,11 @@ async def on_message(message):
     await client.process_commands(message)
 
 extensions = [
-        "login", "show", "hqname", "welcome", "swipe", "google_login_method",
+        "login", "show", "hqname", "welcome", "swipe",
         "logintoken", "token", "payout", "dcplay", "balance", "self_roles",
-        "editname", "userinfo", "details", "help", "general", "test",
+        "editname", "userinfo", "details", "help", "general",
         "rwin", "refresh", "friend", "sdcplay", "items", "error",
-        "fblogin", "glogin", "profile", "fb_login_method", "autoplay"
+        "fblogin", "glogin", "profile", "autoplay"
     ]
 
 if __name__ == "__main__":
@@ -122,14 +110,3 @@ if __name__ == "__main__":
 
 client.load_extension("Trivia.swagbucks")
 client.run(os.getenv("darboux_token"))
-# darboux_thread = multiprocessing.Process(target = client.run, args = (os.getenv("darboux_token"), ))
-# client_one_thread = multiprocessing.Process(target = client_one().run, args = (os.getenv("bot_token_1"), ))
-# client_two_thread = multiprocessing.Process(target = client_two().run, args = (os.getenv("bot_token_2"), ))
-
-# darboux_thread.start()
-# client_one_thread.start()
-# client_two_thread.start()
-
-# darboux_thread.join()
-# client_one_thread.join()
-# client_two_thread.join()
