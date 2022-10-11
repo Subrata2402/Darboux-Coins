@@ -23,7 +23,7 @@ class Token(commands.Cog):
     #     await ctx.send(f"```\n{access_token}\n```")
 
     
-    @app_commands.command(name="token", description="Add an account with access token.")
+    @app_commands.command(name="addtoken", description="Add an account with access token.")
     @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.describe(token="Access token of the account.")
     async def _add_token(self, interaction: discord.Interaction, token: str):

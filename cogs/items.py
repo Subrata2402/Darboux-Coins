@@ -34,26 +34,26 @@ class Items(commands.Cog):
         superSpins = data["items"]["superSpins"]
         if amount == 1:
             if coins < 400:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an Extra <:extra_life:844448511264948225> Life. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase an Extra {bot_config.emoji.extra_life} Life. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         elif amount == 3:
             if coins < 1000:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 3 Extra <:extra_life:844448511264948225> Lifes. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase 3 Extra {bot_config.emoji.extra_life} Lifes. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         elif amount == 5:
             if coins < 1500:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 5 Extra <:extra_life:844448511264948225> Lifes. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase 5 Extra {bot_config.emoji.extra_life} Lifes. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         data = await api.purchase_life(amount)
         coins = data["coinsTotal"]
         life = data["itemsTotal"]["extra-life"]
-        embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} Extra <:extra_life:844448511264948225> Life{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
+        embed=discord.Embed(title="Life Purchased ✅", description=f"You have successfully purchased {amount} Extra {bot_config.emoji.extra_life} Life{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} {bot_config.emoji.extra_coins}\n**• Total Lives :** {life} {bot_config.emoji.extra_life}\n**• Total Erasers :** {erasers} {bot_config.emoji.erasers}\n**• Total Super-spins :** {superSpins} {bot_config.emoji.super_spin}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar.url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
         await interaction.followup.send(embed=embed)
@@ -79,26 +79,26 @@ class Items(commands.Cog):
         superSpins = data["items"]["superSpins"]
         if amount == 1:
             if coins < 100:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an <:eraser:844448550498205736> Extra Eraser. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase an {bot_config.emoji.erasers} Extra Eraser. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         elif amount == 3:
             if coins < 250:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 3 <:eraser:844448550498205736> Extra Erasers. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase 3 {bot_config.emoji.erasers} Extra Erasers. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         elif amount == 5:
             if coins < 400:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 5 <:eraser:844448550498205736> Extra Erasers. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase 5 {bot_config.emoji.erasers} Extra Erasers. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         data = await api.purchase_eraser(amount)
         coins = data["coinsTotal"]
         erasers = data["itemsTotal"]["eraser"]
-        embed=discord.Embed(title="Eraser Purchased ✅", description=f"You have successfully purchased {amount} <:eraser:844448550498205736> Extra Eraser{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
+        embed=discord.Embed(title="Eraser Purchased ✅", description=f"You have successfully purchased {amount} {bot_config.emoji.erasers} Extra Eraser{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} {bot_config.emoji.extra_coins}\n**• Total Lives :** {life} {bot_config.emoji.extra_life}\n**• Total Erasers :** {erasers} {bot_config.emoji.erasers}\n**• Total Super-spins :** {superSpins} {bot_config.emoji.super_spin}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar.url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
         await interaction.followup.send(embed=embed)
@@ -124,26 +124,26 @@ class Items(commands.Cog):
         superSpins = data["items"]["superSpins"]
         if amount == 1:
             if coins < 150:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase an Extra <:super_spin:844448472908300299> Super-spin. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase an Extra {bot_config.emoji.super_spin} Super-spin. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         elif amount == 3:
             if coins < 400:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 3 Extra <:super_spin:844448472908300299> Super-spins. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase 3 Extra {bot_config.emoji.super_spin} Super-spins. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         elif amount == 5:
             if coins < 600:
-                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient <:extra_coins:844448578881847326> Coins to purchase 5 Extra <:super_spin:844448472908300299> Super-spins. Play HQ Daily Challenge and earn some <:extra_coins:844448578881847326> Coins!", color=discord.Colour.random())
+                embed=discord.Embed(title="⚠️ Api Response Error", description=f"You don't have sufficient {bot_config.emoji.extra_coins} Coins to purchase 5 Extra {bot_config.emoji.super_spin} Super-spins. Play HQ Daily Challenge and earn some {bot_config.emoji.extra_coins} Coins!", color=discord.Colour.random())
                 embed.set_thumbnail(url=self.client.user.avatar.url)
                 embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
                 return await interaction.followup.send(embed=embed)
         data = await api.purchase_super_spin(amount)
         coins = data["coinsTotal"]
         superSpins = int(superSpins) + int(amount)
-        embed=discord.Embed(title="Super-spin Purchased ✅", description=f"You have successfully purchased {amount} Extra <:super_spin:844448472908300299> Super-spin{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} <:extra_coins:844448578881847326>\n**• Total Lives :** {life} <:extra_life:844448511264948225>\n**• Total Erasers :** {erasers} <:eraser:844448550498205736>\n**• Total Super-spins :** {superSpins} <:super_spin:844448472908300299>", color=discord.Colour.random())
+        embed=discord.Embed(title="Super-spin Purchased ✅", description=f"You have successfully purchased {amount} Extra {bot_config.emoji.super_spin} Super-spin{'' if amount == 1 else 's'}!\n\n**• Total Coins :** {coins} {bot_config.emoji.extra_coins}\n**• Total Lives :** {life} {bot_config.emoji.extra_life}\n**• Total Erasers :** {erasers} {bot_config.emoji.erasers}\n**• Total Super-spins :** {superSpins} {bot_config.emoji.super_spin}", color=discord.Colour.random())
         embed.set_thumbnail(url=self.client.user.avatar.url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar.url)
         await interaction.followup.send(embed=embed)
