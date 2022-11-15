@@ -121,15 +121,4 @@ if __name__ == "__main__":
             traceback.print_exc()
 
 client.load_extension("Trivia.swagbucks")
-client.run(os.getenv("darboux_token"))
-# darboux_thread = multiprocessing.Process(target = client.run, args = (os.getenv("darboux_token"), ))
-# client_one_thread = multiprocessing.Process(target = client_one().run, args = (os.getenv("bot_token_1"), ))
-# client_two_thread = multiprocessing.Process(target = client_two().run, args = (os.getenv("bot_token_2"), ))
-
-# darboux_thread.start()
-# client_one_thread.start()
-# client_two_thread.start()
-
-# darboux_thread.join()
-# client_one_thread.join()
-# client_two_thread.join()
+client.run("ODI1OTU1OTEzMDcyNTA4OTY5.YGFdYw.qGXROAOU_QQUh0UN3WwDZGsPBGE")
