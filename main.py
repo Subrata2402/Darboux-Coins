@@ -120,5 +120,5 @@ if __name__ == "__main__":
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()
 
-client.load_extension("Trivia.swagbucks")
-client.run("ODI1OTU1OTEzMDcyNTA4OTY5.YGFdYw.qGXROAOU_QQUh0UN3WwDZGsPBGE")
+def clinet_run(bot_token):
+    client.run(bot_token)
