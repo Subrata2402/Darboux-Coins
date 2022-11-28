@@ -2,7 +2,6 @@ discord.py
 pymongo
 requests
 lomond
-datetime 
 dnspython==2.0.0
 pytz
 aniso8601
