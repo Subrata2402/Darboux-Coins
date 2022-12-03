@@ -1,12 +1,10 @@
-discord.py
+discord.py==1.7.3
 pymongo
 requests
 lomond
-datetime 
 dnspython==2.0.0
 pytz
 aniso8601
 unidecode
 bs4
 jwt
-websockets
