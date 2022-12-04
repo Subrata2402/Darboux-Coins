@@ -18,17 +18,17 @@ class DarbouxCoins(commands.Cog):
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.set_footer(text=self.client.user, icon_url=self.client.user.avatar_url)
         await channel.send(embed=embed)
-#         while True:
-#             #await self.client.change_presence(activity=discord.Activity(type=3,name="on "+str(len(self.client.guilds))+" servers | -invite"))
-#             #await asyncio.sleep(5)
-#             await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name="with -dcplay <username>", type=2))
-#             await asyncio.sleep(5)
-#             await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name="with Help ➜ -help", type=2))
-#             await asyncio.sleep(5)
-#             await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name="with -google <response_link>", type=2))
-#             await asyncio.sleep(5)
-#             await self.client.change_presence(status=discord.Status.idle, activity=discord.Game(name="with -facebook <token>", type=2))
-#             await asyncio.sleep(5)
+        while True:
+            #await self.client.change_presence(activity=discord.Activity(type=3,name="on "+str(len(self.client.guilds))+" servers | -invite"))
+            #await asyncio.sleep(5)
+            await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name="with -dcplay <username>", type=2))
+            await asyncio.sleep(5)
+            await self.client.change_presence(status=discord.Status.online, activity=discord.Game(name="with Help ➜ -help", type=2))
+            await asyncio.sleep(5)
+            await self.client.change_presence(status=discord.Status.dnd, activity=discord.Game(name="with -google <response_link>", type=2))
+            await asyncio.sleep(5)
+            await self.client.change_presence(status=discord.Status.idle, activity=discord.Game(name="with -facebook <token>", type=2))
+            await asyncio.sleep(5)
 
     @commands.command(
         name = "say",
